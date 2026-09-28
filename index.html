@@ -1,0 +1,1599 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Travel Expert</title>
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F6F2EA; --surface:#FFFFFF; --surface-2:#EFE8DC; --surface-3:#F9F6F0;
+  --ink:#0E2742; --ink-2:#4B5C72; --ink-3:#7D8A9A; --line:#E3DACB;
+  --teal:#0B8783; --teal-soft:#D6EEEC; --blue:#1F4E8C; --blue-soft:#DDE7F4;
+  --gold:#A87A22; --gold-soft:#F4E7CB; --green:#2B7A4B; --green-soft:#DDF0E3;
+  --warn:#B0512A; --warn-soft:#F7E2D7; --demo:#8A5CC0; --demo-soft:#EEE5F8; --on-blue:#FFFFFF;
+  --shadow:0 1px 2px rgba(14,39,66,.05),0 8px 24px rgba(14,39,66,.07);
+  --display:"Cormorant Garamond","Georgia","Times New Roman",serif;
+  --sans:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --r:18px; --r-sm:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0A1522; --surface:#10213A; --surface-2:#16304C; --surface-3:#0D1B2E;
+    --ink:#EAF0F6; --ink-2:#A6B7C9; --ink-3:#7890A8; --line:#223F5E;
+    --teal:#41C6C0; --teal-soft:#0E3A3E; --blue:#86AEE6; --blue-soft:#18304F;
+    --gold:#E2B55D; --gold-soft:#3A2E14; --green:#62CD8F; --green-soft:#143424;
+    --warn:#F08F63; --warn-soft:#3E2216; --demo:#C3A2EC; --demo-soft:#2E2143; --on-blue:#0A1522;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0A1522; --surface:#10213A; --surface-2:#16304C; --surface-3:#0D1B2E;
+  --ink:#EAF0F6; --ink-2:#A6B7C9; --ink-3:#7890A8; --line:#223F5E;
+  --teal:#41C6C0; --teal-soft:#0E3A3E; --blue:#86AEE6; --blue-soft:#18304F;
+  --gold:#E2B55D; --gold-soft:#3A2E14; --green:#62CD8F; --green-soft:#143424;
+  --warn:#F08F63; --warn-soft:#3E2216; --demo:#C3A2EC; --demo-soft:#2E2143; --on-blue:#0A1522;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;padding-inline:clamp(16px,3vw,32px);padding-block:0 96px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1200px;margin-inline:auto}
+h1,h2,h3,h4{margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+a{color:var(--teal)}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:6px}
+.mono{font-family:var(--mono);letter-spacing:.02em}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+.demo{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--demo);background:var(--demo-soft);border-radius:999px;padding:2px 8px;vertical-align:middle;white-space:nowrap}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:calc(-1 * clamp(16px,3vw,32px));padding:10px clamp(16px,3vw,32px)}
+.top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand-mark{width:34px;height:34px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+.brand-mark svg{width:20px;height:20px}
+.brand b{font-family:var(--display);font-size:24px;font-weight:600;letter-spacing:.01em}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{color:var(--ink-2);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:999px}
+.nav a:hover{background:var(--surface-2);color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+.sel-mini{appearance:none;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 26px 6px 12px;font-size:13px;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 13px) 55%,calc(100% - 9px) 55%;background-size:4px 4px;background-repeat:no-repeat}
+@media (max-width:760px){.nav{display:none}.tools{margin-left:auto}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,48px);padding-block:clamp(28px,5vw,56px) 28px;align-items:start}
+.hero-copy{display:flex;flex-direction:column;gap:18px;padding-top:8px}
+.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--teal);font-weight:500}
+.hero .lead{font-size:18px;color:var(--ink-2);max-width:32ch}
+.ticket-note{display:flex;gap:12px;align-items:flex-start;border-top:1px dashed var(--line);padding-top:16px;color:var(--ink-2);font-size:14px;max-width:44ch}
+.known{display:flex;flex-direction:column;gap:6px;max-width:360px}
+.known label{font-size:13px;color:var(--ink-2)}
+.field{appearance:none;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 36px 11px 14px;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+@media (max-width:900px){.hero{grid-template-columns:1fr}}
+
+/* planner */
+.planner{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.step-tab{background:none;border:0;border-right:1px solid var(--line);padding:14px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;color:var(--ink-3)}
+.step-tab:last-child{border-right:0}
+.step-tab b{font-size:13.5px;color:var(--ink-2);font-weight:600}
+.step-tab small{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-tab .k{font-family:var(--mono);font-size:11px}
+.step-tab[aria-selected="true"]{background:var(--surface-3);box-shadow:inset 0 -2px 0 var(--teal)}
+.step-tab[aria-selected="true"] b{color:var(--ink)}
+.panel{padding:20px;display:flex;flex-direction:column;gap:18px;min-height:360px}
+.panel h3{font-size:15px;font-weight:600}
+.panel-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid var(--line);background:var(--surface-3);flex-wrap:wrap}
+.brief{font-size:13.5px;color:var(--ink-2);flex:1 1 240px}
+.brief b{color:var(--ink);font-weight:600}
+@media (max-width:560px){.steps{grid-template-columns:repeat(2,1fr)}.step-tab:nth-child(2){border-right:0}.step-tab:nth-child(-n+2){border-bottom:1px solid var(--line)}.panel{padding:16px}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;border:1px solid var(--line);background:var(--surface);padding:10px 18px;font-weight:600;font-size:14px;text-decoration:none;color:var(--ink);transition:transform .15s ease,background .15s ease}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn-primary:hover{background:color-mix(in srgb,var(--ink) 88%,var(--teal))}
+.btn-teal{background:var(--teal);border-color:var(--teal);color:#fff}
+:root[data-theme="dark"] .btn-teal{color:#062322}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn-teal{color:#062322}}
+.btn-teal:hover{background:color-mix(in srgb,var(--teal) 85%,var(--ink))}
+.btn-big{padding:14px 26px;font-size:15.5px}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--ink-2)}
+.btn-sm{padding:6px 12px;font-size:13px}
+.linkbtn{background:none;border:0;padding:0;color:var(--teal);font-weight:600;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
+
+/* calendar */
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.range-read{display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;flex-direction:column;background:var(--surface-3);border:1px solid var(--line);border-radius:12px;padding:6px 12px;min-width:110px}
+.pill small{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.pill b{font-size:15px}
+.pill.accent{background:var(--teal-soft);border-color:transparent}
+.cal{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cal-month h4{font-size:14px;font-weight:600;text-align:center;margin-bottom:8px;text-transform:capitalize}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-dow{font-size:11px;color:var(--ink-3);text-align:center;padding:4px 0}
+.day{aspect-ratio:1/1;max-width:100%;border:0;background:none;border-radius:10px;font-size:13.5px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.day:hover:not(:disabled){background:var(--surface-2)}
+.day:disabled{color:var(--ink-3);opacity:.45;cursor:default}
+.day.in{background:var(--teal-soft);border-radius:0}
+.day.s,.day.e{background:var(--teal);color:#fff;font-weight:700}
+.day.s{border-radius:10px 0 0 10px}.day.e{border-radius:0 10px 10px 0}.day.s.e{border-radius:10px}
+.day.today{box-shadow:inset 0 0 0 1px var(--ink-3)}
+.cal-nav{display:flex;gap:6px}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.quick{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:620px){.cal{grid-template-columns:1fr}.cal-month+.cal-month{display:none}}
+
+/* chips & counters */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-size:13.5px;color:var(--ink-2);display:inline-flex;gap:6px;align-items:center}
+.chip small{color:var(--ink-3);font-size:12px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] small{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.group{display:flex;flex-direction:column;gap:10px}
+.group>label,.group>.lbl{font-size:13px;font-weight:600;color:var(--ink-2)}
+.counter-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.counter-row small{display:block;color:var(--ink-3);font-size:12.5px}
+.counter{display:flex;align-items:center;gap:12px}
+.counter b{min-width:22px;text-align:center;font-size:18px;font-variant-numeric:tabular-nums}
+.ages{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.age-field label{font-size:12.5px;color:var(--ink-3);display:block;margin-bottom:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+.infobox{border-radius:14px;padding:14px 16px;background:var(--blue-soft);color:var(--ink);font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+.infobox.gold{background:var(--gold-soft)}
+.infobox.warn{background:var(--warn-soft)}
+.infobox ul{margin:0;padding-left:18px}
+
+/* results */
+section.block{padding-block:40px 8px;scroll-margin-top:80px}
+.block-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.block-head h2{font-family:var(--display);font-size:clamp(30px,4vw,44px);font-weight:600}
+.verdict{background:var(--ink);color:var(--bg);border-radius:24px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:center}
+.verdict p.say{font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.2}
+.verdict p.say em{color:color-mix(in srgb,var(--teal) 70%,var(--bg));font-style:italic}
+.scan{display:flex;flex-direction:column;gap:8px;font-size:13px;color:color-mix(in srgb,var(--bg) 75%,transparent)}
+.scan-row{display:flex;gap:10px;align-items:center}
+.scan-row i{width:18px;height:18px;border-radius:50%;background:var(--teal);display:grid;place-items:center;font-style:normal;font-size:11px;color:#fff;flex:none}
+.loading .scan-row i{animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.35}}
+@media (max-width:820px){.verdict{grid-template-columns:1fr}}
+
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+@media (max-width:900px){.podium{grid-template-columns:1fr}}
+.pod{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.pod-img{position:relative;aspect-ratio:16/8;max-width:100%;background:var(--surface-2)}
+
+.medal{position:absolute;top:12px;left:12px;background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;box-shadow:var(--shadow)}
+.pod-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pod-title{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.pod-title h3{font-family:var(--display);font-size:28px;font-weight:600}
+.match-badge{font-weight:700;color:var(--green);font-size:13px;white-space:nowrap}
+.pricebox{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:var(--surface-3);border-radius:12px;padding:10px 12px}
+.pricebox small{display:block;color:var(--ink-3);font-size:12px}
+.pricebox b{font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.pricebox .pp{text-align:right;font-size:13px;color:var(--ink-2)}
+.why,.care{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;font-size:13.5px}
+.why li::before{content:"✓";color:var(--green);font-weight:700;margin-right:8px}
+.care li::before{content:"!";display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--warn-soft);color:var(--warn);font-weight:800;font-size:10px;margin-right:8px;vertical-align:1px}
+.sub-h{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.pod-foot{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+.dcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.dcard.active{outline:2px solid var(--teal)}
+.dcard-img{position:relative;aspect-ratio:16/10;max-width:100%}
+.img-cap{position:absolute;left:8px;bottom:8px;right:8px;display:flex;justify-content:space-between;gap:6px;font-size:11px}
+.img-cap span,.img-cap a{background:rgba(10,21,34,.62);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;white-space:nowrap}
+.ring{position:absolute;top:10px;right:10px;width:58px;height:58px;border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:var(--shadow)}
+.ring svg{position:absolute;inset:0}
+.ring b{font-size:15px;font-variant-numeric:tabular-nums}
+.dcard-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.dcard h3{font-family:var(--display);font-size:25px;font-weight:600}
+.country{font-size:13px;color:var(--ink-3)}
+.dcard p.desc{font-size:13.5px;color:var(--ink-2)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.metric{background:var(--surface-3);border-radius:10px;padding:6px 8px}
+.metric small{display:block;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.metric b{font-size:14px;font-variant-numeric:tabular-nums}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.tag.ok{background:var(--green-soft);color:var(--green)}
+.season{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.season.H{background:var(--green-soft);color:var(--green)}
+.season.S{background:var(--teal-soft);color:var(--teal)}
+.season.L{background:var(--gold-soft);color:var(--gold)}
+.season.O{background:var(--warn-soft);color:var(--warn)}
+.dcard-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cmp-toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);cursor:pointer}
+.cmp-toggle input{accent-color:var(--teal);width:16px;height:16px}
+.breakdown{display:flex;flex-direction:column;gap:6px;font-size:12.5px;background:var(--surface-3);border-radius:12px;padding:10px 12px}
+.bar-row{display:grid;grid-template-columns:110px 1fr 38px;gap:8px;align-items:center}
+.bar{height:6px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:999px}
+.bar-row span:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.formula{font-size:11.5px;color:var(--ink-3)}
+details.others{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px}
+details.others summary{cursor:pointer;font-weight:600;font-size:14px}
+.other-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:12px}
+.other{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:8px 10px;background:var(--surface-3);border-radius:10px}
+
+/* detail */
+.detail{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.cg-main .over{position:absolute;inset:auto 0 0 0;padding:clamp(16px,3vw,28px);background:linear-gradient(0deg,rgba(8,18,30,.78),rgba(8,18,30,0));color:#fff;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.cg-main .over h2{font-family:var(--display);font-size:clamp(34px,5vw,56px);font-weight:600;color:#fff}
+.cg-main .over p{color:rgba(255,255,255,.85);max-width:60ch;font-size:14px}
+.over .match-big{background:rgba(255,255,255,.95);color:#0E2742;border-radius:14px;padding:8px 14px;text-align:center}
+.over .match-big b{font-size:26px;display:block;line-height:1}
+.over .match-big small{font-size:11px}
+.tabs{display:flex;gap:4px;padding:10px 12px;border-bottom:1px solid var(--line);overflow-x:auto;background:var(--surface-3)}
+.tab{border:0;background:none;padding:9px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--ink-2);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab-body{padding:clamp(16px,3vw,28px);display:flex;flex-direction:column;gap:22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat small{display:block;font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.stat b{font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--ink-2)}
+.split{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+.chart-box{border:1px solid var(--line);border-radius:16px;padding:14px;overflow-x:auto}
+.chart-box svg{display:block;width:100%;min-width:420px;height:auto}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--ink-2);margin-bottom:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+
+/* flights */
+.fl-sum{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line);border-radius:16px;padding:14px 18px;background:var(--surface-3)}
+.fl-sum b{font-size:26px;font-variant-numeric:tabular-nums}
+.pass{display:grid;grid-template-columns:minmax(0,1fr) 190px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.pass.on{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+.pass-main{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.pass-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.pass-top b{color:var(--ink)}
+.leg{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.leg .t{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.leg .c{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.leg .mid{display:flex;flex-direction:column;align-items:center;font-size:12px;color:var(--ink-3);gap:2px}
+.leg .line{width:100%;height:1px;background:var(--line);position:relative}
+.leg .line::after{content:"";position:absolute;right:-1px;top:-3px;border-left:6px solid var(--ink-3);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent}
+.leg .line.stop::before{content:"";position:absolute;left:50%;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--warn);transform:translateX(-50%)}
+.leg-date{font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
+.pass-side{border-left:1px dashed var(--line);padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;background:var(--surface-3)}
+.pass-side b{font-size:20px;font-variant-numeric:tabular-nums}
+.bag{font-size:12.5px;color:var(--ink-2)}
+@media (max-width:640px){.pass{grid-template-columns:1fr}.pass-side{border-left:0;border-top:1px dashed var(--line)}}
+
+/* hotels */
+.tier-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:980px){.tier-grid{grid-template-columns:1fr}}
+.hcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;background:var(--surface)}
+.himg{position:relative;aspect-ratio:16/9;max-width:100%}
+.tierlabel{position:absolute;top:10px;left:10px;font-size:11px;font-weight:800;letter-spacing:.14em;padding:4px 10px;border-radius:999px}
+.t-budget{background:var(--teal-soft);color:var(--teal)}
+.t-standard{background:var(--blue-soft);color:var(--blue)}
+.t-premium{background:var(--gold-soft);color:var(--gold)}
+.himg .demo{position:absolute;top:10px;right:10px}
+.hbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.hbody h4{font-size:17px;font-weight:700}
+.stars{color:var(--gold);letter-spacing:1px}
+.rate{display:flex;gap:10px;align-items:center}
+.score{background:var(--blue);color:var(--on-blue);border-radius:10px 10px 10px 2px;padding:6px 8px;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+.rate span{font-size:12.5px;color:var(--ink-2);line-height:1.3}
+.rate span b{color:var(--ink)}
+.transit{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:13px}
+.transit li.na{color:var(--ink-3)}
+.transit li.best{font-weight:700;color:var(--teal)}
+.bf{font-size:13.5px;font-weight:600}
+.bf.ok{color:var(--green)}.bf.paid{color:var(--gold)}.bf.no{color:var(--ink-3)}
+.fine{font-size:12.5px;color:var(--ink-2)}
+.hprice{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.hprice small{display:block;font-size:12px;color:var(--ink-3)}
+.hprice b{font-size:19px;font-variant-numeric:tabular-nums}
+.genius{font-size:12px;background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:6px 10px}
+.why-h summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--teal)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:720px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;background:var(--surface-3);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.low td{color:var(--ink-3)}
+.rel{display:inline-flex;align-items:center;gap:8px}
+.rel .bar{width:60px}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.switch{display:inline-flex;gap:8px;align-items:center;font-size:13.5px;cursor:pointer}
+.switch input{accent-color:var(--teal);width:16px;height:16px}
+
+/* cost */
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;border-radius:999px;padding:8px 14px;font-weight:700;font-size:12.5px;letter-spacing:.1em;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.scen{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.scen{grid-template-columns:1fr}}
+.scard{border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.scard.main{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.scard h3{font-family:var(--display);font-size:26px;font-weight:600}
+.lines{display:flex;flex-direction:column}
+.ln{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.ln span:last-child{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.ln small{display:block;color:var(--ink-3);font-size:12px}
+.total{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:6px}
+.total b{font-size:30px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.total .pp{text-align:right;color:var(--ink-2);font-size:13.5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* compare */
+.cmp-pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.best-cell{color:var(--green);font-weight:700}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;font-size:13.5px}
+.mcard h3{font-size:16px;font-weight:700}
+.mcard code{font-family:var(--mono);font-size:12px;background:var(--surface-2);padding:1px 6px;border-radius:6px}
+.api{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.api li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.api li span:last-child{color:var(--ink-3);text-align:right}
+footer{padding-block:40px 20px;color:var(--ink-3);font-size:12.5px;border-top:1px solid var(--line);margin-top:40px}
+
+/* chat */
+.fab{position:fixed;right:clamp(16px,3vw,32px);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:12px 18px 12px 12px;box-shadow:0 10px 30px rgba(14,39,66,.3);font-weight:600}
+.fab .dot{width:30px;height:30px;border-radius:50%;background:var(--teal);display:grid;place-items:center;color:#fff}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:40;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.15);transform:translateX(0);transition:transform .25s ease;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer[hidden]{display:flex!important;transform:translateX(105%);visibility:hidden}
+.dr-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.dr-head h3{font-family:var(--display);font-size:22px;font-weight:600}
+.dr-head small{display:block;font-size:12px;color:var(--ink-3)}
+.msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:88%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45;white-space:pre-wrap}
+.msg.bot{background:var(--surface-3);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px;white-space:normal}
+.msg.user{background:var(--ink);color:var(--bg);align-self:flex-end;border-bottom-right-radius:4px}
+.msg .mini{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.msg .mini div{display:flex;justify-content:space-between;gap:8px;font-size:13px;border-top:1px dashed var(--line);padding-top:6px}
+.msg.think{color:var(--ink-3);font-style:italic}
+.suggest{display:flex;flex-direction:column;gap:6px;padding:0 16px 10px}
+.suggest button{text-align:left;border:1px dashed var(--line);background:none;border-radius:12px;padding:8px 12px;font-size:13px;color:var(--ink-2)}
+.composer{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.composer textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface-3);font:inherit;font-size:14px;min-height:44px;max-height:140px;color:var(--ink)}
+.ai-mode{font-size:11.5px;color:var(--ink-3);padding:0 16px 10px}
+
+/* photos */
+.ph{position:relative;margin:0;width:100%;height:100%;background:var(--surface-2);overflow:hidden;cursor:zoom-in}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.ph:hover img{transform:scale(1.03)}
+.ph-fail{display:none;position:absolute;inset:0;padding:14px;flex-direction:column;justify-content:flex-end;gap:4px;background:repeating-linear-gradient(135deg,var(--surface-2) 0 10px,var(--surface-3) 10px 20px);color:var(--ink-2);font-size:12.5px;line-height:1.35}
+.ph-fail b{color:var(--ink);font-size:14px}
+.ph-fail a{font-weight:600;align-self:flex-start;background:var(--surface);padding:3px 10px;border-radius:999px;text-decoration:none;margin-top:4px}
+.ph.failed img{display:none}.ph.failed .ph-fail{display:flex}.ph.failed .credit{display:none}
+.credit{position:absolute;right:8px;bottom:8px;margin:0}
+.credit a{background:rgba(10,21,34,.62);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;font-size:11px}
+.count-badge{position:absolute;left:10px;bottom:10px;background:rgba(10,21,34,.62);color:#fff;border-radius:999px;padding:2px 9px;font-size:11.5px;pointer-events:none}
+.ph.failed ~ .count-badge{display:none}
+.dcard-img .ph.failed .ph-fail{padding-right:80px}
+.city-gallery{display:grid;grid-template-columns:2fr 1fr;gap:4px;background:var(--surface)}
+.cg-main{position:relative;aspect-ratio:16/8;max-width:100%;min-height:240px}
+.cg-main .over{pointer-events:none}
+.cg-main .over a{pointer-events:auto}
+.cg-main .ph.failed ~ .over{background:none;color:var(--ink)}
+.cg-main .ph.failed ~ .over h2,.cg-main .ph.failed ~ .over p{color:var(--ink)}
+.cg-main .ph.failed .ph-fail{justify-content:flex-start}
+.cg-side{display:grid;grid-template-rows:repeat(3,1fr);gap:4px;min-height:0}
+.cg-side .ph{min-height:0}
+.gal-note{padding:8px 16px 0}
+@media (max-width:760px){.city-gallery{grid-template-columns:1fr}.cg-side{grid-template-rows:none;grid-template-columns:repeat(3,1fr);height:96px}}
+.himg.noimg{aspect-ratio:auto;display:flex;background:var(--surface-3);border-bottom:1px solid var(--line)}
+.noimg-body{margin:auto;padding:36px 18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;font-size:12.5px;color:var(--ink-2)}
+.noimg-body b{color:var(--ink);font-size:14px}
+.noimg-body>span:first-child{font-size:22px}
+.score.unk{background:var(--surface-2);color:var(--ink-2)}
+.bf.unk{color:var(--ink-2);font-weight:600}
+.flag.warn{font-size:12.5px;font-weight:600;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:4px 8px;align-self:flex-start}
+.hcard.dim{opacity:.72}
+.warn-t{color:var(--warn)!important;font-weight:600}
+.src{font-size:11.5px;color:var(--ink-3)}
+.btn-booking{background:#003B95;border-color:#003B95;color:#fff;font-size:15px;padding:12px 18px}
+.btn-booking:hover{background:#0050C8}
+/* gallery modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(6,14,24,.72);display:grid;place-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.modal-card{background:var(--surface);border-radius:20px;width:min(980px,100%);max-height:100%;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.gal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.gal-head h3{font-family:var(--display);font-size:26px;font-weight:600}
+.gal-main{position:relative;aspect-ratio:16/10;max-width:100%;border-radius:14px;overflow:hidden}
+.gal-main .ph{cursor:default}
+.gal-main .ph img{object-fit:contain;background:#0b1521}
+.gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.9);font-size:22px;color:#0E2742}
+.gal-nav.prev{left:10px}.gal-nav.next{right:10px}
+.gal-cap{font-size:13px;color:var(--ink-2)}
+.gal-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.gal-th{flex:none;width:120px;border:2px solid transparent;border-radius:10px;padding:0;background:var(--surface-2);overflow:hidden;text-align:left}
+.gal-th.on{border-color:var(--teal)}
+.gal-th img{width:100%;height:68px;object-fit:cover;display:block}
+.gal-th span{display:block;font-size:11px;padding:4px 6px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.gal-cat{border:1px dashed var(--line);border-radius:12px;padding:10px;font-size:12.5px;display:flex;flex-direction:column;gap:2px;color:var(--ink-3)}
+.gal-cat.ok{border-style:solid;border-color:var(--green);color:var(--green)}
+.gal-cat b{color:var(--ink);font-size:13px}
+/* notice & checks */
+.notice{display:flex;gap:12px;align-items:flex-start;background:var(--gold-soft);border-radius:16px;padding:14px 18px;font-size:14px;margin-top:20px}
+.notice b{display:block;margin-bottom:2px}
+.checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.chk{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--ink-2)}
+.chk b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+.chk-i{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px}
+.chk.ok .chk-i{background:var(--green-soft);color:var(--green)}
+.chk.warn .chk-i{background:var(--gold-soft);color:var(--gold)}
+.chk.bad .chk-i{background:var(--warn-soft);color:var(--warn)}
+@media (max-width:420px){.checks{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#plan" aria-label="Travel Expert">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#F6F2EA" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17"/><path d="M15.5 8.5l-2.2 5-4.8 2 2.2-5z" fill="#41C6C0" stroke="none"/></svg></span>
+      <b>Travel Expert</b>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#plan" data-i18n="nav.plan">Подбор</a>
+      <a href="#results" data-i18n="nav.results">Варианты</a>
+      <a href="#detail" data-i18n="nav.detail">Направление</a>
+      <a href="#compare" data-i18n="nav.compare">Сравнение</a>
+      <a href="#method" data-i18n="nav.method">Как считаем</a>
+    </nav>
+    <div class="tools">
+      <select id="cur" class="sel-mini" aria-label="Валюта"></select>
+      <select id="lang" class="sel-mini" aria-label="Язык"></select>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="plan">
+    <div class="hero-copy">
+      <span class="eyebrow" data-i18n="hero.eyebrow">Персональный travel-консьерж</span>
+      <h1>Куда поехать <em>именно</em> в&nbsp;ваши даты?</h1>
+      <p class="lead" data-i18n="hero.sub">Travel Expert найдёт подходящие направления, перелёты и отели и рассчитает стоимость путешествия.</p>
+      <div class="known">
+        <label for="destPick">Уже знаете направление? Можно начать с него</label>
+        <select id="destPick" class="field"></select>
+      </div>
+      <div class="ticket-note">
+        <span class="demo">DEMO</span>
+        <span>Фото городов — реальные файлы Wikimedia Commons, отели — реальные страницы на Booking.com. Цены и рейсы — ориентировочная оценка: у каждого отеля есть кнопка «Открыть в Booking.com» с вашими датами, у перелётов — Aviasales и Google Flights.</span>
+      </div>
+    </div>
+    <div class="planner" id="planner"></div>
+  </section>
+
+  <div class="notice" id="photoNotice" hidden><span>📷</span><div><b>Этот просмотр блокирует внешние фотографии</b>Фото городов подключены из Wikimedia Commons по реальным адресам файлов, но окно артефакта Claude не загружает изображения со сторонних сайтов. Откройте файл travel-expert.html в обычном браузере — фото загрузятся. Каждое фото здесь можно открыть по ссылке на Commons.</div></div>
+  <section class="block" id="results" aria-live="polite"></section>
+  <section class="block" id="detail"></section>
+  <section class="block" id="compare"></section>
+
+  <section class="block" id="method">
+    <div class="block-head"><div><span class="eyebrow">Прозрачность</span><h2>Как считаем и откуда данные</h2></div></div>
+    <div class="method">
+      <div class="mcard">
+        <h3>Соответствие направления</h3>
+        <p class="muted">Средневзвешенная оценка по ночам поездки: если поездка захватывает два месяца, климат и сезон считаются пропорционально числу ночей в каждом.</p>
+        <p><code>Сезон 20%</code> <code>Погода 22%</code> <code>Тип отдыха 23%</code> <code>Дети 12%</code> <code>Бюджет 13%</code> <code>Перелёт 10%</code></p>
+        <p class="muted">Без детей вес «Дети» распределяется между остальными факторами. Для пляжного отдыха учитывается температура моря: от 24° — 100%, 22–23° — 80%, 20–21° — 50%.</p>
+      </div>
+      <div class="mcard">
+        <h3>Релевантность отеля</h3>
+        <p class="muted">Когда подключён Booking Demand API, в основную подборку попадают только отели с оценкой 8.0+ и, если есть выбор, с включённым завтраком. Оценка корректируется на число отзывов (байесовское среднее, априорно 8.2 при весе 800 отзывов).</p>
+        <p class="muted">Пример из ТЗ: <b>9.1 и 350 отзывов</b> → надёжная оценка 8.47; <b>8.8 и 8 500 отзывов</b> → 8.75. Второй отель выше, но решает не только это.</p>
+        <p><code>Надёжная оценка 28%</code> <code>Отзывы 17%</code> <code>Транспорт 22%</code> <code>Завтрак 13%</code> <code>Цена 10%</code> <code>Центр 5%</code> <code>Семья 5%</code></p>
+      </div>
+      <div class="mcard">
+        <h3>Транспорт важнее центра</h3>
+        <p class="muted">Для каждого вида транспорта считается балл: до 300 м — 100%, дальше линейно до нуля на 1,5 км. Вес: метро 1.0, трамвай 0.92, крупная остановка 0.78, вокзал 0.72. В итог берётся лучший вариант, а близость к центру весит всего 5%.</p>
+      </div>
+      <div class="mcard">
+        <h3>Подключение реальных данных</h3>
+        <ul class="api">
+          <li><span><code>getCityImages()</code></span><span>REAL · Wikimedia Commons</span></li>
+          <li><span><code>getHotelBookingUrl()</code></span><span>REAL · страница отеля на Booking.com + даты</span></li>
+          <li><span><code>getHotelImages()</code></span><span>Commons, где есть · прод: Booking Demand API</span></li>
+          <li><span><code>getHotelDetails()</code></span><span>прод: Booking Demand API (рейтинг, отзывы, тарифы)</span></li>
+          <li><span><code>getFlightOffers()</code></span><span>DEMO · прод: Aviasales / Amadeus / Duffel</span></li>
+          <li><span><code>getTransportData()</code></span><span>прод: OpenStreetMap Overpass</span></li>
+        </ul>
+        <p class="muted small">Каждая функция — единственная точка подключения: замена её тела не требует переделки интерфейса.</p>
+      </div>
+      <div class="mcard">
+        <h3>Фотографии</h3>
+        <p class="muted">Города: 3–4 реальных файла Wikimedia Commons на каждый город, с подписью и ссылкой на страницу файла (автор и лицензия). Отели: открытые фото здания из Commons есть у Pera Palace, Hotel Paris Prague, Casa Fuster и Sheraton Batumi; для остальных — кнопка на фото отеля в Booking.com. Сгенерированные и чужие изображения не используются.</p>
+      </div>
+      <div class="mcard">
+        <h3>Что пока DEMO</h3>
+        <p class="muted">Рейсы, расписание и все цены — ориентировочная оценка и помечены «≈». Рейтинг, число отзывов, завтрак, отмена и расстояния до транспорта без Booking API не подтверждаются, поэтому в карточках стоит «проверить на Booking.com». Климат — средние многолетние значения.</p>
+      </div>
+    </div>
+    <div class="block-head" style="margin-top:28px"><div><span class="eyebrow">Самопроверка</span><h3 style="font-family:var(--display);font-size:30px;font-weight:600">Проверка данных</h3></div></div>
+    <div id="checks"></div>
+  </section>
+  <footer>Travel Expert · прототип · язык: русский (архитектура готова к казахскому и английскому) · фото городов: Wikimedia Commons · ссылки на отели: Booking.com, найдены 28.09.2026 · цены и рейсы: ориентировочная оценка DEMO</footer>
+</main>
+
+<div class="modal" id="gal" hidden role="dialog" aria-modal="true" aria-label="Фотогалерея"><div class="modal-card" id="galBody"></div></div>
+<button class="fab" id="fab" data-act="chat-open"><span class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg></span>Спросить Travel Expert</button>
+<aside class="drawer" id="drawer" hidden aria-label="AI Travel Expert">
+  <div class="dr-head">
+    <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#F6F2EA" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2.2 5-4.8 2 2.2-5z" fill="#41C6C0" stroke="none"/></svg></span>
+    <div><h3>AI Travel Expert</h3><small>Опишите поездку своими словами</small></div>
+    <button class="icon-btn" style="margin-left:auto" data-act="chat-close" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="suggest" id="suggest"></div>
+  <div class="ai-mode" id="aiMode">Подключаем консультанта…</div>
+  <form class="composer" id="composer">
+    <textarea id="chatIn" rows="2" placeholder="Например: в июле на 10 дней, двое взрослых и ребёнок 6 лет, хотим море"></textarea>
+    <button class="btn btn-primary" id="chatSend" type="submit">Отправить</button>
+  </form>
+</aside>
+
+<script>
+/* =========================================================
+   CONFIG · i18n · currency
+   ========================================================= */
+const CONFIG = {
+  currency: { base:'KZT', list:['KZT','USD','EUR'], symbols:{KZT:'₸',USD:'$',EUR:'€'},
+    // DEMO-курс: в проде подгружается из API (например, Нацбанк РК)
+    kztPer:{KZT:1, USD:512, EUR:595, AED:139} },
+  languages:[{code:'ru',label:'RU',ready:true},{code:'kk',label:'KZ · скоро',ready:false},{code:'en',label:'EN · скоро',ready:false}],
+  dataCheckedOn:'2026-09-28' // дата, когда ссылки на Booking и файлы Commons были найдены через поисковый индекс
+};
+const I18N = {
+  ru:{'nav.plan':'Подбор','nav.results':'Варианты','nav.detail':'Направление','nav.compare':'Сравнение','nav.method':'Данные',
+      'hero.eyebrow':'Персональный travel-консьерж','hero.sub':'Travel Expert найдёт подходящие направления, перелёты и отели и рассчитает стоимость путешествия.',
+      'cta':'Подобрать путешествие','step.dates':'Даты','step.who':'Кто едет','step.pref':'Отдых','step.budget':'Бюджет',
+      'booking.open':'Открыть в Booking.com','booking.check':'Проверить на Booking.com','verify':'проверить на Booking.com'},
+  kk:{}, en:{}
+};
+const t = k => (I18N[S.lang] && I18N[S.lang][k]) || I18N.ru[k] || k;
+
+/* =========================================================
+   Utils
+   ========================================================= */
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+function hash(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const pd=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const diffDays=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
+function plural(n,f){n=Math.abs(n);const a=n%10,b=n%100;return a===1&&b!==11?f[0]:a>=2&&a<=4&&(b<10||b>=20)?f[1]:f[2]}
+const MON_GEN=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const MON_NOM=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+const MON_SH=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const dShort=s=>{const d=pd(s);return `${d.getDate()} ${MON_SH[d.getMonth()]}`};
+const dLong=s=>{const d=pd(s);return `${d.getDate()} ${MON_GEN[d.getMonth()]}`};
+const today0=(()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate())})();
+function money(kzt,cur=S.currency){const v=kzt/CONFIG.currency.kztPer[cur];const s=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(v));return cur==='KZT'?`${s} ₸`:`${CONFIG.currency.symbols[cur]}${s}`}
+const approx=kzt=>`≈ ${money(kzt)}`;
+const km=m=>m==null?'—':m<1000?`${Math.round(m/10)*10} м`:`${(m/1000).toFixed(1).replace('.',',')} км`;
+const hm=h=>{let H=Math.floor(h),M=Math.round((h-H)*12)*5;if(M===60){H++;M=0}return `${H} ч${M?` ${M} мин`:''}`};
+const nf=n=>n.toLocaleString('ru-RU');
+
+/* =========================================================
+   Reference data
+   ========================================================= */
+const REST=[['beach','Пляжный'],['passive','Пассивный'],['active','Активный'],['excursion','Экскурсионный'],['gastro','Гастрономический'],['nature','Природа'],['mountains','Горы'],['shopping','Шопинг'],['mixed','Смешанный']];
+const REST_PHRASE={beach:'пляжный отдых',passive:'спокойный отдых',active:'активный отдых',excursion:'экскурсии',gastro:'гастрономию',nature:'природу',mountains:'горы',shopping:'шопинг',mixed:'смешанный отдых'};
+const TRIP=[['family','Семья'],['couple','Пара'],['friends','Друзья'],['solo','Один'],['other','Другая компания']];
+const TEMP=[['hot','Жарко','30–36°'],['warm','Тепло','24–30°'],['mild','Умеренно','17–24°']];
+const TEMP_RANGE={hot:[30,36],warm:[24,30],mild:[17,24]};
+const PACE=[['calm','Максимально спокойно'],['balance','Баланс отдыха и экскурсий'],['intense','Насыщенная программа']];
+const BUDGET=[['budget','Бюджетный'],['standard','Средний'],['premium','Премиум']];
+const GENIUS=[['none','Нет'],['g1','Genius'],['g2','Genius Level 2']];
+const ORIG={NQZ:{city:'Астана',f:1,dh:0},ALA:{city:'Алматы',f:.96,dh:.4},CIT:{city:'Шымкент',f:1.06,dh:.6}};
+const SEASON_LBL={H:'Высокий сезон',S:'Бархатный / межсезонье',L:'Низкий сезон',O:'Не сезон'};
+const SEASON_SC={H:100,S:90,L:62,O:32};
+const SEASON_PRICE={H:1.22,S:1,L:.86,O:.8};
+const CROWD_LBL=['','Мало туристов','Умеренно','Много туристов'];
+const TIERS=[['budget','BUDGET','Недорогой вариант'],['standard','STANDARD','Средний ценовой класс'],['premium','PREMIUM','Высокий класс сервиса']];
+const AIRCODE={'Air Astana':'KC','FlyArystan':'FS','SCAT':'DV','Pegasus':'PC','Turkish Airlines':'TK','flydubai':'FZ'};
+
+const DEST=[
+ {id:'ayt',city:'Анталья',country:'Турция',flag:'🇹🇷',iata:'AYT',en:'Antalya',desc:'Турецкая Ривьера: пляжи Лары и Коньяалты, старый город Калеичи, водопады и горы Таврос рядом.',
+  tags:['beach','passive','active','excursion','nature','mountains','shopping','mixed'],air:[15,16,19,22,26,31,34,34,31,27,21,17],sea:[17,16,17,18,21,25,27,28,27,24,21,18],season:'LLLSSHHHHSLL',crowd:'111223333211',rain:[],price:2,kids:.95,tz:-2,schengen:false,
+  transit:{tram:true},flight:{h:5.3,direct:true,carriers:['Air Astana','SCAT'],low:'FlyArystan',base:190000},hotel:{base:52000},fee:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'}},
+ {id:'dxb',city:'Дубай',country:'ОАЭ',flag:'🇦🇪',iata:'DXB',en:'Dubai',desc:'Пляжи Джумейры, небоскрёбы Даунтауна, аквапарки и огромные торговые центры. Удобное метро.',
+  tags:['beach','passive','shopping','excursion','gastro','mixed','active'],air:[24,25,28,33,37,39,41,41,39,35,30,26],sea:[22,21,23,25,28,31,32,33,32,30,27,24],season:'HHHSLLLLLSHH',crowd:'333211111233',rain:[],price:3,kids:.9,tz:-1,schengen:false,
+  transit:{metro:true,tram:true},flight:{h:4.3,direct:true,carriers:['Air Astana','flydubai'],low:'FlyArystan',base:200000},hotel:{base:85000},fee:{mode:'room',cur:'AED',amt:[10,15,20],note:'Tourism Dirham — за номер в ночь, оплачивается в отеле'}},
+ {id:'her',city:'Крит · Ираклион',country:'Греция',flag:'🇬🇷',iata:'HER',en:'Heraklion',desc:'Кносский дворец, венецианская крепость Кулес, пляжи северного побережья и критская кухня.',
+  tags:['beach','passive','excursion','gastro','nature','mixed'],air:[16,16,17,20,24,28,29,29,27,24,21,17],sea:[16,15,16,17,20,23,25,26,25,23,20,18],season:'OOOSSHHHHSOO',crowd:'111123333211',rain:[],price:2,kids:.85,tz:-2,schengen:true,
+  transit:{},flight:{h:9.8,direct:false,via:'IST',viaCity:'Стамбул',base:320000},hotel:{base:62000},fee:{mode:'room',cur:'EUR',amt:[3,7,10],note:'Климатический сбор Греции — за номер в ночь'}},
+ {id:'pmi',city:'Майорка · Пальма',country:'Испания',flag:'🇪🇸',iata:'PMI',en:'Palma de Mallorca',desc:'Готический собор Ла-Сеу, бухты с прозрачной водой, горы Трамунтана и хорошая гастрономия.',
+  tags:['beach','passive','gastro','nature','excursion','mixed'],air:[15,15,17,20,23,28,31,31,28,24,19,16],sea:[14,14,14,16,19,23,25,26,25,22,19,16],season:'OOLSSHHHHSLO',crowd:'111223333211',rain:[],price:3,kids:.85,tz:-3,schengen:true,
+  transit:{metro:true,station:true},flight:{h:11.5,direct:false,via:'IST',viaCity:'Стамбул',base:370000},hotel:{base:88000},fee:{mode:'adult',cur:'EUR',amt:[2,3,4],exempt:16,note:'Экологический налог Балеарских островов'}},
+ {id:'bcn',city:'Барселона',country:'Испания',flag:'🇪🇸',iata:'BCN',en:'Barcelona',desc:'Гауди, кварталы Эшампле и Готический, городские пляжи, рынки и тапас. Отличное метро.',
+  tags:['beach','excursion','gastro','shopping','active','mixed'],air:[14,15,17,19,22,26,29,29,26,22,17,14],sea:[13,13,13,15,18,22,25,26,24,21,17,14],season:'LLSSSHHHHSLL',crowd:'112233333221',rain:[],price:3,kids:.75,tz:-3,schengen:true,
+  transit:{metro:true,tram:true,station:true},flight:{h:10.8,direct:false,via:'IST',viaCity:'Стамбул',base:350000},hotel:{base:92000},fee:{mode:'adult',cur:'EUR',amt:[5,6.5,8],exempt:17,note:'Туристический налог Барселоны и Каталонии'}},
+ {id:'ist',city:'Стамбул',country:'Турция',flag:'🇹🇷',iata:'IST',en:'Istanbul',desc:'Айя-София, Босфор, рынки и районы на двух континентах. Метро, трамвай и паромы.',
+  tags:['excursion','gastro','shopping','active','mixed'],air:[9,9,12,17,22,27,29,29,26,20,15,11],sea:null,season:'LLSHHSSSHHSL',crowd:'112333332211',rain:[],price:2,kids:.65,tz:-2,schengen:false,
+  transit:{metro:true,tram:true,station:true},flight:{h:5.6,direct:true,carriers:['Air Astana','Turkish Airlines'],low:'Pegasus',base:170000},hotel:{base:58000},fee:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'}},
+ {id:'tbs',city:'Тбилиси',country:'Грузия',flag:'🇬🇪',iata:'TBS',en:'Tbilisi',desc:'Старый город под крепостью Нарикала, серные бани, вино, хинкали и поездки в Мцхету и Кахетию.',
+  tags:['excursion','gastro','nature','mountains','active','mixed'],air:[7,9,14,19,24,29,32,32,27,20,13,8],sea:null,season:'LLSHHSSSHHSL',crowd:'111232223211',rain:[],price:1,kids:.65,tz:-1,schengen:false,
+  transit:{metro:true,station:true},flight:{h:3.4,direct:true,carriers:['Air Astana','SCAT'],low:'FlyArystan',base:150000},hotel:{base:38000},fee:{mode:'none'}},
+ {id:'bus',city:'Батуми',country:'Грузия',flag:'🇬🇪',iata:'BUS',en:'Batumi',desc:'Черноморский бульвар, ботанический сад, горы Аджарии и мягкий климат летом.',
+  tags:['beach','passive','gastro','nature','mountains','mixed'],air:[11,11,13,16,20,24,27,27,25,21,17,13],sea:[11,10,11,13,17,23,26,27,25,21,17,13],season:'OOOLSHHHHSLO',crowd:'111122333211',rain:[8,9,10],price:1,kids:.8,tz:-1,schengen:false,
+  transit:{station:true},flight:{h:3.8,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:165000},hotel:{base:36000},fee:{mode:'none'}},
+ {id:'ssh',city:'Шарм-эль-Шейх',country:'Египет',flag:'🇪🇬',iata:'SSH',en:'Sharm El Sheikh',desc:'Коралловые рифы Красного моря, снорклинг и дайвинг, отели с All Inclusive.',
+  tags:['beach','passive','active','nature'],air:[22,23,26,30,34,37,38,38,36,32,27,23],sea:[23,22,23,24,26,27,28,28,28,27,25,24],season:'SSHHSSSSSHHS',crowd:'223322223332',rain:[],price:1,kids:.9,tz:-2,schengen:false,
+  transit:{},flight:{h:6.3,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:220000},hotel:{base:45000},fee:{mode:'none'}},
+ {id:'hkt',city:'Пхукет',country:'Таиланд',flag:'🇹🇭',iata:'HKT',en:'Phuket',desc:'Пляжи Карона и Каты, острова Пхи-Пхи, тайская кухня и спа. Сухой сезон — с ноября по апрель.',
+  tags:['beach','passive','gastro','nature','active','mixed'],air:[32,33,33,33,32,31,31,31,30,31,31,31],sea:[28,28,29,30,30,29,29,29,29,29,29,28],season:'HHHSLLLLLLSH',crowd:'333211112123',rain:[4,5,6,7,8,9],price:2,kids:.8,tz:2,schengen:false,
+  transit:{},flight:{h:8.6,direct:true,carriers:['Air Astana','SCAT'],low:'SCAT',base:320000},hotel:{base:48000},fee:{mode:'none'}},
+ {id:'cxr',city:'Нячанг',country:'Вьетнам',flag:'🇻🇳',iata:'CXR',en:'Nha Trang',desc:'Длинный городской пляж, острова, грязевые ванны и недорогие отели. Дожди — с октября по декабрь.',
+  tags:['beach','passive','gastro','nature','mixed'],air:[27,28,29,31,32,32,32,32,31,29,28,27],sea:[25,25,26,27,29,29,29,29,28,27,26,25],season:'SHHHHHHHSLLL',crowd:'222233332111',rain:[9,10,11],price:1,kids:.8,tz:2,schengen:false,
+  transit:{station:true},flight:{h:7.2,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:270000},hotel:{base:30000},fee:{mode:'none'}},
+ {id:'fco',city:'Рим',country:'Италия',flag:'🇮🇹',iata:'FCO',en:'Rome',desc:'Колизей, Ватикан, Трастевере и итальянская кухня. Много пешком, удобные метро и трамвай.',
+  tags:['excursion','gastro','shopping','active','mixed'],air:[12,13,16,19,23,28,31,31,27,22,17,13],sea:null,season:'LLSHHHSSHHLS',crowd:'112333222311',rain:[10],price:3,kids:.6,tz:-3,schengen:true,
+  transit:{metro:true,tram:true,station:true},flight:{h:10.2,direct:false,via:'IST',viaCity:'Стамбул',base:330000},hotel:{base:95000},fee:{mode:'adult',cur:'EUR',amt:[6,7.5,10],exempt:10,cap:10,note:'Городской налог Рима, не более 10 ночей'}},
+ {id:'prg',city:'Прага',country:'Чехия',flag:'🇨🇿',iata:'PRG',en:'Prague',desc:'Карлов мост, Пражский Град, пивные и рождественские рынки. Компактный центр и удобный трамвай.',
+  tags:['excursion','gastro','shopping','mixed'],air:[3,5,10,15,20,23,25,25,20,14,7,3],sea:null,season:'LLSSHHHHHSLH',crowd:'111223333213',rain:[],price:2,kids:.7,tz:-3,schengen:true,
+  transit:{metro:true,tram:true,station:true},flight:{h:9.6,direct:false,via:'IST',viaCity:'Стамбул',base:300000},hotel:{base:60000},fee:{mode:'adult',cur:'EUR',amt:[2,2,2],exempt:18,note:'Городской сбор Праги'}},
+ {id:'cta',city:'Сицилия · Катания',country:'Италия',flag:'🇮🇹',iata:'CTA',en:'Catania',desc:'Вулкан Этна, барочный центр, Таормина рядом, рыбные рынки и пляжи Ионического моря.',
+  tags:['beach','excursion','gastro','nature','mountains','mixed'],air:[15,16,18,20,24,29,32,32,29,25,20,16],sea:[15,15,15,16,19,23,26,27,26,23,20,17],season:'OOLSSHHHHSLO',crowd:'111123333211',rain:[],price:2,kids:.75,tz:-3,schengen:true,
+  transit:{metro:true,station:true},flight:{h:11.2,direct:false,via:'IST',viaCity:'Стамбул',base:360000},hotel:{base:58000},fee:{mode:'adult',cur:'EUR',amt:[1.5,2.5,3.5],exempt:12,note:'Городской налог Катании'}}
+];
+const DMAP=Object.fromEntries(DEST.map(d=>[d.id,d]));
+
+/* =========================================================
+   REAL DATA · Фотографии городов (Wikimedia Commons)
+   Каждый файл найден в поисковом индексе commons.wikimedia.org (см. CONFIG.dataCheckedOn).
+   Изображение берётся через Special:FilePath — это официальный способ Commons
+   получить файл по имени; страница файла содержит автора и лицензию.
+   ========================================================= */
+const CITY_PHOTOS={
+  ayt:[['Antalya kaleiçi 2.jpg','Старый город Калеичи'],['ANTALYA KALEİÇİ YAT LİMANI - panoramio.jpg','Яхтенная гавань Калеичи'],['Kaleiçi old town, Antalya, Turkey 🇹🇷 Feb 2022 - Vista.jpg','Вид на Калеичи'],['Kaleiçi old town, Antalya, Turkey 🇹🇷 Feb 2022 - Tram.jpg','Трамвай у старого города']],
+  dxb:[['Dubai Marina Skyline.jpg','Дубай-Марина'],['Dubai Skyline (25500263365).jpg','Панорама Дубая'],['UAE Dubai Marina img1 asv2018-01.jpg','Набережная Дубай-Марины'],['DubaiMarinaPanorama.jpg','Панорама Марины']],
+  her:[['Venetian Fortress of Koules in Heraklion, Crete 002.jpg','Венецианская крепость Кулес'],['Venetian fortress in the harbour - Heraklion, Crete.jpg','Старая гавань Ираклиона'],['Koules Fortress, Heraklion (150823) (9450355791).jpg','Крепость Кулес'],['20090415 Hrakleio Krhth Limani Koules 1.jpg','Гавань и крепость']],
+  pmi:[['La Seu Cathedral Palma Mallorca Spain.jpg','Собор Ла-Сеу'],['Palma de Mallorca, Kathedrale La Seu -- 2009 -- 5.jpg','Собор и набережная Пальмы'],['Palma Cathedral (La Seu) by night.jpg','Ла-Сеу ночью']],
+  bcn:[['Barcelona skyline.jpg','Панорама Барселоны'],['Sagrada Familia, Barcelona (31985705036).jpg','Саграда Фамилия'],['Aerial view of La Sagrada Familia, Barcelona, Spain (51227006134).jpg','Эшампле с высоты'],['Barcelona, Sagrada Familia by night, 2015.jpg','Саграда Фамилия ночью']],
+  ist:[['Hagia Sophia and Blue Mosque.jpg','Айя-София и Голубая мечеть'],['Historical peninsula and modern skyline of Istanbul.jpg','Исторический полуостров и новый Стамбул'],['2019-07-25 Hagia Sophia, Istanbul.jpg','Айя-София']],
+  tbs:[['Old City Tbilisi, Narikala Fortress.jpg','Старый город и Нарикала'],['Tbilisi, Georgia — Old Tbilisi & Narikala Fortress.jpg','Старый Тбилиси'],['Tbilisi. Old Town with the Narikali Fortress in the background.jpg','Старый город с крепостью']],
+  bus:[['View of Batumi skyline from the Botanical Garden (cropped).jpg','Батуми из Ботанического сада'],['Batumi sunset 2.jpg','Закат в Батуми'],['Alphabet Tower, Batumi.jpg','Башня Алфавита'],['City of Batumi, Georgia.jpg','Центр Батуми']],
+  ssh:[['Naama Bay, Sharm el Sheikh, Egypt.jpg','Залив Наама-Бей'],['Naama Bay Beach R01.jpg','Пляж Наама-Бей'],['Sharm el Sheikh-Naama Bay centre.jpg','Центр Наама-Бей']],
+  hkt:[['Kata Beach Phuket panorama.jpg','Пляж Ката'],['KataNoiHighest.jpg','Ката-Ной'],['Karon Beach, Phuket.jpg','Пляж Карон']],
+  cxr:[['Beach Nha Trang.jpg','Городской пляж Нячанга'],['Nha Trang Beach, Vietnam.jpg','Набережная Чан Фу'],['Nhatrang Beach at night.jpg','Нячанг вечером']],
+  fco:[['Colosseum, Rome, Italy (9608162671).jpg','Колизей'],['Roman Forum from the Colosseum.jpg','Римский форум'],['Colosseum Rome.jpg','Колизей снаружи']],
+  prg:[['The Castle and Charles Bridge, Prague - 7982.jpg','Пражский Град и Карлов мост'],['Prague Castle from Charles Bridge panorama.JPG','Вид с Карлова моста'],['Charles Bridge Prague.jpg','Карлов мост'],['Night view of the Castle and Charles Bridge, Prague - 8034.jpg','Град ночью']],
+  cta:[['Piazza Duomo, Catania.jpg','Соборная площадь'],["Catania vista dall'alto e il vulcano Etna a sovrastarla.jpg",'Катания и Этна'],['Mt Etna and Catania.JPG','Этна над городом'],['Catania - Piazza Duomo 03.jpg','Пьяцца Дуомо']]
+};
+
+/* =========================================================
+   REAL DATA · Отели (конкретные объекты на Booking.com)
+   url — адрес страницы отеля на Booking.com, найденный в поисковом индексе.
+   Поля рейтинга, отзывов, цены, завтрака, отмены, транспорта остаются null, пока
+   их не вернёт getHotelDetails() из Booking Demand API — мы их не придумываем.
+   reviewsIndexed — число из заголовка страницы отзывов Booking в поисковом индексе
+   (дата индексации неизвестна, поэтому показывается только как справка).
+   ========================================================= */
+const REAL_HOTELS={
+ ayt:[
+  {id:'ayt-sofa',name:'Sofa Hotels Kaleiçi',tier:'budget',district:'Калеичи',url:'https://www.booking.com/hotel/tr/sofa-hotels-kaleici-antalya.html'},
+  {id:'ayt-mille',name:'Hotel Mille Kaleiçi',tier:'budget',district:'Калеичи',url:'https://www.booking.com/hotel/tr/mille-kaleici.html'},
+  {id:'ayt-akrav',name:'Akra V',tier:'standard',district:'Муратпаша',url:'https://www.booking.com/hotel/tr/akra-v-hotel.html',official:'https://www.akrahotels.com/en/hotels/akra-v/'},
+  {id:'ayt-akra',name:'Akra Antalya',tier:'premium',district:'Муратпаша',stars:5,starsSrc:'tropki.com',url:'https://www.booking.com/hotel/tr/akra-hotel.html',official:'https://www.akrahotels.com/en/hotels/akra-antalya/'},
+  {id:'ayt-route',name:'Route Hotel Kaleici — Adult Only (12+)',tier:'standard',district:'Калеичи',adultsOnly:12,url:'https://www.booking.com/hotel/tr/eliza.html'}],
+ dxb:[
+  {id:'dxb-rove',name:'Rove Downtown',tier:'budget',district:'Даунтаун',stars:3,starsSrc:'hotels-dubai.org',url:'https://www.booking.com/hotel/ae/rove-downtown-dubai.html',official:'https://www.rovehotels.com/en/hotels/downtown/'},
+  {id:'dxb-novotel',name:'Novotel Dubai Al Barsha',tier:'standard',district:'Аль-Барша',stars:4,starsSrc:'hotels-dubai.org',reviewsIndexed:2852,url:'https://www.booking.com/hotel/ae/novotel-al-barsha.html'},
+  {id:'dxb-address',name:'Address Downtown',tier:'premium',district:'Даунтаун',stars:5,starsSrc:'bookmybooking.com',url:'https://www.booking.com/hotel/ae/the-address-downtown-burj-dubai.html',official:'https://www.addresshotels.com/en/hotels/address-downtown/'}],
+ her:[
+  {id:'her-kastro',name:'Kastro Hotel',tier:'budget',district:'Центр Ираклиона',stars:3,starsSrc:'официальный сайт kastro-hotel.gr',url:'https://www.booking.com/hotel/gr/kastro.html',official:'https://www.kastro-hotel.gr/'},
+  {id:'her-lato',name:'Lato Boutique Hotel',tier:'standard',district:'У старой гавани',url:'https://www.booking.com/hotel/gr/lato.html',official:'https://www.lato.gr/'},
+  {id:'her-gdm',name:'GDM Megaron, Historical Monument Hotel',tier:'premium',district:'У старой гавани',reviewsIndexed:2575,url:'https://www.booking.com/hotel/gr/gdm-megaron.html',official:'https://www.gdmmegaron.com/'}],
+ pmi:[
+  {id:'pmi-born',name:'Hotel Born',tier:'budget',district:'Старый город',reviewsIndexed:1863,url:'https://www.booking.com/hotel/es/born.html',official:'https://www.hotelborn.com/en/'},
+  {id:'pmi-almudaina',name:'Hotel Almudaina',tier:'standard',district:'Старый город',stars:4,starsSrc:'hotellmallorca.net',url:'https://www.booking.com/hotel/es/almudaina.html',official:'https://www.hotelalmudaina.com/en/'},
+  {id:'pmi-saratoga',name:'Hotel Saratoga',tier:'premium',district:'Центр Пальмы',reviewsIndexed:4166,url:'https://www.booking.com/hotel/es/saratoga.html'}],
+ bcn:[
+  {id:'bcn-ibis',name:'Ibis Barcelona Centro (Sagrada Familia)',tier:'budget',district:'Эшампле',url:'https://www.booking.com/hotel/es/ibis-barcelona-centro-sagrada-familia.html'},
+  {id:'bcn-h10',name:'H10 Metropolitan 4* Sup',tier:'standard',district:'Центр',stars:4,starsSrc:'название объекта на Booking.com',url:'https://www.booking.com/hotel/es/h10-metropolitan.html',official:'https://www.h10hotels.com/en/barcelona-hotels/h10-metropolitan'},
+  {id:'bcn-fuster',name:'Hotel Casa Fuster G.L Monumento',tier:'premium',district:'Грасия',stars:5,starsSrc:'официальный сайт (5* GL)',url:'https://www.booking.com/hotel/es/hotelescenterfuster.html',official:'https://www.hotelcasafuster.com/en/',
+   photos:[['Domènech.i.Montaner.Casa.Fuster.1.Barcelona.JPG','Фасад','Здание Casa Fuster (Доменек-и-Монтанер), в котором работает отель']]}],
+ ist:[
+  {id:'ist-ibis',name:'Ibis Istanbul Zeytinburnu',tier:'budget',district:'Зейтинбурну',url:'https://www.booking.com/hotel/tr/ibis-istanbul.html'},
+  {id:'ist-amira',name:'Hotel Amira Istanbul',tier:'standard',district:'Султанахмет',url:'https://www.booking.com/hotel/tr/hotel-amira-istanbul.html'},
+  {id:'ist-sirkeci',name:'Sirkeci Mansion',tier:'standard',district:'Сиркеджи',url:'https://www.booking.com/hotel/tr/sirkeci-konak.html',official:'https://www.sirkecimansion.com/'},
+  {id:'ist-pera',name:'Pera Palace Hotel',tier:'premium',district:'Бейоглу',reviewsIndexed:2810,url:'https://www.booking.com/hotel/tr/pera-palace.html',official:'https://perapalace.com/en/',
+   photos:[['PeraPalaceHotel (2).JPG','Фасад','Здание отеля Pera Palace']]}],
+ tbs:[
+  {id:'tbs-fabrika',name:'Fabrika Hostel & Suites',tier:'budget',district:'Чугурети',url:'https://www.booking.com/hotel/ge/fabrika-hostel.html',official:'https://www.hostelfabrika.com/'},
+  {id:'tbs-rooms',name:'Rooms Hotel Tbilisi',tier:'standard',district:'Центр Тбилиси',reviewsIndexed:1411,url:'https://www.booking.com/hotel/ge/rooms-tbilisi.html'},
+  {id:'tbs-stamba',name:'Stamba Hotel',tier:'premium',district:'Центр Тбилиси',url:'https://www.booking.com/hotel/ge/stamba-tbilisi.html',official:'https://stambahotel.com/'}],
+ bus:[
+  {id:'bus-oldcity',name:'Aparthotel Old City',tier:'budget',district:'Старый Батуми',url:'https://www.booking.com/hotel/ge/hotel-old-city-batumi.html'},
+  {id:'bus-hilton',name:'Hilton Batumi',tier:'standard',district:'Приморский бульвар',url:'https://www.booking.com/hotel/ge/hilton-batumi.html'},
+  {id:'bus-sheraton',name:'Sheraton Batumi Hotel',tier:'premium',district:'Приморский бульвар',stars:5,starsSrc:'ge-hotels.com',reviewsIndexed:915,url:'https://www.booking.com/hotel/ge/hotel-sheraton-batumi.html',official:'https://www.marriott.com/en-us/hotels/bussi-sheraton-batumi-hotel/overview/',
+   photos:[['Sheraton Batumi.JPG','Фасад','Здание отеля Sheraton Batumi'],['Sheraton Hotel Batumi.jpg','Фасад','Sheraton Batumi, вид с улицы']]}],
+ ssh:[
+  {id:'ssh-naama',name:'Naama Bay Hotel & Resort',tier:'budget',district:'Наама-Бей',url:'https://www.booking.com/hotel/eg/tropitel-naama-bay-sharm-el-sheikh.html'},
+  {id:'ssh-seagate',name:'Rixos Premium Seagate',tier:'standard',district:'Набк',reviewsIndexed:2187,mealNote:'В названии объекта на Booking указан тариф Ultra All Inclusive',url:'https://www.booking.com/hotel/eg/rixos-seagate-sharm-ultra-all-inclusive.html',official:'https://www.rixos.com/hotel-resort/rixos-premium-seagate'},
+  {id:'ssh-fs',name:'Four Seasons Resort Sharm El Sheikh',tier:'premium',district:'Шаркс-Бей',stars:5,starsSrc:'fourseasons.com-sharmelsheikh.com',reviewsIndexed:1218,url:'https://www.booking.com/hotel/eg/four-seasons-sharm-el-sheikh.html',official:'https://www.fourseasons.com/sharmelsheikh/'},
+  {id:'ssh-rixos',name:'Rixos Sharm El Sheikh — Adults Only 18+',tier:'premium',district:'Набк',adultsOnly:18,url:'https://www.booking.com/hotel/eg/rixos-sharm-elsheikh.html'}],
+ hkt:[
+  {id:'hkt-katapalm',name:'Kata Palm Resort',tier:'budget',district:'Ката',reviewsIndexed:909,url:'https://www.booking.com/hotel/th/katapalmresortspa.html',official:'https://www.katapalmresort.com/accommodation-kata-beach-resort/'},
+  {id:'hkt-centara',name:'Centara Kata Resort Phuket',tier:'standard',district:'Ката',reviewsIndexed:913,url:'https://www.booking.com/hotel/th/centara-kata-resort-phuket.html',official:'https://www.centarahotelsresorts.com/centara/ckt'},
+  {id:'hkt-katarocks',name:'Kata Rocks',tier:'premium',district:'Ката',reviewsIndexed:98,url:'https://www.booking.com/hotel/th/kata-rocks.en-gb.html'}],
+ cxr:[
+  {id:'cxr-ibis',name:'ibis Styles Nha Trang',tier:'budget',district:'Набережная Чан Фу',reviewsIndexed:407,url:'https://www.booking.com/hotel/vn/ibis-styles-nha-trang.html',official:'https://all.accor.com/hotel/9578/index.en.shtml'},
+  {id:'cxr-novotel',name:'Novotel Nha Trang',tier:'standard',district:'Набережная Чан Фу',reviewsIndexed:263,url:'https://www.booking.com/hotel/vn/novotel-nhatrang.html'},
+  {id:'cxr-ic',name:'InterContinental Nha Trang',tier:'premium',district:'Набережная Чан Фу',url:'https://www.booking.com/hotel/vn/intercontinental-nha-trang.html',official:'https://nhatrang.intercontinental.com/'}],
+ fco:[
+  {id:'fco-romehello',name:'The RomeHello',tier:'budget',district:'Рядом с Термини',url:'https://www.booking.com/hotel/it/the-romehello.html'},
+  {id:'fco-artemide',name:'Hotel Artemide',tier:'standard',district:'Виа Национале',stars:4,starsSrc:'официальный сайт hotelartemide.it',reviewsIndexed:1710,url:'https://www.booking.com/hotel/it/artemide.html',official:'https://www.hotelartemide.it/'},
+  {id:'fco-quirinale',name:'Hotel Quirinale',tier:'premium',district:'Виа Национале',url:'https://www.booking.com/hotel/it/quirinale.html',official:'https://www.hotelquirinale.it/en/index'}],
+ prg:[
+  {id:'prg-czechinn',name:'Czech Inn',tier:'budget',district:'Винограды',url:'https://www.booking.com/hotel/cz/czech-inn.html'},
+  {id:'prg-josef',name:'Hotel Josef',tier:'standard',district:'Старе-Место',url:'https://www.booking.com/hotel/cz/josef-praha-1.html',official:'https://www.hoteljosef.com/'},
+  {id:'prg-paris',name:'Hotel Paris Prague',tier:'premium',district:'Старе-Место',url:'https://www.booking.com/hotel/cz/pariz.html',official:'https://www.hotel-paris.cz/en/',
+   photos:[['Praha, Staré Město, Králodvorská, Hotel Paříž 01.jpg','Фасад','Здание Hotel Paříž на улице Краловдворска']]}],
+ cta:[
+  {id:'cta-romano',name:'Hotel Romano House',tier:'budget',district:'Центр Катании',url:'https://www.booking.com/hotel/it/romano-house.html',official:'https://www.romanohouse.it/en/'},
+  {id:'cta-liberty',name:'Liberty Hotel',tier:'standard',district:'Центр Катании',url:'https://www.booking.com/hotel/it/liberty.html'},
+  {id:'cta-palace',name:'Palace Catania | UNA Esperienze',tier:'premium',district:'Виа Этнеа',stars:4,starsSrc:'официальный сайт UNA',url:'https://www.booking.com/hotel/it/una-palace.html',official:'https://www.unaitalianhospitality.com/en/hotels/palace-catania-una-esperienze'}]
+};
+const HOTEL_INDEX={};Object.entries(REAL_HOTELS).forEach(([c,l])=>l.forEach(h=>HOTEL_INDEX[h.id]={...h,city:c}));
+
+/* =========================================================
+   State
+   ========================================================= */
+function defaultDates(){let s=new Date(2026,9,17);if(s<=addDays(today0,5))s=addDays(today0,21);return [iso(s),iso(addDays(s,8))]}
+const [D0,D1]=defaultDates();
+const S={start:D0,end:D1,adults:2,children:[6],tripType:'family',rest:['beach','passive'],temp:'warm',pace:'calm',budget:'standard',genius:'g2',origin:'NQZ',dest:'',
+  allowLow:false,currency:'KZT',lang:'ru',step:0,calY:pd(D0).getFullYear(),calM:pd(D0).getMonth(),
+  results:null,selected:null,tab:'season',tier:{},flightSel:{},cmpCities:[],cmpHotels:[],cmpTab:'cities',openBreak:{},chat:[],loading:false};
+
+/* =========================================================
+   Party helpers
+   ========================================================= */
+const pax=()=>S.adults+S.children.length;
+function paxFactor(){return S.adults+S.children.reduce((s,a)=>s+(a<2?.1:a<12?.75:1),0)}
+function rooms(){return Math.max(Math.ceil(S.adults/2),Math.ceil(pax()/4))}
+const nights=()=>S.end?Math.max(1,diffDays(S.start,S.end)):1;
+function ageLbl(a){return a===0?'до 1 года':`${a} ${plural(a,['год','года','лет'])}`}
+function partyText(){
+  let s=`${S.adults} ${plural(S.adults,['взрослый','взрослых','взрослых'])}`;
+  const n=S.children.length;
+  if(n) s+=` + ${n===1?'ребёнок':`${n} ${plural(n,['ребёнок','ребёнка','детей'])}`} (${S.children.map(ageLbl).join(', ')})`;
+  return s;
+}
+function companyPhrase(){
+  const n=S.children.length;
+  const kids=n?(n===1?`с ребёнком ${ageLbl(S.children[0])}`:`с детьми ${S.children.map(ageLbl).join(' и ')}`):'';
+  if(S.tripType==='couple'&&S.adults===2) return `вдвоём${kids?' '+kids:''}`;
+  if(S.tripType==='solo'&&S.adults===1) return `один${kids?' '+kids:''}`;
+  if(S.tripType==='family') return `семьёй: ${S.adults} ${plural(S.adults,['взрослый','взрослых','взрослых'])}${kids?' '+kids:''}`;
+  if(S.tripType==='friends') return `компанией из ${pax()} ${plural(pax(),['человека','человек','человек'])}`;
+  return `${S.adults===2?'вдвоём':`компанией из ${pax()} ${plural(pax(),['человека','человек','человек'])}`}${kids&&S.adults===2?' '+kids:''}`;
+}
+function listJoin(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' и '+a[a.length-1]}
+const query=()=>({start:S.start,end:S.end,adults:S.adults,children:S.children.slice(),rooms:rooms(),origin:S.origin,currency:'KZT'});
+
+/* =========================================================
+   API LAYER — единые точки подключения реальных источников.
+   Сейчас: реальные ссылки и фото (REAL), цены/рейсы — DEMO.
+   Чтобы подключить API, замените тело функции; интерфейс и UI не меняются.
+   ========================================================= */
+const commonsSrc=(file,w=1280)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g,'_'))}?width=${w}`;
+const commonsPage=file=>`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g,'_'))}`;
+
+/** Фото города. Источник: Wikimedia Commons (REAL). Прод: Commons API generator=search + imageinfo/extmetadata. */
+function getCityImages(cityId){
+  return (CITY_PHOTOS[cityId]||[]).map(([file,caption],i)=>({id:`${cityId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),caption,source:'Wikimedia Commons',license:'см. страницу файла',status:'real'}));
+}
+/** Фото отеля. REAL — только открытые фото здания из Commons. Прод: фото из Booking Demand API (hotel photos по категориям). */
+function getHotelImages(hotelId){
+  const h=HOTEL_INDEX[hotelId];
+  const own=(h.photos||[]).map(([file,cat,caption],i)=>({id:`${hotelId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),category:cat,caption,source:'Wikimedia Commons',status:'real'}));
+  const cats=['Фасад','Номер','Ванная','Ресторан / завтрак','Общие зоны'];
+  return {photos:own,categories:cats.map(c=>({category:c,photo:own.find(p=>p.category===c)||null})),bookingPhotosUrl:getHotelBookingUrl(h,query())};
+}
+/** Детали отеля. Идентичность и ссылка — REAL. Рейтинг/отзывы/завтрак/отмена — null до подключения Booking Demand API. Цена — DEMO-оценка. */
+function getHotelDetails(hotelId,q,ctx){
+  const h=HOTEL_INDEX[hotelId],d=DMAP[h.city];
+  const band={budget:0,standard:1,premium:2}[h.tier];
+  const rm=q.rooms,extra=Math.max(0,q.adults+q.children.length-2*rm);
+  const night=Math.round(d.hotel.base*[.6,1,2.1][band]*(ctx?ctx.priceMult:1)*rm*(1+.14*extra)/100)*100;
+  const n=Math.max(1,diffDays(q.start,q.end));
+  const kidTooYoung=h.adultsOnly&&q.children.some(a=>a<h.adultsOnly);
+  return {...h,band,
+    rating:null, reviews:null,                      // ← Booking Demand API: review_score, number_of_reviews
+    breakfast:null, cancellation:null,              // ← тариф: meal_plan, cancellation_policy
+    stars:h.stars??null,
+    priceNightEst:night, priceStayEst:night*n, priceStatus:'demo-estimate',
+    transport:getTransportData(h),
+    familyOk:!kidTooYoung,
+    fees:feeFor(d,h,band),
+    bookingUrl:getHotelBookingUrl(h,q),
+    source:{booking:h.url,foundVia:'поисковый индекс',checkedOn:CONFIG.dataCheckedOn}};
+}
+/** Прямая ссылка на страницу отеля на Booking.com + даты и состав гостей (параметры Booking). */
+function getHotelBookingUrl(h,q){
+  const base=h.url.split('?')[0];
+  const p=new URLSearchParams({checkin:q.start,checkout:q.end,group_adults:String(q.adults),group_children:String(q.children.length),no_rooms:String(q.rooms),selected_currency:q.currency||'KZT'});
+  q.children.forEach(a=>p.append('age',String(a)));
+  return `${base}?${p.toString()}`;
+}
+/** Транспорт рядом. Прод: OpenStreetMap Overpass (public_transport=stop_position/station вокруг координат отеля). */
+function getTransportData(h){
+  const d=DMAP[h.city||h.cityId]||DMAP[HOTEL_INDEX[h.id].city];
+  const q=encodeURIComponent(`${h.name}, ${d.en}`);
+  return {status:'unverified',metro:null,tram:null,bus:null,station:null,center:null,
+    cityHas:{metro:!!d.transit.metro,tram:!!d.transit.tram,station:!!d.transit.station},
+    mapUrl:`https://www.google.com/maps/search/?api=1&query=${q}`,
+    nearbyUrl:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`public transport near ${h.name}, ${d.en}`)}`};
+}
+/** Предложения перелётов. Сейчас DEMO. Прод: Travelpayouts/Aviasales · Amadeus · Duffel. */
+function getFlightOffers(d,ctx){return demoFlights(d,ctx)}
+
+/* =========================================================
+   Engine: season & match
+   ========================================================= */
+function monthWeights(){const w=new Array(12).fill(0),n=nights();for(let i=0;i<n;i++){w[addDays(pd(S.start),i).getMonth()]+=1/n}return w}
+const wavg=(arr,w)=>arr.reduce((s,v,i)=>s+v*w[i],0);
+function beachScore(sea){return sea==null?0:sea>=24?100:sea>=22?80:sea>=20?50:15}
+
+function analyze(d){
+  const w=monthWeights();
+  const air=wavg(d.air,w), sea=d.sea?wavg(d.sea,w):null;
+  const codes=[...d.season];
+  const domM=w.indexOf(Math.max(...w));
+  const seasonCode=codes[domM];
+  const crowd=Math.round(wavg([...d.crowd].map(Number),w));
+  const rain=d.rain.reduce((s,m)=>s+w[m],0);
+  const sc={};
+  sc.season=wavg(codes.map(c=>SEASON_SC[c]),w);
+  const [lo,hi]=TEMP_RANGE[S.temp];
+  const dist=air<lo?lo-air:air>hi?air-hi:0;
+  sc.weather=clamp((100-dist*9-rain*35)/100)*100;
+  const types=S.rest.length?S.rest:['mixed'];
+  let tsum=0;
+  for(const r of types){
+    if(r==='beach') tsum+=d.tags.includes('beach')?beachScore(sea):0;
+    else if(r==='mixed') tsum+=d.tags.includes('mixed')?90:60;
+    else if(r==='passive') tsum+=d.tags.includes('passive')?100:55;
+    else tsum+=d.tags.includes(r)?100:20;
+  }
+  sc.type=tsum/types.length;
+  if(S.pace==='calm'&&!d.tags.includes('passive')) sc.type-=10;
+  if(S.pace==='intense'&&!d.tags.includes('excursion')) sc.type-=12;
+  sc.type=clamp(sc.type/100)*100;
+  const fl=d.flight, h=fl.h+ORIG[S.origin].dh;
+  sc.flight=clamp((fl.direct?100-Math.max(0,h-4)*6:72-Math.max(0,h-8)*6)/100)*100;
+  const tbl={budget:{1:100,2:80,3:50},standard:{1:92,2:100,3:78},premium:{1:78,2:95,3:100}};
+  sc.budget=tbl[S.budget][d.price]-(!fl.direct&&S.budget==='budget'?8:0);
+  const hasKids=S.children.length>0;
+  if(hasKids){
+    let k=d.kids*100;const young=Math.min(...S.children);
+    if(young<3&&h>6) k-=15;
+    if(air>34) k-=12;
+    if(young<6&&!fl.direct) k-=8;
+    sc.kids=clamp(k/100)*100;
+  }
+  const W={season:.20,weather:.22,type:.23,kids:hasKids?.12:0,budget:.13,flight:.10};
+  const tw=Object.values(W).reduce((a,b)=>a+b,0);
+  let match=0;for(const k in W) if(W[k]) match+=sc[k]*W[k];
+  match=Math.round(match/tw);
+  const priceMult=wavg(codes.map(c=>SEASON_PRICE[c]),w);
+  const r={d,air,sea,seasonCode,crowd,rain,sc,W,match,priceMult,h};
+  r.flights=getFlightOffers(d,r);
+  const q=query();
+  r.hotels=(REAL_HOTELS[d.id]||[]).map(x=>getHotelDetails(x.id,q,r));
+  r.tiers=pickTiers(r);
+  r.why=[];r.care=[];
+  buildReasons(r);
+  return r;
+}
+function buildReasons(r){
+  const d=r.d,why=r.why,care=r.care,sea=r.sea&&Math.round(r.sea),air=Math.round(r.air);
+  if(r.sc.season>=88) why.push(`Подходящий сезон: ${SEASON_LBL[r.seasonCode].toLowerCase()}`);
+  if(S.rest.includes('beach')&&sea>=23&&d.tags.includes('beach')) why.push(`Тёплое море: около ${sea}°`);
+  if(r.sc.weather>=85) why.push(`Комфортная погода: днём около ${air}°`);
+  if(d.flight.direct) why.push(`Прямой перелёт ~${hm(r.h)}`);
+  {const n=r.hotels.filter(h=>h.familyOk).length;why.push(`${n} ${plural(n,['конкретный отель','конкретных отеля','конкретных отелей'])} с прямыми ссылками на Booking.com`)}
+  if(d.transit.metro||d.transit.tram) why.push(`В городе есть ${[d.transit.metro?'метро':'',d.transit.tram?'трамвай':''].filter(Boolean).join(' и ')}`);
+  if(S.children.length&&r.sc.kids>=82) why.push('Подходит для семейного отдыха с детьми этого возраста');
+  if(r.sc.budget>=95) why.push('Уровень цен соответствует выбранному бюджету');
+  if(r.seasonCode==='H'&&r.crowd>=3) care.push('Высокий сезон: много туристов, цены выше');
+  else if(r.crowd>=3) care.push('Много туристов в эти даты');
+  if(d.price===3) care.push('Высокий уровень цен на месте');
+  if(air>=33) care.push(`Жарко днём: около ${air}°`);
+  if(r.rain>=.3) care.push('Сезон дождей: возможны ливни и волны');
+  if(S.rest.includes('beach')&&d.tags.includes('beach')&&sea!=null&&sea<21) care.push(`Море прохладное для купания: ~${sea}°`);
+  if(S.rest.includes('beach')&&!d.tags.includes('beach')) care.push('Это город без пляжного отдыха');
+  if(r.seasonCode==='O'||r.seasonCode==='L') care.push('Межсезонье: часть курортных отелей и экскурсий может не работать');
+  if(!d.flight.direct) care.push(`Перелёт с пересадкой в городе ${d.flight.viaCity}`);
+  if(r.h>7) care.push(`Длительный перелёт ~${hm(r.h)}`);
+  if(d.schengen) care.push('Нужна шенгенская виза');
+  if(!d.transit.metro&&!d.transit.tram) care.push('В городе нет метро и трамвая: ориентируемся на автобусы и такси');
+}
+
+/* DEMO flights */
+function demoFlights(d,r){
+  const R=rng(hash(d.id+S.origin+S.start+S.end));
+  const o=ORIG[S.origin], fl=d.flight, pm=r.priceMult*o.f, pf=paxFactor();
+  const opts=[];
+  const mk=(kind,airline,direct,dur,mult,bag,via)=>{
+    const dep=6+Math.floor(R()*14)+[0,.25,.5,.75][Math.floor(R()*4)];
+    const dep2=7+Math.floor(R()*13)+[0,.25,.5,.75][Math.floor(R()*4)];
+    const perAdult=Math.round(fl.base*mult*pm/1000)*1000;
+    return {id:kind,kind,airline,code:AIRCODE[airline]||'XX',direct,via:via||null,dur,
+      out:{date:S.start,dep,arr:dep+dur+d.tz},back:{date:S.end,dep:dep2,arr:dep2+dur-d.tz+(direct?-.15:.2)},
+      bag,perAdult,total:Math.round(perAdult*pf/1000)*1000,status:'demo'};
+  };
+  const h=fl.h+o.dh;
+  if(fl.direct){
+    opts.push(mk('optimal',fl.carriers[0],true,h,1,{kg:23,note:'Багаж 23 кг + ручная кладь 8 кг (типичный тариф, проверить)'}));
+    opts.push(mk('cheap',fl.low,true,h+.2,.84,{kg:0,note:'Только ручная кладь · багаж за доплату (типичный тариф, проверить)'}));
+    opts.push(mk('alt',fl.carriers[1]||'Turkish Airlines',false,h+4.6,.9,{kg:20,note:'Багаж 20 кг + ручная кладь (проверить)'},'IST'));
+  } else {
+    opts.push(mk('optimal','Turkish Airlines',false,h,1,{kg:23,note:'Багаж 23 кг + ручная кладь 8 кг (типичный тариф, проверить)'},fl.via));
+    opts.push(mk('cheap','Pegasus',false,h+2.4,.82,{kg:0,note:'Только ручная кладь · багаж за доплату (проверить)'},'SAW'));
+    opts.push(mk('alt','flydubai',false,h+1.8,.93,{kg:20,note:'Багаж 20 кг + ручная кладь (проверить)'},'DXB'));
+  }
+  const minP=Math.min(...opts.map(x=>x.total)),minD=Math.min(...opts.map(x=>x.dur));
+  opts.forEach(x=>{x.value=.55*(minP/x.total)+.3*(minD/x.dur)+.15*(x.bag.kg?1:0)});
+  const best=opts.reduce((a,b)=>b.value>a.value?b:a);best.recommended=true;
+  opts.forEach(x=>x.label=x.recommended?'Рекомендуем':x.total===minP?'Самый дешёвый':x.dur===minD?'Самый быстрый':'Альтернатива');
+  return opts;
+}
+function selFlight(r){return r.flights.find(f=>f.id===S.flightSel[r.d.id])||r.flights.find(f=>f.recommended)}
+function fmtT(h){const dayAdd=Math.floor(h/24);h=((h%24)+24)%24;const H=Math.floor(h),M=Math.round((h-H)*60);return {t:`${pad(H)}:${pad(M===60?0:M)}`,plus:dayAdd}}
+
+/* Hotels: scoring (готов к реальным данным) and tier choice */
+/** Релевантность. Работает, когда getHotelDetails() вернёт rating/reviews/breakfast/транспорт; с null возвращает null. */
+function scoreHotel(h){
+  if(h.rating==null||h.reviews==null) return null;
+  if(h.rating<8&&!S.allowLow) return null;
+  const bayes=(h.reviews*h.rating+800*8.2)/(h.reviews+800);
+  const q=clamp((bayes-7.6)/1.8)*100, rv=clamp(Math.log10(h.reviews)/Math.log10(15000))*100;
+  const bf=h.breakfast==='included'?100:h.breakfast==='paid'?45:0;
+  const tr=Math.max(...[[h.transport.metro,1],[h.transport.tram,.92],[h.transport.bus,.78],[h.transport.station,.72]].map(([m,w])=>m==null?0:clamp((1500-m)/1200)*100*w));
+  return Math.round(.28*q+.17*rv+.22*tr+.13*bf+.2*50);
+}
+function feeFor(d,h,band){
+  const f=d.fee;if(!f||f.mode==='none'||f.mode==='incl') return {kzt:0,note:f&&f.note||'Обязательных городских сборов нет'};
+  const idx=h.stars?(h.stars>=5?2:h.stars===4?1:0):band;
+  const rate=f.amt[idx]*CONFIG.currency.kztPer[f.cur];
+  const n=Math.min(nights(),f.cap||99);
+  const payers=f.mode==='room'?rooms():S.adults+S.children.filter(a=>a>=(f.exempt||0)).length;
+  return {kzt:Math.round(rate*n*payers/100)*100,note:`${f.note}: ~${f.amt[idx]} ${f.cur==='EUR'?'€':f.cur}${f.mode==='room'?' за номер':' с человека'} в ночь`};
+}
+function pickTiers(r){
+  const out={};
+  TIERS.forEach(([key])=>{
+    const c=r.hotels.filter(h=>h.tier===key&&h.familyOk);
+    const scored=c.map(h=>[h,scoreHotel(h)]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
+    out[key]=scored.length?scored[0][0]:(c[0]||r.hotels.find(h=>h.tier===key)||r.hotels[0]);
+  });
+  return out;
+}
+function tripCost(r,tierKey){
+  const h=r.tiers[tierKey],f=selFlight(r);
+  const total=f.total+h.priceStayEst+h.fees.kzt;
+  return {h,f,total,per:Math.round(total/pax())};
+}
+
+/* Search */
+function runSearch(){
+  const all=DEST.map(analyze).sort((a,b)=>b.match-a.match);
+  let good=all.filter(r=>r.match>=72).slice(0,8);
+  if(good.length<3) good=all.slice(0,3);
+  if(S.dest){const p=all.find(r=>r.d.id===S.dest);good=[p,...good.filter(r=>r!==p)]}
+  const rest=all.filter(r=>!good.includes(r));
+  S.results={all,good,rest};
+  const podium=good.slice(0,3);
+  if(!S.selected||!all.find(r=>r.d.id===S.selected)) S.selected=podium[0].d.id;
+  S.cmpCities=podium.map(r=>r.d.id);
+  const sel=all.find(r=>r.d.id===S.selected);
+  S.cmpHotels=TIERS.map(([k])=>sel.tiers[k].id);
+}
+const R_=id=>S.results.all.find(r=>r.d.id===id);
+
+/* =========================================================
+   Photo component (real images; honest fallback when blocked)
+   ========================================================= */
+let photoStats={ok:0,fail:0};
+function photoHTML(p,{cls='',kind,id,i=0,alt}={}){
+  return `<figure class="ph ${cls}" data-act="gal" data-kind="${kind}" data-id="${esc(id)}" data-i="${i}" tabindex="0" role="button" aria-label="Открыть галерею: ${esc(alt||p.caption)}">
+    <img src="${esc(p.src)}" alt="${esc(alt||p.caption)}" loading="lazy" referrerpolicy="no-referrer">
+    <div class="ph-fail"><b>${esc(p.caption)}</b><span>Реальное фото из Wikimedia Commons не загрузилось в этом просмотре</span><a href="${esc(p.page)}" target="_blank" rel="noopener">Открыть фото на Commons ↗</a></div>
+    <figcaption class="credit"><a href="${esc(p.page)}" target="_blank" rel="noopener">© Wikimedia Commons ↗</a></figcaption></figure>`;
+}
+document.addEventListener('error',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.closest('.gal-th')){im.style.visibility='hidden';return}if(im&&im.tagName==='IMG'){const f=im.closest('.ph');if(f&&!f.classList.contains('failed')){f.classList.add('failed');photoStats.fail++;updatePhotoNotice()}}},true);
+document.addEventListener('load',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.closest('.ph')){im.closest('.ph').classList.add('loaded');photoStats.ok++;updatePhotoNotice()}},true);
+function updatePhotoNotice(){const n=$('#photoNotice');if(!n)return;n.hidden=!(photoStats.fail>0&&photoStats.ok===0);renderChecks()}
+
+/* =========================================================
+   Render: planner
+   ========================================================= */
+function renderPlanner(){
+  const steps=[['dates',t('step.dates'),`${dShort(S.start)} — ${S.end?dShort(S.end):'…'}`],['who',t('step.who'),partyText()],['pref',t('step.pref'),S.rest.map(r=>REST.find(x=>x[0]===r)[1]).join(', ')||'Любой'],['budget',t('step.budget'),BUDGET.find(b=>b[0]===S.budget)[1]]];
+  let body='';
+  if(S.step===0) body=calendarHTML();
+  if(S.step===1) body=whoHTML();
+  if(S.step===2) body=prefHTML();
+  if(S.step===3) body=budgetHTML();
+  $('#planner').innerHTML=`
+   <div class="steps" role="tablist">${steps.map((s,i)=>`<button class="step-tab" role="tab" aria-selected="${S.step===i}" data-act="step" data-v="${i}"><span class="k">${pad(i+1)}</span><b>${s[1]}</b><small>${esc(s[2])}</small></button>`).join('')}</div>
+   <div class="panel">${body}</div>
+   <div class="panel-foot">
+     <p class="brief">${S.end?`Вы путешествуете <b>${esc(companyPhrase())}</b> с <b>${dLong(S.start)}</b> по <b>${dLong(S.end)}</b>, ${nights()} ${plural(nights(),['ночь','ночи','ночей'])}. Вылет из <b>${ORIG[S.origin].city}</b>.`:`Начало: <b>${dLong(S.start)}</b>. Выберите дату окончания в календаре.`}</p>
+     <div class="actions">${S.step<3?`<button class="btn" data-act="next">Далее</button>`:''}<button class="btn btn-primary btn-big" data-act="search">${t('cta')}</button></div>
+   </div>`;
+}
+function calendarHTML(){
+  const n=nights();
+  const month=(y,m)=>{
+    const first=new Date(y,m,1),off=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate();
+    let cells='';for(let i=0;i<off;i++)cells+='<span></span>';
+    for(let d=1;d<=days;d++){const dt=new Date(y,m,d),s=iso(dt);const cls=[s===S.start?'s':'',s===S.end?'e':'',S.end&&s>S.start&&s<S.end?'in':'',+dt===+today0?'today':''].join(' ');
+      cells+=`<button class="day ${cls}" data-act="day" data-v="${s}" ${dt<today0?'disabled':''} aria-label="${d} ${MON_GEN[m]}">${d}</button>`}
+    return `<div class="cal-month"><h4>${MON_NOM[m]} ${y}</h4><div class="cal-grid">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(x=>`<span class="cal-dow">${x}</span>`).join('')}${cells}</div></div>`;
+  };
+  const m2=new Date(S.calY,S.calM+1,1);
+  return `<div class="cal-head"><div class="range-read">
+      <div class="pill"><small>Дата начала</small><b>${dShort(S.start)}</b></div>
+      <div class="pill"><small>Дата окончания</small><b>${S.end?dShort(S.end):'выберите'}</b></div>
+      <div class="pill accent"><small>Итого</small><b class="num">${S.end?`${n} ${plural(n,['ночь','ночи','ночей'])} · ${n+1} ${plural(n+1,['день','дня','дней'])}`:'—'}</b></div></div>
+    <div class="cal-nav"><button class="icon-btn" data-act="cal" data-v="-1" aria-label="Предыдущий месяц">‹</button><button class="icon-btn" data-act="cal" data-v="1" aria-label="Следующий месяц">›</button></div></div>
+    <div class="cal">${month(S.calY,S.calM)}${month(m2.getFullYear(),m2.getMonth())}</div>
+    <div class="quick"><span class="small muted" style="align-self:center">Длительность от даты начала:</span>${[5,7,10,14].map(k=>`<button class="chip" data-act="len" data-v="${k}" aria-pressed="${n===k}">${k} ${plural(k,['ночь','ночи','ночей'])}</button>`).join('')}</div>`;
+}
+function whoHTML(){
+  const ages=S.children.map((a,i)=>`<div class="age-field"><label for="age${i}">Ребёнок ${i+1} — возраст</label><select id="age${i}" class="field" data-chg="age" data-i="${i}">${Array.from({length:18},(_,k)=>`<option value="${k}" ${k===a?'selected':''}>${ageLbl(k)}</option>`).join('')}</select></div>`).join('');
+  return `<div class="group">
+    <div class="counter-row"><div><b>Взрослые</b><small>от 12 лет</small></div><div class="counter"><button class="icon-btn" data-act="adults" data-v="-1" aria-label="Меньше взрослых">−</button><b>${S.adults}</b><button class="icon-btn" data-act="adults" data-v="1" aria-label="Больше взрослых">+</button></div></div>
+    <div class="counter-row"><div><b>Дети</b><small>возраст влияет на цену билета, выбор направлений и отелей (Adults Only исключаются)</small></div><div class="counter"><button class="icon-btn" data-act="kids" data-v="-1" aria-label="Меньше детей">−</button><b>${S.children.length}</b><button class="icon-btn" data-act="kids" data-v="1" aria-label="Больше детей">+</button></div></div>
+    ${S.children.length?`<div class="ages">${ages}</div>`:''}</div>
+    <div class="group"><span class="lbl">Тип путешествия</span><div class="chips">${TRIP.map(([k,l])=>`<button class="chip" data-act="trip" data-v="${k}" aria-pressed="${S.tripType===k}">${l}</button>`).join('')}</div></div>
+    <div class="group"><label for="orig">Город вылета</label><select id="orig" class="field" data-chg="origin" style="max-width:280px">${Object.entries(ORIG).map(([k,o])=>`<option value="${k}" ${k===S.origin?'selected':''}>${o.city} · ${k}</option>`).join('')}</select></div>`;
+}
+function prefHTML(){
+  return `<div class="group"><span class="lbl">Тип отдыха · можно несколько</span><div class="chips">${REST.map(([k,l])=>`<button class="chip" data-act="rest" data-v="${k}" aria-pressed="${S.rest.includes(k)}">${l}</button>`).join('')}</div></div>
+   <div class="group"><span class="lbl">Температура</span><div class="chips">${TEMP.map(([k,l,r])=>`<button class="chip" data-act="temp" data-v="${k}" aria-pressed="${S.temp===k}">${l} <small>${r}</small></button>`).join('')}</div></div>
+   <div class="group"><span class="lbl">Темп путешествия</span><div class="chips">${PACE.map(([k,l])=>`<button class="chip" data-act="pace" data-v="${k}" aria-pressed="${S.pace===k}">${l}</button>`).join('')}</div></div>`;
+}
+function budgetHTML(){
+  return `<div class="group"><span class="lbl">Бюджет</span><div class="chips">${BUDGET.map(([k,l])=>`<button class="chip" data-act="budget" data-v="${k}" aria-pressed="${S.budget===k}">${l}</button>`).join('')}</div>
+    <p class="small muted">В результатах всё равно будут три категории — BUDGET, STANDARD и PREMIUM, чтобы можно было сравнить.</p></div>
+   <div class="group"><span class="lbl">У меня есть Genius на Booking</span><div class="chips">${GENIUS.map(([k,l])=>`<button class="chip" data-act="genius" data-v="${k}" aria-pressed="${S.genius===k}">${l}</button>`).join('')}</div></div>
+   ${S.genius==='g2'?geniusBox():''}
+   <label class="switch"><input type="checkbox" data-chg="allowLow" ${S.allowLow?'checked':''}> Разрешить отели с оценкой ниже 8.0 (применяется, когда подключены данные Booking)</label>`;
+}
+function geniusBox(h){return `<div class="infobox"><b>Проверьте персональные преимущества Genius на Booking.com</b>
+  <span>Возможность бесплатного завтрака, скидки или бесплатной отмены зависит от выбранного тарифа и ваших персональных преимуществ Genius. Travel Expert не видит ваш аккаунт Booking и ничего не обещает — проверьте на странице отеля.</span>
+  ${h?`<div><a class="btn btn-sm" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.check')} ↗</a></div>`:''}</div>`}
+
+/* =========================================================
+   Render: results
+   ========================================================= */
+function ringSVG(p){const r=26,c=2*Math.PI*r;return `<svg viewBox="0 0 58 58" width="58" height="58"><circle cx="29" cy="29" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="4"/><circle cx="29" cy="29" r="${r}" fill="none" stroke="${p>=85?'var(--green)':p>=72?'var(--teal)':'var(--gold)'}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 29 29)"/></svg>`}
+const FACTOR_LBL={season:'Сезон',weather:'Погода',type:'Тип отдыха',kids:'Подходит детям',budget:'Бюджет',flight:'Перелёт'};
+function breakdownHTML(r){
+  const rows=Object.keys(r.W).filter(k=>r.W[k]).map(k=>`<div class="bar-row"><span>${FACTOR_LBL[k]}</span><span class="bar"><i style="width:${Math.round(r.sc[k])}%"></i></span><span>${Math.round(r.sc[k])}%</span></div>`).join('');
+  const tw=Object.values(r.W).reduce((a,b)=>a+b,0);
+  return `<div class="breakdown">${rows}<p class="formula">Итог ${r.match}% = ${Object.keys(r.W).filter(k=>r.W[k]).map(k=>`${FACTOR_LBL[k].toLowerCase()} × ${Math.round(r.W[k]/tw*100)}%`).join(' + ')}</p></div>`;
+}
+function costLabel(h){return 'Перелёт + отель'}
+function renderResults(){
+  const el=$('#results');const res=S.results;if(!res){el.innerHTML='';return}
+  const pod=res.good.slice(0,3);const medals=['🥇 Вариант 1','🥈 Вариант 2','🥉 Вариант 3'];
+  const rest=S.rest.length?listJoin(S.rest.map(r=>REST_PHRASE[r])):'отдых';
+  el.innerHTML=`
+  <div class="block-head"><div><span class="eyebrow">Анализ сезона · ${DEST.length} направлений</span><h2>Варианты для вашей поездки</h2></div><span class="demo">ЦЕНЫ — ОЦЕНКА DEMO</span></div>
+  <div class="verdict ${S.loading?'loading':''}">
+    <p class="say">Вы путешествуете ${esc(companyPhrase())} с ${dLong(S.start)} по ${dLong(S.end)} и хотите ${esc(rest)}. Мы нашли <em>${res.good.length} ${plural(res.good.length,['подходящее направление','подходящих направления','подходящих направлений'])}</em> и подобрали для каждого перелёт и конкретные отели на Booking.com.</p>
+    <div class="scan">
+      <div class="scan-row"><i>✓</i>Сезон и климат по ${nights()} ночам поездки</div>
+      <div class="scan-row"><i>✓</i>Реальные фото городов · Wikimedia Commons</div>
+      <div class="scan-row"><i>✓</i>${Object.values(REAL_HOTELS).flat().length} реальных отелей с прямыми ссылками на Booking.com</div>
+      <div class="scan-row"><i>!</i>Рейтинг, цена и завтрак — проверяются на Booking.com</div>
+    </div>
+  </div>
+  <div class="podium">${pod.map((r,i)=>{const c=tripCost(r,'standard');const ph=getCityImages(r.d.id)[0];return `
+    <article class="pod">
+      <div class="pod-img">${photoHTML(ph,{kind:'city',id:r.d.id,i:0,alt:r.d.city})}<span class="medal">${medals[i]}</span></div>
+      <div class="pod-body">
+        <div class="pod-title"><h3>${r.d.flag} ${esc(r.d.city)}</h3><span class="match-badge">${r.match}% подходит</span></div>
+        <div class="pricebox"><div><small>${costLabel(c.h)} · ориентировочно</small><b>${approx(c.total)}</b></div><div class="pp">${approx(c.per)}<br><small>на 1 человека</small></div></div>
+        <p class="small muted">Отель STANDARD: <b>${esc(c.h.name)}</b></p>
+        <div><p class="sub-h">Почему подходит</p><ul class="why">${r.why.slice(0,4).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        ${r.care.length?`<div><p class="sub-h">Что учесть</p><ul class="care">${r.care.slice(0,3).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+        <div class="pod-foot"><button class="btn btn-primary btn-sm" data-act="open" data-v="${r.d.id}">Открыть вариант</button><button class="btn btn-sm" data-act="open-tab" data-v="${r.d.id}" data-t="hotels">Отели</button></div>
+      </div>
+    </article>`}).join('')}</div>
+  <div class="block-head" style="margin-top:36px"><div><span class="eyebrow">Все подходящие направления</span><h3 style="font-family:var(--display);font-size:30px;font-weight:600">Сезон, погода и соответствие</h3></div><span class="small muted">Отметьте до трёх для сравнения</span></div>
+  <div class="dgrid">${res.good.map(cardHTML).join('')}</div>
+  ${res.rest.length?`<details class="others"><summary>Не рекомендуем в эти даты · ${res.rest.length}</summary><div class="other-list">${res.rest.map(r=>`<div class="other"><span><b>${r.d.flag} ${esc(r.d.city)}</b><br><span class="muted">${esc(r.care[0]||'Низкое соответствие')}</span></span><span><b>${r.match}%</b><br><button class="linkbtn" data-act="open" data-v="${r.d.id}">открыть</button></span></div>`).join('')}</div></details>`:''}`;
+}
+function cardHTML(r){
+  const d=r.d,open=S.openBreak[d.id],sea=r.sea!=null&&d.tags.includes('beach'),ph=getCityImages(d.id)[0];
+  return `<article class="dcard ${S.selected===d.id?'active':''}">
+   <div class="dcard-img">${photoHTML(ph,{kind:'city',id:d.id,i:0,alt:d.city})}<div class="ring">${ringSVG(r.match)}<b>${r.match}%</b></div><span class="count-badge">${getCityImages(d.id).length} фото</span></div>
+   <div class="dcard-body">
+     <div><span class="country">${d.flag} ${esc(d.country)}</span><h3>${esc(d.city)}</h3></div>
+     <p class="desc">${esc(d.desc)}</p>
+     <div class="metrics"><div class="metric"><small>Воздух</small><b>${Math.round(r.air)}°</b></div><div class="metric"><small>Море</small><b>${sea?Math.round(r.sea)+'°':'—'}</b></div><div class="metric"><small>Цены</small><b>${'₸'.repeat(d.price)}<span style="opacity:.25">${'₸'.repeat(3-d.price)}</span></b></div></div>
+     <div class="tags"><span class="season ${r.seasonCode}">${SEASON_LBL[r.seasonCode]}</span><span class="tag">${CROWD_LBL[r.crowd]}</span>${d.tags.filter(x=>x!=='mixed').slice(0,4).map(x=>`<span class="tag ${S.rest.includes(x)?'ok':''}">${REST.find(q=>q[0]===x)[1]}</span>`).join('')}</div>
+     <button class="linkbtn" data-act="break" data-v="${d.id}" aria-expanded="${!!open}">Подходит для вашей поездки: ${r.match}% · как посчитано</button>
+     ${open?breakdownHTML(r):''}
+     <div class="dcard-foot"><label class="cmp-toggle"><input type="checkbox" data-chg="cmpCity" data-v="${d.id}" ${S.cmpCities.includes(d.id)?'checked':''}> Сравнить</label><button class="btn btn-sm ${S.selected===d.id?'btn-teal':''}" data-act="open" data-v="${d.id}">${S.selected===d.id?'Открыто':'Подробнее'}</button></div>
+   </div></article>`;
+}
+
+/* =========================================================
+   Render: destination detail
+   ========================================================= */
+function renderDetail(){
+  const el=$('#detail');if(!S.results){el.innerHTML='';return}
+  const r=R_(S.selected),d=r.d,imgs=getCityImages(d.id);
+  const tabs=[['season','Сезон и погода'],['flights','Перелёты'],['hotels','Отели'],['cost','Стоимость и бронирование']];
+  let body='';
+  if(S.tab==='season') body=seasonTab(r);
+  if(S.tab==='flights') body=flightsTab(r);
+  if(S.tab==='hotels') body=hotelsTab(r);
+  if(S.tab==='cost') body=costTab(r);
+  el.innerHTML=`<div class="block-head"><div><span class="eyebrow">Выбранное направление</span><h2>${d.flag} ${esc(d.city)}</h2></div><div class="actions">${S.results.good.slice(0,6).map(x=>`<button class="chip" data-act="open" data-v="${x.d.id}" aria-pressed="${x.d.id===d.id}">${esc(x.d.city.split(' · ')[0])}</button>`).join('')}</div></div>
+  <div class="detail">
+    <div class="city-gallery">
+      <div class="cg-main">${photoHTML(imgs[0],{kind:'city',id:d.id,i:0,alt:d.city})}
+        <div class="over"><div><h2>${esc(d.city)}</h2><p>${esc(d.country)} · ${esc(d.desc)}</p></div><div class="match-big"><b>${r.match}%</b><small>подходит</small></div></div></div>
+      <div class="cg-side">${imgs.slice(1,4).map((p,i)=>photoHTML(p,{kind:'city',id:d.id,i:i+1,alt:d.city})).join('')}</div>
+    </div>
+    <p class="gal-note small muted">Фото: Wikimedia Commons, открытые лицензии. Автор и лицензия — на странице каждого файла. Нажмите на фото, чтобы открыть галерею.</p>
+    <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab" role="tab" aria-selected="${S.tab===k}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</div>
+    <div class="tab-body">${body}</div>
+  </div>`;
+}
+function seasonTab(r){
+  const d=r.d,sea=r.sea!=null&&d.tags.includes('beach');
+  return `<div class="stats">
+    <div class="stat"><small>Воздух днём</small><b>${Math.round(r.air)}°</b><span>средняя норма</span></div>
+    ${sea?`<div class="stat"><small>Море</small><b>${Math.round(r.sea)}°</b><span>${r.sea>=24?'комфортно для купания':r.sea>=21?'бодрит':'прохладно'}</span></div>`:''}
+    <div class="stat"><small>Сезон</small><b style="font-size:17px">${SEASON_LBL[r.seasonCode]}</b></div>
+    <div class="stat"><small>Туристы</small><b style="font-size:17px">${CROWD_LBL[r.crowd]}</b></div>
+    <div class="stat"><small>Уровень цен</small><b>${'₸'.repeat(d.price)}</b><span>${['','ниже среднего','средний','высокий'][d.price]}</span></div>
+    <div class="stat"><small>Перелёт</small><b style="font-size:17px">${d.flight.direct?'Прямой':'С пересадкой'}</b><span>~${hm(r.h)}</span></div>
+  </div>
+  <div class="split">
+    <div class="chart-box"><div class="legend"><span><i style="background:var(--ink)"></i>Воздух днём, °C</span>${d.sea?`<span><i style="background:var(--teal)"></i>Море, °C</span>`:''}<span><i style="background:var(--teal-soft);height:10px"></i>Ваши даты</span><span class="demo">климатическая норма</span></div>${climateSVG(r)}</div>
+    <div class="group"><p class="sub-h">Подходит для вашей поездки: ${r.match}%</p>${breakdownHTML(r)}</div>
+  </div>
+  <div class="two"><div><p class="sub-h" style="margin-bottom:8px">Почему мы рекомендуем это направление</p><ul class="why">${r.why.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   <div><p class="sub-h" style="margin-bottom:8px">Что стоит учесть</p><ul class="care">${r.care.map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Существенных минусов в эти даты нет</li>'}</ul></div></div>
+  <div class="actions"><button class="btn btn-primary" data-act="tab" data-v="flights">Смотреть перелёты</button><button class="btn" data-act="tab" data-v="hotels">Смотреть отели</button></div>`;
+}
+function climateSVG(r){
+  const d=r.d,W=640,H=230,L=36,Rr=12,T=14,B=30,maxT=45,minT=Math.min(0,...d.air)-2,mw=monthWeights();
+  const x=i=>L+(i+.5)*(W-L-Rr)/12,y=v=>T+(maxT-v)/(maxT-minT)*(H-T-B);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Климат по месяцам">`;
+  mw.forEach((w,i)=>{if(w>0)s+=`<rect x="${x(i)-(W-L-Rr)/24}" y="${T}" width="${(W-L-Rr)/12}" height="${H-T-B}" style="fill:var(--teal-soft)"/>`});
+  for(let v=0;v<=40;v+=10){s+=`<line x1="${L}" x2="${W-Rr}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" style="fill:var(--ink-3)">${v}°</text>`}
+  MON_SH.forEach((m,i)=>s+=`<text x="${x(i)}" y="${H-10}" text-anchor="middle" font-size="11" style="fill:var(--ink-3)">${m}</text>`);
+  const line=(arr,col)=>`<polyline fill="none" style="stroke:${col}" stroke-width="2.5" stroke-linejoin="round" points="${arr.map((v,i)=>`${x(i)},${y(v)}`).join(' ')}"/>`+arr.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" style="fill:${col}"/>`).join('');
+  s+=line(d.air,'var(--ink)');if(d.sea)s+=line(d.sea,'var(--teal)');
+  const mi=mw.indexOf(Math.max(...mw));
+  s+=`<text x="${x(mi)}" y="${y(d.air[mi])-10}" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--ink)">${d.air[mi]}°</text>`;
+  return s+'</svg>';
+}
+function legHTML(code1,city1,leg,code2,city2,f){
+  const a=fmtT(leg.dep),b=fmtT(leg.arr);
+  return `<div><div class="leg-date">${dLong(leg.date)}</div><div class="leg">
+   <div><div class="t">${a.t}</div><div class="c">${code1} · ${esc(city1)}</div></div>
+   <div class="mid"><span>${hm(f.dur)}</span><span class="line ${f.direct?'':'stop'}"></span><span>${f.direct?'прямой':'пересадка '+f.via}</span></div>
+   <div style="text-align:right"><div class="t">${b.t}${b.plus?`<sup class="small">+${b.plus}</sup>`:''}</div><div class="c">${code2} · ${esc(city2)}</div></div></div></div>`;
+}
+function flightsLinks(d){
+  const kids=S.children.filter(a=>a>=2&&a<12).length,inf=S.children.filter(a=>a<2).length,ad=S.adults+S.children.filter(a=>a>=12).length;
+  const dm=s=>{const x=pd(s);return pad(x.getDate())+pad(x.getMonth()+1)};
+  return {av:`https://www.aviasales.kz/search/${S.origin}${dm(S.start)}${d.iata}${dm(S.end)}${ad}${kids||inf?`${kids}${inf}`:''}`,
+    gf:`https://www.google.com/travel/flights?hl=ru&curr=KZT&q=${encodeURIComponent(`Flights from ${S.origin} to ${d.iata} on ${S.start} through ${S.end}`)}`};
+}
+function flightsTab(r){
+  const d=r.d,sel=selFlight(r),o=ORIG[S.origin],L=flightsLinks(d);
+  return `<div class="fl-sum"><div><p class="sub-h">Цена перелёта · туда-обратно</p><p class="muted small">${esc(partyText())}</p></div><div style="text-align:right"><b>${approx(sel.total)}</b><div class="small muted">${approx(Math.round(sel.total/pax()))} на человека · <span class="demo">DEMO · требует проверки</span></div></div></div>
+  <p class="small muted">Авиакомпании летают по этим направлениям, но расписание, номера рейсов и цены здесь демонстрационные. Актуальные рейсы — по ссылкам ниже, они открываются с вашими датами и составом. Детские билеты: 2–11 лет ~75% взрослого тарифа, до 2 лет без места ~10%.</p>
+  ${r.flights.map(f=>`<div class="pass ${f.id===sel.id?'on':''}">
+    <div class="pass-main"><div class="pass-top"><b>${f.airline}</b><span class="tag ${f.recommended?'ok':''}">${f.label}</span><span class="demo">DEMO</span></div>
+      ${legHTML(S.origin,o.city,f.out,d.iata,d.city.split(' · ').pop(),f)}
+      ${legHTML(d.iata,d.city.split(' · ').pop(),f.back,S.origin,o.city,f)}
+      <p class="bag">🧳 ${f.bag.note}</p></div>
+    <div class="pass-side"><div><small class="muted">за ${pax()} ${plural(pax(),['пассажира','пассажиров','пассажиров'])}</small><br><b>${approx(f.total)}</b><div class="small muted">взрослый: ${approx(f.perAdult)}</div></div>
+      <button class="btn btn-sm ${f.id===sel.id?'btn-teal':''}" data-act="flight" data-v="${f.id}">${f.id===sel.id?'Выбран':'Выбрать'}</button></div>
+  </div>`).join('')}
+  <div class="actions"><a class="btn btn-primary" href="${L.av}" target="_blank" rel="noopener">Найти реальные рейсы на Aviasales ↗</a><a class="btn" href="${L.gf}" target="_blank" rel="noopener">Google Flights ↗</a><button class="btn" data-act="tab" data-v="hotels">Дальше: отели</button></div>`;
+}
+function transitHTML(h){
+  const T=h.transport,row=(ic,lbl,has)=>`<li class="${has?'':'na'}">${ic} ${lbl} — ${has?'проверить':'нет в городе'}</li>`;
+  return `<ul class="transit">${row('🚇','Метро',T.cityHas.metro)}${row('🚋','Трамвай',T.cityHas.tram)}${row('🚌','Автобус',true)}${row('🚉','Вокзал',T.cityHas.station)}</ul>
+   <p class="fine">Расстояния появятся после подключения getTransportData(). Сейчас: <a href="${esc(T.nearbyUrl)}" target="_blank" rel="noopener">транспорт рядом на карте ↗</a></p>`;
+}
+function hotelPhotoHTML(h,tier){
+  const im=getHotelImages(h.id);
+  const label=tier?`<span class="tierlabel t-${tier[0]}">${tier[1]}</span>`:'';
+  if(im.photos.length) return `<div class="himg">${photoHTML({...im.photos[0],caption:`${h.name}: ${im.photos[0].caption}`},{kind:'hotel',id:h.id,i:0,alt:h.name})}${label}${im.photos.length>1?`<span class="count-badge">${im.photos.length} фото</span>`:''}</div>`;
+  return `<div class="himg noimg">${label}<div class="noimg-body"><span>📷</span><b>Фото этого отеля есть на Booking.com</b><span>Открытых фото здания в Commons не найдено. Мы не подставляем чужие или сгенерированные изображения.</span><a class="btn btn-sm" href="${esc(h.bookingUrl)}#hotelPhotos" target="_blank" rel="noopener">Смотреть фото на Booking.com ↗</a><button class="linkbtn" data-act="gal" data-kind="hotel" data-id="${h.id}" data-i="0">Что есть в галерее</button></div></div>`;
+}
+function hotelCard(h,r,tier){
+  const n=nights();
+  return `<article class="hcard ${h.familyOk?'':'dim'}">
+   ${hotelPhotoHTML(h,tier)}
+   <div class="hbody">
+     <div><h4>${esc(h.name)}</h4><div class="small muted">${h.stars?`<span class="stars" title="Источник: ${esc(h.starsSrc)}">${'★'.repeat(h.stars)}</span> · `:''}${esc(h.district)}</div></div>
+     ${h.adultsOnly?`<p class="flag warn">Только для гостей от ${h.adultsOnly} лет${h.familyOk?'':' — не подходит для вашего состава'}</p>`:''}
+     <div class="rate"><span class="score unk">?</span><span><b>Рейтинг Booking — проверить</b><br>${h.reviewsIndexed?`в индексе Booking: ${nf(h.reviewsIndexed)} отзывов*`:'количество отзывов — на странице отеля'}</span></div>
+     ${transitHTML(h)}
+     <p class="bf unk">🍳 Завтрак: зависит от тарифа — ${t('verify')}</p>
+     ${h.mealNote?`<p class="fine">${esc(h.mealNote)}</p>`:''}
+     <p class="fine">Условия отмены: зависят от тарифа — ${t('verify')}</p>
+     ${S.genius==='g2'?`<p class="genius">Genius Level 2: преимущества для этого отеля неизвестны — проверьте на Booking.com</p>`:''}
+     <div class="hprice"><div><small>${tier?tier[1]:h.tier.toUpperCase()} · оценка DEMO</small><b>${approx(h.priceStayEst)}</b><small>${approx(h.priceNightEst)} / ночь · ${n} ${plural(n,['ночь','ночи','ночей'])}, ${rooms()} ${plural(rooms(),['номер','номера','номеров'])}</small><small class="warn-t">Цена требует проверки на Booking.com</small></div>
+       <label class="cmp-toggle"><input type="checkbox" data-chg="cmpHotel" data-v="${h.id}" ${S.cmpHotels.includes(h.id)?'checked':''}> Сравнить</label></div>
+     <a class="btn btn-booking" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.open')} ↗</a>
+     <p class="src">Источник ссылки: страница отеля на booking.com, найдена ${CONFIG.dataCheckedOn.split('-').reverse().join('.')}${h.official?` · <a href="${esc(h.official)}" target="_blank" rel="noopener">официальный сайт ↗</a>`:''}</p>
+   </div></article>`;
+}
+function hotelsTab(r){
+  const d=r.d,ex=r.hotels.filter(h=>!h.familyOk);
+  return `${S.genius==='g2'?geniusBox(r.tiers.standard):''}
+  <div class="infobox warn"><b>Что здесь реальное, а что нет</b><span>Отели и ссылки на их страницы на Booking.com — реальные. Рейтинг, число отзывов, цена, завтрак, отмена и расстояния до транспорта без Booking API подтвердить нельзя, поэтому мы их не показываем как факт. Порог 8.0 и ранжирование по отзывам включатся автоматически, когда getHotelDetails() начнёт получать эти данные.</span></div>
+  <div class="tier-grid">${TIERS.map(tr=>hotelCard(r.tiers[tr[0]],r,tr)).join('')}</div>
+  <div><p class="sub-h" style="margin-bottom:10px">Все отели направления</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Отель</th><th>Класс</th><th>Район</th><th>Рейтинг / отзывы</th><th>Завтрак</th><th>Цена / ночь</th><th>Для вашего состава</th><th>Booking.com</th><th>Сравнить</th></tr></thead><tbody>
+  ${r.hotels.map(h=>`<tr class="${h.familyOk?'':'low'}"><td><b>${esc(h.name)}</b>${h.stars?`<br><span class="stars small">${'★'.repeat(h.stars)}</span>`:''}</td><td>${h.tier.toUpperCase()}</td><td>${esc(h.district)}</td><td>проверить${h.reviewsIndexed?`<br><span class="small muted">индекс: ${nf(h.reviewsIndexed)}*</span>`:''}</td><td>проверить</td><td class="n">${approx(h.priceNightEst)}<br><span class="small muted">DEMO</span></td><td>${h.familyOk?'подходит':`нет, ${h.adultsOnly}+`}</td><td><a href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a></td><td><input type="checkbox" aria-label="Сравнить ${esc(h.name)}" data-chg="cmpHotel" data-v="${h.id}" ${S.cmpHotels.includes(h.id)?'checked':''}></td></tr>`).join('')}
+  </tbody></table></div>
+  <p class="small muted" style="margin-top:8px">* Число отзывов из заголовка страницы отзывов Booking в поисковом индексе; дата индексации неизвестна, актуальное число — на Booking.com.${ex.length?` Отели Adults Only исключены из подборки для вашего состава: ${ex.map(h=>esc(h.name)).join(', ')}.`:''}</p></div>`;
+}
+function costTab(r){
+  const tier=S.tier[r.d.id]||S.budget, c=tripCost(r,tier), h=c.h, f=c.f, n=nights(), d=r.d, L=flightsLinks(d);
+  const all=TIERS.map(([k,l])=>[l,tripCost(r,k)]);
+  return `<div class="toggle-row"><div class="seg" role="group" aria-label="Категория отеля">${TIERS.map(([k,l])=>`<button data-act="tier" data-v="${k}" aria-pressed="${tier===k}">${l}</button>`).join('')}</div><span class="demo">СУММЫ — ОЦЕНКА DEMO</span></div>
+  <div class="scen">
+   <div class="scard main">
+     <span class="eyebrow">Вариант 1 · Готовая поездка</span>
+     <h3>Перелёт + отель</h3>
+     <div class="lines">
+       <div class="ln"><span>Перелёт туда-обратно<small>${f.airline} · ${f.direct?'прямой':'пересадка '+f.via} · ${esc(partyText())}</small></span><span>${approx(f.total)}</span></div>
+       <div class="ln"><span>Проживание<small>${esc(h.name)} · ${n} ${plural(n,['ночь','ночи','ночей'])}</small></span><span>${approx(h.priceStayEst)}</span></div>
+       <div class="ln"><span>Завтрак<small>Включён ли завтрак, зависит от тарифа на Booking.com</small></span><span>проверить</span></div>
+       <div class="ln"><span>Обязательные сборы<small>${esc(h.fees.note)}</small></span><span>${h.fees.kzt?approx(h.fees.kzt):'0 ₸'}</span></div>
+     </div>
+     <div class="total"><div><span class="sub-h">Ориентировочная полная стоимость: перелёт + проживание</span><br><b>${approx(c.total)}</b><br><span class="small muted">на всех путешественников · не цена Booking</span></div><div class="pp"><b style="font-size:18px">${approx(c.per)}</b><br>на 1 человека</div></div>
+     <p class="small muted">Если на Booking выберете тариф с завтраком, в названии итога появится «+ завтрак». Мы не называем завтрак включённым, пока это не подтверждено.</p>
+     <div class="actions"><a class="btn btn-booking" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.open')} ↗</a><a class="btn" href="${L.av}" target="_blank" rel="noopener">Проверить перелёт ↗</a></div>
+   </div>
+   <div class="scard">
+     <span class="eyebrow">Вариант 2 · Только перелёт</span>
+     <h3>Я сама выберу отель</h3>
+     <div class="lines"><div class="ln"><span>Перелёт туда-обратно<small>${esc(partyText())}</small></span><span>${approx(f.total)}</span></div><div class="ln"><span>На 1 человека</span><span>${approx(Math.round(f.total/pax()))}</span></div></div>
+     <p class="small muted">Подходит, если хотите бронировать отель на Booking со своими персональными условиями.</p>
+     ${S.genius==='g2'?geniusBox():''}
+     <div class="actions"><button class="btn btn-teal" data-act="tab" data-v="hotels">Выбрать отель самостоятельно</button><a class="btn btn-ghost" href="${L.av}" target="_blank" rel="noopener">Купить перелёт ↗</a></div>
+   </div>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Категория</th><th>Отель</th><th>Перелёт</th><th>Проживание</th><th>Сборы</th><th>Итого (оценка)</th><th>На человека</th><th>Booking.com</th></tr></thead><tbody>
+   ${all.map(([l,x])=>`<tr><td><b>${l}</b></td><td>${esc(x.h.name)}</td><td class="n">${approx(x.f.total)}</td><td class="n">${approx(x.h.priceStayEst)}</td><td class="n">${money(x.h.fees.kzt)}</td><td class="n"><b>${approx(x.total)}</b></td><td class="n">${approx(x.per)}</td><td><a href="${esc(x.h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+/* =========================================================
+   Render: compare
+   ========================================================= */
+function renderCompare(){
+  const el=$('#compare');if(!S.results){el.innerHTML='';return}
+  const tabs=[['cities','Города'],['flights','Перелёты'],['hotels','Отели'],['total','Полная стоимость']];
+  const cs=S.cmpCities.map(R_).filter(Boolean);
+  let body='';
+  const best=(vals,low)=>{const v=low?Math.min(...vals):Math.max(...vals);return vals.map(x=>x===v)};
+  if(S.cmpTab==='cities'){
+    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),[
+      ['Подходит',cs.map(r=>r.match),x=>x+'%',false],
+      ['Сезон',cs.map(r=>SEASON_LBL[r.seasonCode])],['Воздух днём',cs.map(r=>Math.round(r.air)+'°')],
+      ['Море',cs.map(r=>r.sea!=null&&r.d.tags.includes('beach')?Math.round(r.sea)+'°':'—')],['Туристы',cs.map(r=>CROWD_LBL[r.crowd])],
+      ['Уровень цен',cs.map(r=>'₸'.repeat(r.d.price))],['Перелёт',cs.map(r=>`${r.d.flight.direct?'прямой':'пересадка'} · ~${hm(r.h)}`)],
+      ['Метро / трамвай',cs.map(r=>[r.d.transit.metro?'метро':'',r.d.transit.tram?'трамвай':''].filter(Boolean).join(', ')||'нет')],
+      ['Шенгенская виза',cs.map(r=>r.d.schengen?'нужна':'не нужна')],
+      ['Итого STANDARD (оценка)',cs.map(r=>tripCost(r,'standard').total),approx,true]],best);
+  }
+  if(S.cmpTab==='flights'){
+    const fs=cs.map(selFlight);
+    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),[
+      ['Авиакомпания (DEMO)',fs.map(f=>f.airline)],['Маршрут',fs.map((f,i)=>`${S.origin} → ${f.direct?'':f.via+' → '}${cs[i].d.iata}`)],
+      ['Прямой',fs.map(f=>f.direct?'да':'нет')],['В пути',fs.map(f=>f.dur),hm,true],['Багаж',fs.map(f=>f.bag.note)],
+      ['Цена на всех (оценка)',fs.map(f=>f.total),approx,true],['На человека (оценка)',fs.map(f=>Math.round(f.total/pax())),approx,true]],best);
+  }
+  if(S.cmpTab==='hotels'){
+    const hs=S.cmpHotels.map(id=>{for(const r of S.results.all){const h=r.hotels.find(x=>x.id===id);if(h)return [h,r]}return null}).filter(Boolean);
+    if(!hs.length) body='<p class="muted">Отметьте «Сравнить» у отелей во вкладке «Отели».</p>';
+    else body=tableCmp(hs.map(([h,r])=>`${esc(h.name)}<br><span class="small muted">${esc(r.d.city)}</span>`),[
+      ['Рейтинг Booking',hs.map(()=>'проверить')],['Отзывы',hs.map(([h])=>h.reviewsIndexed?`${nf(h.reviewsIndexed)} (индекс*)`:'проверить')],
+      ['Цена за ночь (оценка)',hs.map(([h])=>h.priceNightEst),approx,true],['Проживание (оценка)',hs.map(([h])=>h.priceStayEst),approx,true],
+      ['Завтрак',hs.map(()=>'проверить')],['Метро',hs.map(([h])=>h.transport.cityHas.metro?'проверить':'нет в городе')],['Центр',hs.map(([h])=>esc(h.district))],
+      ['Категория',hs.map(([h])=>h.stars?'★'.repeat(h.stars):h.tier.toUpperCase())],['Для вашего состава',hs.map(([h])=>h.familyOk?'подходит':`только ${h.adultsOnly}+`)],
+      ['Итого с перелётом (оценка)',hs.map(([h,r])=>selFlight(r).total+h.priceStayEst+h.fees.kzt),approx,true],
+      ['Booking.com',hs.map(([h])=>`<a href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a>`),null,null,true]],best);
+  }
+  if(S.cmpTab==='total'){
+    const rows=TIERS.map(([k,l])=>[`${l} (оценка)`,cs.map(r=>tripCost(r,k).total),approx,true]);
+    rows.push(['Только перелёт (оценка)',cs.map(r=>selFlight(r).total),approx,true]);
+    rows.push(['STANDARD на человека',cs.map(r=>tripCost(r,'standard').per),approx,true]);
+    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),rows,best);
+  }
+  el.innerHTML=`<div class="block-head"><div><span class="eyebrow">Сравнение</span><h2>Сравните варианты</h2></div><span class="demo">ЦЕНЫ — ОЦЕНКА DEMO</span></div>
+  <div class="detail"><div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab" role="tab" aria-selected="${S.cmpTab===k}" data-act="cmptab" data-v="${k}">${l}</button>`).join('')}</div>
+  <div class="tab-body">${S.cmpTab!=='hotels'?`<div class="cmp-pick"><span class="small muted" style="align-self:center">Направления (до 3):</span>${S.results.good.map(r=>`<button class="chip" data-act="cmpcity" data-v="${r.d.id}" aria-pressed="${S.cmpCities.includes(r.d.id)}">${esc(r.d.city.split(' · ')[0])}</button>`).join('')}</div>`:''}${body}<p class="small muted">Зелёным отмечено лучшее значение в строке. Цены — ориентировочная оценка, не цены Booking.</p></div></div>`;
+}
+function tableCmp(heads,rows,best){
+  return `<div class="tbl-wrap"><table><thead><tr><th></th>${heads.map(h=>`<th style="text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--ink)">${h}</th>`).join('')}</tr></thead><tbody>
+   ${rows.map(([lbl,vals,f,low,raw])=>{const b=f&&typeof vals[0]==='number'&&vals.length>1?best(vals,low):vals.map(()=>false);return `<tr><td class="muted">${lbl}</td>${vals.map((v,i)=>`<td class="n ${b[i]?'best-cell':''}">${raw?v:f?f(v):esc(v)}</td>`).join('')}</tr>`}).join('')}
+  </tbody></table></div>`;
+}
+
+/* =========================================================
+   Gallery modal
+   ========================================================= */
+let gal={items:[],i:0,title:'',extra:''};
+function openGallery(kind,id,i){
+  if(kind==='city'){const d=DMAP[id];gal={items:getCityImages(id),i:+i||0,title:`${d.flag} ${d.city}`,extra:''}}
+  else{const h=HOTEL_INDEX[id],q=query(),im=getHotelImages(id),url=getHotelBookingUrl(h,q);
+    gal={items:im.photos,i:+i||0,title:h.name,extra:`<div class="gal-cats">${im.categories.map(c=>`<div class="gal-cat ${c.photo?'ok':''}"><b>${c.category}</b><span>${c.photo?'открытое фото · Wikimedia Commons':'нет в открытом источнике'}</span></div>`).join('')}</div><p class="small muted">Фото номеров, ванных, ресторана и общих зон публикует отель на Booking.com. Мы не копируем их и не генерируем замену.</p><a class="btn btn-booking" href="${esc(url)}#hotelPhotos" target="_blank" rel="noopener">Все фото отеля на Booking.com ↗</a>`}}
+  renderGallery();$('#gal').hidden=false;
+}
+function renderGallery(){
+  const it=gal.items[gal.i];
+  $('#galBody').innerHTML=`<div class="gal-head"><h3>${esc(gal.title)}</h3><button class="icon-btn" data-act="gal-close" aria-label="Закрыть">✕</button></div>
+   ${it?`<div class="gal-main">${photoHTML(it,{kind:'x',id:'x',i:gal.i,cls:'big'})}${gal.items.length>1?`<button class="gal-nav prev" data-act="gal-step" data-v="-1" aria-label="Предыдущее фото">‹</button><button class="gal-nav next" data-act="gal-step" data-v="1" aria-label="Следующее фото">›</button>`:''}</div>
+   <p class="gal-cap"><b>${esc(it.caption)}</b> · ${gal.i+1} из ${gal.items.length} · <a href="${esc(it.page)}" target="_blank" rel="noopener">автор и лицензия на Wikimedia Commons ↗</a></p>
+   <div class="gal-thumbs">${gal.items.map((p,k)=>`<button class="gal-th ${k===gal.i?'on':''}" data-act="gal-go" data-v="${k}" aria-label="${esc(p.caption)}"><img src="${esc(p.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"><span>${esc(p.caption)}</span></button>`).join('')}</div>`:''}
+   ${gal.extra}`;
+}
+
+/* =========================================================
+   Data check panel (самопроверка по пунктам ТЗ)
+   ========================================================= */
+function renderChecks(){
+  const el=$('#checks');if(!el)return;
+  const cities=DEST.map(d=>getCityImages(d.id));
+  const allCityFiles=cities.flat().map(p=>p.src);
+  const hotels=Object.values(HOTEL_INDEX);
+  const hotelFiles=hotels.flatMap(h=>(h.photos||[]).map(p=>p[0]));
+  const dupCity=allCityFiles.length-new Set(allCityFiles).size, dupHotel=hotelFiles.length-new Set(hotelFiles).size;
+  const withUrl=hotels.filter(h=>/^https:\/\/www\.booking\.com\/hotel\/[a-z]{2}\/[^/?#]+\.html$/.test(h.url)).length;
+  const withPhotos=hotels.filter(h=>h.photos&&h.photos.length).length;
+  const row=(st,title,detail)=>`<li class="chk ${st}"><span class="chk-i">${st==='ok'?'✓':st==='warn'?'!':'✕'}</span><div><b>${title}</b><span>${detail}</span></div></li>`;
+  el.innerHTML=`<ul class="checks">
+   ${row(cities.every(c=>c.length>=3)?'ok':'warn','У каждого города есть реальные фото',`${DEST.length} из ${DEST.length} городов, от 3 до 4 файлов Wikimedia Commons на город. В этом просмотре загрузилось ${photoStats.ok}, заблокировано ${photoStats.fail}.`)}
+   ${row(dupCity===0&&dupHotel===0?'ok':'bad','Нет повторяющихся фотографий',`Повторов среди фото городов: ${dupCity}, среди фото отелей: ${dupHotel}.`)}
+   ${row(withUrl===hotels.length?'ok':'bad','У каждого отеля прямая ссылка на страницу в Booking.com',`${withUrl} из ${hotels.length}. Формат booking.com/hotel/<страна>/<отель>.html, адреса найдены в поисковом индексе ${CONFIG.dataCheckedOn.split('-').reverse().join('.')} — не сгенерированы.`)}
+   ${row('warn','Фото именно этого отеля',`${withPhotos} из ${hotels.length} отелей имеют открытые фото здания в Commons. Для остальных — кнопка на фото отеля в Booking.com; чужие и сгенерированные изображения не используются.`)}
+   ${row('warn','Рейтинг и количество отзывов','Без Booking Demand API актуальные значения недоступны, поэтому в карточках стоит «проверить». Там, где число отзывов есть в поисковом индексе Booking, оно показано со звёздочкой.')}
+   ${row('ok','Демо-цены не выдаются за актуальные','Все суммы помечены «≈» и «оценка DEMO», рядом — «Цена требует проверки на Booking.com».')}
+   ${row('ok','Бесплатный завтрак не обещается','Завтрак показан как «зависит от тарифа — проверить», пока нет подтверждения тарифа.')}
+   ${row('ok','Genius Level 2 без ложных обещаний','Показываем только напоминание проверить персональные преимущества и кнопку на Booking.com.')}
+   ${row('warn','Расстояния до транспорта','Данные о метро и трамвае в городе — факт; расстояния от конкретного отеля появятся после подключения getTransportData(). Сейчас — ссылка на карту.')}
+  </ul>`;
+}
+
+/* =========================================================
+   Global render & events
+   ========================================================= */
+function renderAll(){renderPlanner();renderResults();renderDetail();renderCompare();renderChecks();document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n))}
+function search({scroll=true,animate=true}={}){
+  S.loading=animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  runSearch();renderAll();
+  if(scroll) $('#results').scrollIntoView({behavior:'smooth',block:'start'});
+  if(S.loading) setTimeout(()=>{S.loading=false;renderResults()},900);
+}
+function refreshKeep(){const sel=S.selected,cc=S.cmpCities.slice(),ch=S.cmpHotels.slice();runSearch();S.selected=sel;S.cmpCities=cc.filter(id=>R_(id));S.cmpHotels=ch;renderAll()}
+document.addEventListener('click',e=>{
+  if(e.target.closest('a[href]')) return;
+  const el=e.target.closest('[data-act]');if(!el)return;
+  const a=el.dataset.act,v=el.dataset.v;
+  switch(a){
+    case 'step':S.step=+v;renderPlanner();break;
+    case 'next':S.step=Math.min(3,S.step+1);renderPlanner();break;
+    case 'search':if(!S.end)S.end=iso(addDays(pd(S.start),7));search();break;
+    case 'cal':{const d=new Date(S.calY,S.calM+ +v,1);S.calY=d.getFullYear();S.calM=d.getMonth();renderPlanner();break}
+    case 'day':{if(S.end||v<=S.start){S.start=v;S.end=''}else{S.end=v}renderPlanner();break}
+    case 'len':S.end=iso(addDays(pd(S.start),+v));renderPlanner();break;
+    case 'adults':S.adults=Math.max(1,Math.min(8,S.adults+ +v));renderPlanner();break;
+    case 'kids':if(+v>0&&S.children.length<6)S.children.push(6);if(+v<0)S.children.pop();if(S.children.length&&S.tripType==='couple')S.tripType='family';renderPlanner();break;
+    case 'trip':S.tripType=v;renderPlanner();break;
+    case 'rest':S.rest=S.rest.includes(v)?S.rest.filter(x=>x!==v):[...S.rest,v];renderPlanner();break;
+    case 'temp':S.temp=v;renderPlanner();break;
+    case 'pace':S.pace=v;renderPlanner();break;
+    case 'budget':S.budget=v;renderPlanner();break;
+    case 'genius':S.genius=v;renderPlanner();if(S.results){renderDetail()}break;
+    case 'break':S.openBreak[v]=!S.openBreak[v];renderResults();break;
+    case 'open':S.selected=v;S.tab='season';S.cmpHotels=TIERS.map(([k])=>R_(v).tiers[k].id);renderResults();renderDetail();renderCompare();$('#detail').scrollIntoView({behavior:'smooth'});break;
+    case 'open-tab':S.selected=v;S.tab=el.dataset.t;renderResults();renderDetail();$('#detail').scrollIntoView({behavior:'smooth'});break;
+    case 'tab':S.tab=v;renderDetail();$('#detail').scrollIntoView({behavior:'smooth',block:'start'});break;
+    case 'flight':S.flightSel[S.selected]=v;renderDetail();renderCompare();renderResults();break;
+    case 'tier':S.tier[S.selected]=v;renderDetail();break;
+    case 'cmptab':S.cmpTab=v;renderCompare();break;
+    case 'cmpcity':toggleCmpCity(v);renderCompare();renderResults();break;
+    case 'gal':if(el.dataset.kind==='city'||el.dataset.kind==='hotel')openGallery(el.dataset.kind,el.dataset.id,el.dataset.i);break;
+    case 'gal-close':$('#gal').hidden=true;break;
+    case 'gal-step':gal.i=(gal.i+ +v+gal.items.length)%gal.items.length;renderGallery();break;
+    case 'gal-go':gal.i=+v;renderGallery();break;
+    case 'chat-open':openChat();break;
+    case 'chat-close':$('#drawer').hidden=true;$('#fab').hidden=false;break;
+    case 'suggest':$('#chatIn').value=el.dataset.text;sendChat();break;
+    case 'chat-show':$('#drawer').hidden=true;$('#fab').hidden=false;$('#results').scrollIntoView({behavior:'smooth'});break;
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!$('#gal').hidden){$('#gal').hidden=true}
+  if(!$('#gal').hidden&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&gal.items.length>1){gal.i=(gal.i+(e.key==='ArrowRight'?1:-1)+gal.items.length)%gal.items.length;renderGallery()}
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('figure.ph[data-act="gal"]')){e.preventDefault();e.target.click()}
+});
+$('#gal').addEventListener('click',e=>{if(e.target.id==='gal')$('#gal').hidden=true});
+function toggleCmpCity(id){if(S.cmpCities.includes(id))S.cmpCities=S.cmpCities.filter(x=>x!==id);else{S.cmpCities.push(id);if(S.cmpCities.length>3)S.cmpCities.shift()}}
+document.addEventListener('change',e=>{
+  const el=e.target,c=el.dataset.chg;if(!c)return;
+  if(c==='age'){S.children[+el.dataset.i]=+el.value;renderPlanner()}
+  if(c==='origin'){S.origin=el.value;renderPlanner()}
+  if(c==='allowLow'){S.allowLow=el.checked;if(S.results)refreshKeep();else renderPlanner()}
+  if(c==='cmpCity'){toggleCmpCity(el.dataset.v);renderResults();renderCompare()}
+  if(c==='cmpHotel'){const v=el.dataset.v;if(el.checked){S.cmpHotels.push(v);if(S.cmpHotels.length>3)S.cmpHotels.shift()}else S.cmpHotels=S.cmpHotels.filter(x=>x!==v);S.cmpTab='hotels';renderDetail();renderCompare()}
+});
+function initTopSelects(){
+  const cur=$('#cur');cur.innerHTML=CONFIG.currency.list.map(k=>`<option value="${k}" ${k===S.currency?'selected':''}>${CONFIG.currency.symbols[k]} ${k}</option>`).join('');
+  cur.onchange=()=>{S.currency=cur.value;renderAll()};
+  const lang=$('#lang');lang.innerHTML=CONFIG.languages.map(l=>`<option value="${l.code}" ${l.ready?'':'disabled'} ${l.code===S.lang?'selected':''}>${l.label}</option>`).join('');
+  lang.onchange=()=>{S.lang=lang.value;renderAll()};
+  const dp=$('#destPick');dp.innerHTML=`<option value="">Любое — подберите за меня</option>`+DEST.map(d=>`<option value="${d.id}">${d.flag} ${d.city}, ${d.country}</option>`).join('');
+  dp.onchange=()=>{S.dest=dp.value;if(S.dest){S.selected=S.dest;S.tab='season'}search({scroll:false,animate:false});if(S.dest)$('#detail').scrollIntoView({behavior:'smooth'})};
+}
+
+/* =========================================================
+   AI Travel Expert chat
+   ========================================================= */
+let sampleFn=null, aiReady=false, chatTurns=[], chatCtl=null;
+const SUGGESTIONS=['Мы хотим поехать в июле на 10 дней, два взрослых и ребёнок 6 лет. Хотим море, хороший отель и не хотим каждый день ездить на экскурсии.','Вдвоём на майские праздники, хотим экскурсии и вкусную еду, бюджет средний','Какой вариант сейчас самый выгодный и почему?'];
+function openChat(){
+  $('#drawer').hidden=false;$('#fab').hidden=true;
+  if(!S.chat.length){S.chat.push({role:'bot',html:'Здравствуйте! Я Travel Expert. Опишите поездку своими словами: когда, на сколько, кто едет, возраст детей и какой отдых хотите. Я разберу запрос, подберу направления, перелёты и конкретные отели с прямыми ссылками на Booking.com.'});renderChat()}
+  setTimeout(()=>$('#chatIn').focus(),50);
+}
+function renderChat(){
+  $('#msgs').innerHTML=S.chat.map(m=>`<div class="msg ${m.role}${m.think?' think':''}">${m.role==='user'?esc(m.text):m.html}</div>`).join('');
+  $('#msgs').scrollTop=1e6;
+  $('#suggest').innerHTML=S.chat.length<=1?SUGGESTIONS.map(s=>`<button data-act="suggest" data-text="${esc(s)}">${esc(s)}</button>`).join(''):'';
+}
+function stateSummary(){return `Текущий запрос: ${S.start}—${S.end} (${nights()} ночей), ${partyText()}, тип: ${S.tripType}, отдых: ${S.rest.join(',')}, температура: ${S.temp}, темп: ${S.pace}, бюджет: ${S.budget}, вылет: ${S.origin}.`}
+function resultsSummary(){
+  if(!S.results) return 'Результатов пока нет.';
+  return S.results.good.slice(0,5).map(r=>{const c=tripCost(r,'standard');return `${r.d.city} (${r.d.country}): соответствие ${r.match}%, воздух ${Math.round(r.air)}°, море ${r.sea?Math.round(r.sea)+'°':'нет'}, ${SEASON_LBL[r.seasonCode]}, перелёт ≈${c.f.total} KZT (DEMO, ${r.d.flight.direct?'прямой':'пересадка'}), отели: ${r.hotels.filter(h=>h.familyOk).map(h=>`${h.name} (${h.tier})`).join(', ')} — рейтинг и завтрак не подтверждены, проверяются на Booking.com; итого STANDARD ≈${c.total} KZT (оценка). Плюсы: ${r.why.slice(0,3).join('; ')}. Учесть: ${r.care.slice(0,3).join('; ')}`}).join('\n');
+}
+function rulesPrompt(){
+  return `Ты — Travel Expert, персональный travel-консьерж для путешественников из Казахстана. Сегодня ${iso(today0)}. Отвечай по-русски, тепло и по делу.
+Твоя задача — понять потребности и превратить сообщение пользователя в параметры поиска. Цены и рейсы на странице — оценка DEMO; рейтинги отелей и завтрак не подтверждены. Сам цены, рейтинги и наличие НЕ придумывай; если спрашивают про них — говори, что это проверяется на Booking.com.
+Верни ТОЛЬКО JSON вида {"reply": string, "action": "search" | "answer", "params": object | null}.
+params (указывай только то, что понятно из разговора): start "YYYY-MM-DD", end "YYYY-MM-DD", adults 1-8, children [возрасты 0-17], tripType family|couple|friends|solo|other, rest [beach|passive|active|excursion|gastro|nature|mountains|shopping|mixed], temp hot|warm|mild, pace calm|balance|intense, budget budget|standard|premium, origin NQZ|ALA|CIT, dest один из [${DEST.map(d=>d.id+'='+d.city).join(', ')}] или "".
+Правила: если назван только месяц, начало ~10–15 числа ближайшего такого месяца в будущем; "на N дней" = N-1 ночей; "море" = beach; "не хотим каждый день экскурсии" = passive и pace calm. Если пользователь задаёт вопрос о текущих результатах — action "answer", params null, ответ строй только на DATA ниже.
+reply: 2–4 предложения, без markdown.
+${stateSummary()}
+DATA (текущие результаты):
+${resultsSummary()}`;
+}
+async function initAI(){
+  try{ if(window.claude&&window.claude.use){ sampleFn=await window.claude.use('sample'); } }catch(e){ sampleFn=null }
+  aiReady=!!sampleFn;
+  $('#aiMode').textContent=aiReady?'Запрос разбирает Claude от имени вашего аккаунта. Подбор считает Travel Expert.':'Консультант работает в упрощённом режиме: запрос разбирается прямо в браузере.';
+}
+function applyParams(p){
+  if(!p||typeof p!=='object') return false;
+  const okD=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s);
+  if(okD(p.start)){S.start=p.start<iso(today0)?iso(addDays(today0,14)):p.start}
+  if(okD(p.end)&&p.end>S.start) S.end=p.end; else if(okD(p.start)) S.end=iso(addDays(pd(S.start),7));
+  if(Number.isFinite(+p.adults)&&+p.adults>=1) S.adults=Math.min(8,Math.round(+p.adults));
+  if(Array.isArray(p.children)) S.children=p.children.map(Number).filter(a=>a>=0&&a<=17).slice(0,6);
+  if(TRIP.some(x=>x[0]===p.tripType)) S.tripType=p.tripType; else if(S.children.length) S.tripType='family';
+  if(Array.isArray(p.rest)){const r=p.rest.filter(x=>REST.some(q=>q[0]===x));if(r.length)S.rest=r}
+  if(TEMP_RANGE[p.temp]) S.temp=p.temp;
+  if(PACE.some(x=>x[0]===p.pace)) S.pace=p.pace;
+  if(BUDGET.some(x=>x[0]===p.budget)) S.budget=p.budget;
+  if(ORIG[p.origin]) S.origin=p.origin;
+  if(typeof p.dest==='string'&&(p.dest===''||DMAP[p.dest])) {S.dest=p.dest;$('#destPick').value=p.dest}
+  const d=pd(S.start);S.calY=d.getFullYear();S.calM=d.getMonth();
+  return true;
+}
+function parseLocal(text){
+  const s=text.toLowerCase(),p={};
+  const mons=['январ','феврал','март','апрел','ма[йея]','июн','июл','август','сентябр','октябр','ноябр','декабр'];
+  let m=-1;mons.forEach((k,i)=>{if(new RegExp('(^|\\s)'+k).test(s))m=i});
+  if(/майск/.test(s))m=4;
+  let n=null;const dn=s.match(/(\d+)\s*(дн|дня|дней|сут)/),nn=s.match(/(\d+)\s*(ноч)/);
+  if(nn)n=+nn[1];else if(dn)n=Math.max(1,+dn[1]-1);else if(/две недели/.test(s))n=14;else if(/недел/.test(s))n=7;
+  if(m>=0){let y=today0.getFullYear();if(m<today0.getMonth()||(m===today0.getMonth()&&today0.getDate()>12))y++;const st=new Date(y,m,/майск/.test(s)?1:12);p.start=iso(st);p.end=iso(addDays(st,n||7))}
+  else if(n){p.start=S.start;p.end=iso(addDays(pd(S.start),n))}
+  const words={'один':1,'одна':1,'двое':2,'два':2,'две':2,'трое':3,'три':3,'четверо':4,'четыре':4,'пятеро':5};
+  const am=s.match(/(\d+|один|одна|двое|два|две|трое|три|четверо|четыре|пятеро)\s*взросл/);if(am)p.adults=words[am[1]]||+am[1];
+  else if(/вдво[её]м|с мужем|с женой|пара/.test(s))p.adults=2;
+  const kids=[];const re=/(\d{1,2})\s*(год|года|лет)/g;let k;while((k=re.exec(s)))kids.push(+k[1]);
+  if(kids.length)p.children=kids.slice(0,6);else if(/без дет/.test(s))p.children=[];
+  const rest=[];if(/мор|пляж|купа/.test(s))rest.push('beach');if(/не хот.*экскурс|спокой|отдохнуть|расслаб/.test(s))rest.push('passive');else if(/экскурс|достопримеч|музе/.test(s))rest.push('excursion');
+  if(/гор[ыау]|поход/.test(s))rest.push('mountains');if(/ед[ауы]|кухн|гастро|вкусн/.test(s))rest.push('gastro');if(/шопинг|магазин/.test(s))rest.push('shopping');if(/природ/.test(s))rest.push('nature');if(/актив|дайв|сноркл/.test(s))rest.push('active');
+  if(rest.length)p.rest=rest;
+  if(/не хот.*каждый день|спокойн|без спешки/.test(s))p.pace='calm';else if(/насыщ|максимум/.test(s))p.pace='intense';
+  if(/недорог|дешев|бюджетн|эконом/.test(s))p.budget='budget';else if(/премиум|люкс|роскош|5 зв/.test(s))p.budget='premium';else if(/средн|хороший отель/.test(s))p.budget='standard';
+  if(/жар/.test(s))p.temp='hot';else if(/не жарк|умерен|прохлад/.test(s))p.temp='mild';else if(rest.includes('beach'))p.temp='warm';
+  if(/алмат/.test(s))p.origin='ALA';if(/шымкент/.test(s))p.origin='CIT';
+  p.tripType=p.children&&p.children.length?'family':p.adults===2?'couple':p.adults===1?'solo':undefined;
+  return p;
+}
+function engineReply(){
+  const pod=S.results.good.slice(0,3),medals=['🥇','🥈','🥉'];
+  return `<b>Готово.</b> ${esc(companyPhrase())}, ${dLong(S.start)} — ${dLong(S.end)}. Лучшие направления (перелёт + отель STANDARD, ориентировочно):
+   <div class="mini">${pod.map((r,i)=>`<div><span>${medals[i]} ${esc(r.d.city)} · ${r.match}%</span><b class="num">${approx(tripCost(r,'standard').total)}</b></div>`).join('')}</div>
+   <div style="margin-top:10px"><button class="btn btn-sm btn-teal" data-act="chat-show">Показать варианты</button></div>`;
+}
+async function sendChat(){
+  const box=$('#chatIn'),text=box.value.trim();if(!text)return;box.value='';
+  S.chat.push({role:'user',text});S.chat.push({role:'bot',html:'Анализирую запрос…',think:true});renderChat();
+  $('#chatSend').disabled=true;
+  let reply=null,params=null,action='search';
+  if(aiReady){
+    chatCtl=new AbortController();chatTurns.push({role:'user',content:text});
+    try{
+      const res=await sampleFn.json([{role:'user',content:rulesPrompt()},...chatTurns.slice(-8)],{cache:false,signal:chatCtl.signal,modelTier:'quick'});
+      reply=String(res&&res.reply||'');params=res&&res.params;action=res&&res.action==='answer'?'answer':'search';
+      chatTurns.push({role:'assistant',content:reply||'OK'});
+    }catch(e){
+      chatTurns.pop();
+      if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(e&&e.code)){aiReady=false;$('#aiMode').textContent='Claude недоступен в этом просмотре — работаю в упрощённом режиме в браузере.'}
+      else if(e&&e.code==='rate_limited'){$('#aiMode').textContent='Слишком много запросов к Claude. Этот ответ разобран в браузере; попробуйте позже.'}
+      reply=null;
+    }
+  }
+  if(reply===null){
+    const low=text.toLowerCase(),q=/\?|какой|почему|что лучше|выгодн/.test(low)&&!/(поехать|хотим|едем|планируем)/.test(low);
+    if(q&&S.results){action='answer';const best=S.results.good.slice(0,3).map(r=>[r,tripCost(r,'standard')]).sort((a,b)=>a[1].total-b[1].total)[0];reply=`По ориентировочной оценке самый недорогой из топ-3 — ${best[0].d.city}: ${approx(best[1].total)} за всех (перелёт + отель STANDARD). Точную цену отеля проверьте на Booking.com по кнопке в карточке.`}
+    else{params=parseLocal(text);const parts=[];if(params.start)parts.push(`даты около ${dLong(params.start)}${params.end?` — ${dLong(params.end)}`:''}`);if(params.adults)parts.push(`${params.adults} ${plural(params.adults,['взрослый','взрослых','взрослых'])}`);if(params.children&&params.children.length)parts.push(`дети: ${params.children.map(ageLbl).join(', ')}`);if(params.rest)parts.push(params.rest.map(r=>REST_PHRASE[r]).join(', '));
+      reply=parts.length?`Понял: ${parts.join('; ')}. Учту сезон, семейный формат и транспорт; для отелей дам прямые ссылки на Booking.com, где можно проверить рейтинг, завтрак и цену.`:'Уточните, пожалуйста, даты или месяц поездки, кто едет и какой отдых хотите — и я всё подберу.';
+      if(!parts.length)params=null}
+  }
+  S.chat.pop();
+  S.chat.push({role:'bot',html:esc(reply).replace(/\n/g,'<br>')});
+  if(action==='search'&&params&&applyParams(params)){runSearch();renderAll();S.chat.push({role:'bot',html:engineReply()})}
+  renderChat();$('#chatSend').disabled=false;
+}
+$('#composer').addEventListener('submit',e=>{e.preventDefault();sendChat()});
+$('#chatIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});
+
+/* boot */
+initTopSelects();
+runSearch();renderAll();
+initAI();
+
+</script>
+
+</body>
+</html>
