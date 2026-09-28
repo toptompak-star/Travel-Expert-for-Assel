@@ -198,7 +198,7 @@ section.block{padding-block:40px 8px;scroll-margin-top:80px}
 .dcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
 .dcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .dcard.active{outline:2px solid var(--teal)}
-.dcard-img{position:relative;aspect-ratio:16/10;max-width:100%}
+.dcard-img{position:relative;aspect-ratio:16/10;max-width:100%;overflow:hidden}
 .img-cap{position:absolute;left:8px;bottom:8px;right:8px;display:flex;justify-content:space-between;gap:6px;font-size:11px}
 .img-cap span,.img-cap a{background:rgba(10,21,34,.62);color:#fff;border-radius:999px;padding:2px 8px;text-decoration:none;white-space:nowrap}
 .ring{position:absolute;top:10px;right:10px;width:58px;height:58px;border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:var(--shadow)}
@@ -440,6 +440,61 @@ footer{padding-block:40px 20px;color:var(--ink-3);font-size:12.5px;border-top:1p
 .chk.warn .chk-i{background:var(--gold-soft);color:var(--gold)}
 .chk.bad .chk-i{background:var(--warn-soft);color:var(--warn)}
 @media (max-width:420px){.checks{grid-template-columns:1fr}}
+
+/* v3 */
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+.field.plain{background-image:none;padding-right:14px}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.counts div{background:color-mix(in srgb,var(--bg) 10%,transparent);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.counts b{font-size:30px;font-family:var(--display);line-height:1}
+.counts span{font-size:12.5px;color:color-mix(in srgb,var(--bg) 75%,transparent)}
+@media (max-width:520px){.counts{grid-template-columns:1fr}}
+.costlines{display:flex;flex-direction:column;gap:6px;background:var(--surface-3);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.costlines div{display:flex;justify-content:space-between;gap:10px}
+.costlines div b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.costlines .tot{border-top:1px dashed var(--line);padding-top:6px;font-weight:700}
+.costlines .tot b{font-size:19px}
+.costlines .pp{color:var(--ink-2);font-size:12.5px}
+.h3d{font-family:var(--display);font-size:30px;font-weight:600}
+.mb8{margin-bottom:8px}.s17{font-size:17px}
+.region-chips{margin-bottom:16px}
+.more-row{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:20px;flex-wrap:wrap}
+.why.compact{font-size:12.5px;color:var(--ink-2)}
+.nophoto{position:absolute;inset:0;display:flex;align-items:flex-end;gap:12px;padding:16px;background:var(--rg,var(--surface-2));color:var(--ink)}
+.nophoto .np-flag{font-size:44px;line-height:1}
+.nophoto b{display:block;font-family:var(--display);font-size:24px;font-weight:600;line-height:1.05}
+.nophoto span{font-size:12.5px;color:var(--ink-2)}
+.nophoto .np-tags{position:absolute;top:14px;left:16px;font-size:18px;letter-spacing:4px}
+.pod-img .nophoto .np-tags{left:auto;right:16px}
+.r-eu{--rg:var(--blue-soft)}.r-me{--rg:var(--gold-soft)}.r-cc{--rg:var(--green-soft)}.r-af{--rg:var(--warn-soft)}.r-as{--rg:var(--teal-soft)}.r-am{--rg:var(--demo-soft)}.r-sa{--rg:var(--gold-soft)}.r-oc{--rg:var(--teal-soft)}
+.detail-nophoto{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:clamp(18px,3vw,28px);background:var(--rg,var(--surface-2))}
+.detail-nophoto .np-flag{font-size:64px;line-height:1}
+.detail-nophoto h2{font-family:var(--display);font-size:clamp(32px,4.5vw,50px);font-weight:600}
+.detail-nophoto p{color:var(--ink-2);font-size:14px;max-width:70ch}
+.detail-nophoto .match-big{background:var(--surface);color:var(--ink);border-radius:14px;padding:8px 14px;text-align:center}
+.detail-nophoto .match-big b{font-size:26px;display:block;line-height:1}
+.detail-nophoto .match-big small{font-size:11px}
+@media (max-width:620px){.detail-nophoto{grid-template-columns:1fr}}
+.route{border:1px solid var(--line);border-radius:16px;display:grid;grid-template-columns:minmax(0,1fr) 220px;overflow:hidden;background:var(--surface)}
+.route.on{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal)}
+.route-main{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.route-top{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chain{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;font-weight:600;font-size:16px}
+.chain small{font-weight:500;color:var(--ink-3);font-size:11px}
+.chain .arr{color:var(--ink-3);font-weight:400}
+.chain .posleg{color:var(--ink-2);font-weight:500}
+.legs{font-size:12.5px;color:var(--ink-2);display:flex;flex-direction:column;gap:3px}
+.tkt{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.tkt.single{background:var(--green-soft);color:var(--green)}
+.tkt.self{background:var(--warn-soft);color:var(--warn)}
+.tag.money{background:var(--gold-soft);color:var(--gold)}
+.selfwarn{font-size:12.5px;background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:8px 10px}
+.route-side{border-left:1px dashed var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:6px;background:var(--surface-3)}
+.route-side b{font-size:21px;font-variant-numeric:tabular-nums}
+.route-side .save{color:var(--green);font-weight:600}
+@media (max-width:700px){.route{grid-template-columns:1fr}.route-side{border-left:0;border-top:1px dashed var(--line)}}
+.colh{text-transform:none!important;letter-spacing:0!important;font-size:13.5px!important;color:var(--ink)!important}
+.hcard.est .hbody h4{font-size:16px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -468,14 +523,15 @@ footer{padding-block:40px 20px;color:var(--ink-3);font-size:12.5px;border-top:1p
     <div class="hero-copy">
       <span class="eyebrow" data-i18n="hero.eyebrow">Персональный travel-консьерж</span>
       <h1>Куда поехать <em>именно</em> в&nbsp;ваши даты?</h1>
-      <p class="lead" data-i18n="hero.sub">Travel Expert найдёт подходящие направления, перелёты и отели и рассчитает стоимость путешествия.</p>
-      <div class="known">
-        <label for="destPick">Уже знаете направление? Можно начать с него</label>
+      <p class="lead" data-i18n="hero.sub">Travel Expert найдёт подходящие направления, перелёты и отели и поможет рассчитать стоимость путешествия.</p>
+      <div class="hero-cta"><a class="btn btn-primary btn-big" href="#planner">Подобрать путешествие</a><button class="btn btn-big" data-act="known">Я уже знаю, куда хочу</button></div>
+      <div class="known" id="known" hidden>
+        <label for="destPick">Выберите направление из каталога</label>
         <select id="destPick" class="field"></select>
       </div>
       <div class="ticket-note">
         <span class="demo">DEMO</span>
-        <span>Фото городов — реальные файлы Wikimedia Commons, отели — реальные страницы на Booking.com. Цены и рейсы — ориентировочная оценка: у каждого отеля есть кнопка «Открыть в Booking.com» с вашими датами, у перелётов — Aviasales и Google Flights.</span>
+        <span>Каталог из 100+ направлений по всему миру, вылет из разных городов Казахстана и соседних стран. Фото — Wikimedia Commons, отели — реальные страницы Booking.com. Цены и рейсы — ориентировочная оценка с ссылками для проверки.</span>
       </div>
     </div>
     <div class="planner" id="planner"></div>
@@ -490,46 +546,51 @@ footer{padding-block:40px 20px;color:var(--ink-3);font-size:12.5px;border-top:1p
     <div class="block-head"><div><span class="eyebrow">Прозрачность</span><h2>Как считаем и откуда данные</h2></div></div>
     <div class="method">
       <div class="mcard">
-        <h3>Соответствие направления</h3>
-        <p class="muted">Средневзвешенная оценка по ночам поездки: если поездка захватывает два месяца, климат и сезон считаются пропорционально числу ночей в каждом.</p>
-        <p><code>Сезон 20%</code> <code>Погода 22%</code> <code>Тип отдыха 23%</code> <code>Дети 12%</code> <code>Бюджет 13%</code> <code>Перелёт 10%</code></p>
-        <p class="muted">Без детей вес «Дети» распределяется между остальными факторами. Для пляжного отдыха учитывается температура моря: от 24° — 100%, 22–23° — 80%, 20–21° — 50%.</p>
+        <h3>Путь поиска</h3>
+        <p class="muted">Каталог направлений → сезон по каждой ночи поездки → тип отдыха → состав и возраст детей → бюджет → перелёты из вашего и соседних городов → отели → оценка → лучшие варианты.</p>
+        <p><code>Сезон 30%</code> <code>Погода 15%</code> <code>Тип отдыха 15%</code> <code>Состав 10%</code> <code>Возраст детей 10%</code> <code>Бюджет 10%</code> <code>Перелёт 5%</code> <code>Транспорт 5%</code></p>
+        <p class="muted small">Без детей вес «Возраст детей» распределяется между остальными факторами. Лимит бюджета снижает оценку, если ориентировочная стоимость его превышает.</p>
       </div>
       <div class="mcard">
-        <h3>Релевантность отеля</h3>
-        <p class="muted">Когда подключён Booking Demand API, в основную подборку попадают только отели с оценкой 8.0+ и, если есть выбор, с включённым завтраком. Оценка корректируется на число отзывов (байесовское среднее, априорно 8.2 при весе 800 отзывов).</p>
-        <p class="muted">Пример из ТЗ: <b>9.1 и 350 отзывов</b> → надёжная оценка 8.47; <b>8.8 и 8 500 отзывов</b> → 8.75. Второй отель выше, но решает не только это.</p>
-        <p><code>Надёжная оценка 28%</code> <code>Отзывы 17%</code> <code>Транспорт 22%</code> <code>Завтрак 13%</code> <code>Цена 10%</code> <code>Центр 5%</code> <code>Семья 5%</code></p>
-      </div>
-      <div class="mcard">
-        <h3>Транспорт важнее центра</h3>
-        <p class="muted">Для каждого вида транспорта считается балл: до 300 м — 100%, дальше линейно до нуля на 1,5 км. Вес: метро 1.0, трамвай 0.92, крупная остановка 0.78, вокзал 0.72. В итог берётся лучший вариант, а близость к центру весит всего 5%.</p>
-      </div>
-      <div class="mcard">
-        <h3>Подключение реальных данных</h3>
+        <h3>Модули</h3>
         <ul class="api">
-          <li><span><code>getCityImages()</code></span><span>REAL · Wikimedia Commons</span></li>
-          <li><span><code>getHotelBookingUrl()</code></span><span>REAL · страница отеля на Booking.com + даты</span></li>
-          <li><span><code>getHotelImages()</code></span><span>Commons, где есть · прод: Booking Demand API</span></li>
-          <li><span><code>getHotelDetails()</code></span><span>прод: Booking Demand API (рейтинг, отзывы, тарифы)</span></li>
-          <li><span><code>getFlightOffers()</code></span><span>DEMO · прод: Aviasales / Amadeus / Duffel</span></li>
-          <li><span><code>getTransportData()</code></span><span>прод: OpenStreetMap Overpass</span></li>
+          <li><span>Destination Catalog</span><span><code>getDestinations()</code></span></li>
+          <li><span>Season Engine</span><span><code>calculateSeasonScore()</code></span></li>
+          <li><span>Travel Preference Engine</span><span><code>calculateFamilyScore()</code></span></li>
+          <li><span>Flight Search Engine</span><span><code>getFlightOffers()</code> <code>getAlternativeDepartureCities()</code></span></li>
+          <li><span>Hotel Search Engine</span><span><code>getHotelDetails()</code> <code>getHotelBookingUrl()</code> <code>getHotelImages()</code></span></li>
+          <li><span>Transport Engine</span><span><code>getTransportData()</code></span></li>
+          <li><span>Scoring Engine</span><span><code>calculateDestinationScore()</code> <code>calculateHotelScore()</code></span></li>
+          <li><span>Results Engine</span><span><code>rankDestinations()</code></span></li>
         </ul>
-        <p class="muted small">Каждая функция — единственная точка подключения: замена её тела не требует переделки интерфейса.</p>
       </div>
       <div class="mcard">
-        <h3>Фотографии</h3>
-        <p class="muted">Города: 3–4 реальных файла Wikimedia Commons на каждый город, с подписью и ссылкой на страницу файла (автор и лицензия). Отели: открытые фото здания из Commons есть у Pera Palace, Hotel Paris Prague, Casa Fuster и Sheraton Batumi; для остальных — кнопка на фото отеля в Booking.com. Сгенерированные и чужие изображения не используются.</p>
+        <h3>Отели и Booking.com</h3>
+        <p class="muted">46 реальных отелей в 14 городах со ссылками на их страницы на Booking.com, найденными поиском. Для остальных городов — оценка стоимости и явно подписанный поиск на Booking с фильтрами «8+» и «завтрак». Когда подключён Booking Demand API, включатся порог 8.0 и ранжирование: надёжная оценка с учётом отзывов (байесовское среднее), транспорт, завтрак, цена.</p>
+      </div>
+      <div class="mcard">
+        <h3>Перелёты</h3>
+        <p class="muted">Маршруты строятся по DEMO-схеме: прямые направления из городов Казахстана, Ташкента и Бишкека, пересадки через Стамбул, Дубай, Франкфурт, Доху и Алматы/Астану. Единый билет и самостоятельная пересадка различаются. Расписание, авиакомпании и цены — DEMO, проверка по Aviasales и Google Flights.</p>
+      </div>
+      <div class="mcard">
+        <h3>Подключение реальных API</h3>
+        <ul class="api">
+          <li><span>Отели</span><span>Booking.com Demand API · Expedia Rapid</span></li>
+          <li><span>Авиабилеты</span><span>Travelpayouts/Aviasales · Amadeus · Duffel</span></li>
+          <li><span>Климат</span><span>Open-Meteo Climate API</span></li>
+          <li><span>Транспорт</span><span>OpenStreetMap Overpass</span></li>
+          <li><span>Фото</span><span>Wikimedia Commons API</span></li>
+        </ul>
       </div>
       <div class="mcard">
         <h3>Что пока DEMO</h3>
-        <p class="muted">Рейсы, расписание и все цены — ориентировочная оценка и помечены «≈». Рейтинг, число отзывов, завтрак, отмена и расстояния до транспорта без Booking API не подтверждаются, поэтому в карточках стоит «проверить на Booking.com». Климат — средние многолетние значения.</p>
+        <p class="muted">Все цены и рейсы — ориентировочная оценка с «≈». Рейтинг, число отзывов, завтрак, отмена и расстояния до транспорта у отеля не подтверждаются без Booking API — в карточках стоит «проверить». Климат — средние многолетние значения.</p>
       </div>
     </div>
-    <div class="block-head" style="margin-top:28px"><div><span class="eyebrow">Самопроверка</span><h3 style="font-family:var(--display);font-size:30px;font-weight:600">Проверка данных</h3></div></div>
+    <div class="block-head" style="margin-top:28px"><div><span class="eyebrow">Самопроверка</span><h3 class="h3d">Проверка по требованиям</h3></div></div>
     <div id="checks"></div>
   </section>
-  <footer>Travel Expert · прототип · язык: русский (архитектура готова к казахскому и английскому) · фото городов: Wikimedia Commons · ссылки на отели: Booking.com, найдены 28.09.2026 · цены и рейсы: ориентировочная оценка DEMO</footer>
+  <footer>Travel Expert · прототип · язык: русский (архитектура готова к казахскому и английскому) · каталог 101 направление · фото городов: Wikimedia Commons · ссылки на отели: Booking.com, найдены 28.09.2026 · цены и рейсы: ориентировочная оценка DEMO</footer>
 </main>
 
 <div class="modal" id="gal" hidden role="dialog" aria-modal="true" aria-label="Фотогалерея"><div class="modal-card" id="galBody"></div></div>
@@ -550,30 +611,30 @@ footer{padding-block:40px 20px;color:var(--ink-3);font-size:12.5px;border-top:1p
 </aside>
 
 <script>
-/* =========================================================
-   CONFIG · i18n · currency
-   ========================================================= */
-const CONFIG = {
-  currency: { base:'KZT', list:['KZT','USD','EUR'], symbols:{KZT:'₸',USD:'$',EUR:'€'},
-    // DEMO-курс: в проде подгружается из API (например, Нацбанк РК)
-    kztPer:{KZT:1, USD:512, EUR:595, AED:139} },
-  languages:[{code:'ru',label:'RU',ready:true},{code:'kk',label:'KZ · скоро',ready:false},{code:'en',label:'EN · скоро',ready:false}],
-  dataCheckedOn:'2026-09-28' // дата, когда ссылки на Booking и файлы Commons были найдены через поисковый индекс
-};
-const I18N = {
-  ru:{'nav.plan':'Подбор','nav.results':'Варианты','nav.detail':'Направление','nav.compare':'Сравнение','nav.method':'Данные',
-      'hero.eyebrow':'Персональный travel-консьерж','hero.sub':'Travel Expert найдёт подходящие направления, перелёты и отели и рассчитает стоимость путешествия.',
-      'cta':'Подобрать путешествие','step.dates':'Даты','step.who':'Кто едет','step.pref':'Отдых','step.budget':'Бюджет',
-      'booking.open':'Открыть в Booking.com','booking.check':'Проверить на Booking.com','verify':'проверить на Booking.com'},
-  kk:{}, en:{}
-};
-const t = k => (I18N[S.lang] && I18N[S.lang][k]) || I18N.ru[k] || k;
+/* =====================================================================
+   TRAVEL EXPERT · v3
+   Модули: DestinationCatalog · SeasonEngine · PreferenceEngine · FlightEngine
+           HotelEngine · TransportEngine · ScoringEngine · ResultsEngine · UI
+   ===================================================================== */
 
-/* =========================================================
-   Utils
-   ========================================================= */
-const $ = (s,r=document)=>r.querySelector(s);
-const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- CONFIG · i18n · currency ---------- */
+const CONFIG = {
+  currency:{list:['KZT','USD','EUR','GBP'],symbols:{KZT:'₸',USD:'$',EUR:'€',GBP:'£'},
+    kztPer:{KZT:1,USD:512,EUR:595,GBP:690,AED:139}}, // DEMO-курс; прод: API Нацбанка РК
+  languages:[{code:'ru',label:'RU',ready:true},{code:'kk',label:'KZ · скоро',ready:false},{code:'en',label:'EN · скоро',ready:false}],
+  dataCheckedOn:'2026-09-28',
+  pageSize:12,          // сколько карточек показывать за раз («Показать ещё» добавляет столько же)
+  fitThreshold:80       // с какого % направление считается подходящим
+};
+const I18N={ru:{'nav.plan':'Подбор','nav.results':'Варианты','nav.detail':'Направление','nav.compare':'Сравнение','nav.method':'Данные',
+  'hero.eyebrow':'Персональный travel-консьерж','hero.sub':'Travel Expert найдёт подходящие направления, перелёты и отели и поможет рассчитать стоимость путешествия.',
+  'cta':'Подобрать путешествие','step.dates':'Даты','step.who':'Кто и откуда','step.pref':'Отдых','step.budget':'Бюджет',
+  'booking.open':'Открыть в Booking.com','booking.check':'Проверить на Booking.com','verify':'проверить на Booking.com'},kk:{},en:{}};
+const t=k=>(I18N[S.lang]&&I18N[S.lang][k])||I18N.ru[k]||k;
+
+/* ---------- Utils ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 function hash(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -594,78 +655,151 @@ const approx=kzt=>`≈ ${money(kzt)}`;
 const km=m=>m==null?'—':m<1000?`${Math.round(m/10)*10} м`:`${(m/1000).toFixed(1).replace('.',',')} км`;
 const hm=h=>{let H=Math.floor(h),M=Math.round((h-H)*12)*5;if(M===60){H++;M=0}return `${H} ч${M?` ${M} мин`:''}`};
 const nf=n=>n.toLocaleString('ru-RU');
+function haversine(a,b){const R=6371,r=x=>x*Math.PI/180;const dl=r(b.lat-a.lat),dn=r(b.lon-a.lon);const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function listJoin(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' и '+a[a.length-1]}
 
-/* =========================================================
-   Reference data
-   ========================================================= */
+/* ---------- Reference ---------- */
 const REST=[['beach','Пляжный'],['passive','Пассивный'],['active','Активный'],['excursion','Экскурсионный'],['gastro','Гастрономический'],['nature','Природа'],['mountains','Горы'],['shopping','Шопинг'],['mixed','Смешанный']];
 const REST_PHRASE={beach:'пляжный отдых',passive:'спокойный отдых',active:'активный отдых',excursion:'экскурсии',gastro:'гастрономию',nature:'природу',mountains:'горы',shopping:'шопинг',mixed:'смешанный отдых'};
+const REST_ICON={beach:'🏖',passive:'🌿',active:'🚴',excursion:'🏛',gastro:'🍽',nature:'🌲',mountains:'⛰',shopping:'🛍',mixed:'✨'};
 const TRIP=[['family','Семья'],['couple','Пара'],['friends','Друзья'],['solo','Один'],['other','Другая компания']];
 const TEMP=[['hot','Жарко','30–36°'],['warm','Тепло','24–30°'],['mild','Умеренно','17–24°']];
 const TEMP_RANGE={hot:[30,36],warm:[24,30],mild:[17,24]};
 const PACE=[['calm','Максимально спокойно'],['balance','Баланс отдыха и экскурсий'],['intense','Насыщенная программа']];
 const BUDGET=[['budget','Бюджетный'],['standard','Средний'],['premium','Премиум']];
 const GENIUS=[['none','Нет'],['g1','Genius'],['g2','Genius Level 2']];
-const ORIG={NQZ:{city:'Астана',f:1,dh:0},ALA:{city:'Алматы',f:.96,dh:.4},CIT:{city:'Шымкент',f:1.06,dh:.6}};
+const SCOPES=[['mine','Только мой город'],['kz','Другие города Казахстана'],['neighbors','Соседние страны'],['region','Весь регион']];
 const SEASON_LBL={H:'Высокий сезон',S:'Бархатный / межсезонье',L:'Низкий сезон',O:'Не сезон'};
-const SEASON_SC={H:100,S:90,L:62,O:32};
+const SEASON_SC={H:100,S:90,L:62,O:30};
 const SEASON_PRICE={H:1.22,S:1,L:.86,O:.8};
 const CROWD_LBL=['','Мало туристов','Умеренно','Много туристов'];
-const TIERS=[['budget','BUDGET','Недорогой вариант'],['standard','STANDARD','Средний ценовой класс'],['premium','PREMIUM','Высокий класс сервиса']];
-const AIRCODE={'Air Astana':'KC','FlyArystan':'FS','SCAT':'DV','Pegasus':'PC','Turkish Airlines':'TK','flydubai':'FZ'};
+const TIERS=[['budget','BUDGET','Недорогой вариант'],['standard','STANDARD','Баланс цены и качества'],['premium','PREMIUM','Высокий класс сервиса']];
+const REGIONS={eu:'Европа',me:'Турция и Ближний Восток',cc:'Кавказ и Центральная Азия',af:'Африка и острова',as:'Азия',am:'Северная и Центральная Америка',sa:'Южная Америка',oc:'Океания'};
 
-const DEST=[
- {id:'ayt',city:'Анталья',country:'Турция',flag:'🇹🇷',iata:'AYT',en:'Antalya',desc:'Турецкая Ривьера: пляжи Лары и Коньяалты, старый город Калеичи, водопады и горы Таврос рядом.',
-  tags:['beach','passive','active','excursion','nature','mountains','shopping','mixed'],air:[15,16,19,22,26,31,34,34,31,27,21,17],sea:[17,16,17,18,21,25,27,28,27,24,21,18],season:'LLLSSHHHHSLL',crowd:'111223333211',rain:[],price:2,kids:.95,tz:-2,schengen:false,
-  transit:{tram:true},flight:{h:5.3,direct:true,carriers:['Air Astana','SCAT'],low:'FlyArystan',base:190000},hotel:{base:52000},fee:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'}},
- {id:'dxb',city:'Дубай',country:'ОАЭ',flag:'🇦🇪',iata:'DXB',en:'Dubai',desc:'Пляжи Джумейры, небоскрёбы Даунтауна, аквапарки и огромные торговые центры. Удобное метро.',
-  tags:['beach','passive','shopping','excursion','gastro','mixed','active'],air:[24,25,28,33,37,39,41,41,39,35,30,26],sea:[22,21,23,25,28,31,32,33,32,30,27,24],season:'HHHSLLLLLSHH',crowd:'333211111233',rain:[],price:3,kids:.9,tz:-1,schengen:false,
-  transit:{metro:true,tram:true},flight:{h:4.3,direct:true,carriers:['Air Astana','flydubai'],low:'FlyArystan',base:200000},hotel:{base:85000},fee:{mode:'room',cur:'AED',amt:[10,15,20],note:'Tourism Dirham — за номер в ночь, оплачивается в отеле'}},
- {id:'her',city:'Крит · Ираклион',country:'Греция',flag:'🇬🇷',iata:'HER',en:'Heraklion',desc:'Кносский дворец, венецианская крепость Кулес, пляжи северного побережья и критская кухня.',
-  tags:['beach','passive','excursion','gastro','nature','mixed'],air:[16,16,17,20,24,28,29,29,27,24,21,17],sea:[16,15,16,17,20,23,25,26,25,23,20,18],season:'OOOSSHHHHSOO',crowd:'111123333211',rain:[],price:2,kids:.85,tz:-2,schengen:true,
-  transit:{},flight:{h:9.8,direct:false,via:'IST',viaCity:'Стамбул',base:320000},hotel:{base:62000},fee:{mode:'room',cur:'EUR',amt:[3,7,10],note:'Климатический сбор Греции — за номер в ночь'}},
- {id:'pmi',city:'Майорка · Пальма',country:'Испания',flag:'🇪🇸',iata:'PMI',en:'Palma de Mallorca',desc:'Готический собор Ла-Сеу, бухты с прозрачной водой, горы Трамунтана и хорошая гастрономия.',
-  tags:['beach','passive','gastro','nature','excursion','mixed'],air:[15,15,17,20,23,28,31,31,28,24,19,16],sea:[14,14,14,16,19,23,25,26,25,22,19,16],season:'OOLSSHHHHSLO',crowd:'111223333211',rain:[],price:3,kids:.85,tz:-3,schengen:true,
-  transit:{metro:true,station:true},flight:{h:11.5,direct:false,via:'IST',viaCity:'Стамбул',base:370000},hotel:{base:88000},fee:{mode:'adult',cur:'EUR',amt:[2,3,4],exempt:16,note:'Экологический налог Балеарских островов'}},
- {id:'bcn',city:'Барселона',country:'Испания',flag:'🇪🇸',iata:'BCN',en:'Barcelona',desc:'Гауди, кварталы Эшампле и Готический, городские пляжи, рынки и тапас. Отличное метро.',
-  tags:['beach','excursion','gastro','shopping','active','mixed'],air:[14,15,17,19,22,26,29,29,26,22,17,14],sea:[13,13,13,15,18,22,25,26,24,21,17,14],season:'LLSSSHHHHSLL',crowd:'112233333221',rain:[],price:3,kids:.75,tz:-3,schengen:true,
-  transit:{metro:true,tram:true,station:true},flight:{h:10.8,direct:false,via:'IST',viaCity:'Стамбул',base:350000},hotel:{base:92000},fee:{mode:'adult',cur:'EUR',amt:[5,6.5,8],exempt:17,note:'Туристический налог Барселоны и Каталонии'}},
- {id:'ist',city:'Стамбул',country:'Турция',flag:'🇹🇷',iata:'IST',en:'Istanbul',desc:'Айя-София, Босфор, рынки и районы на двух континентах. Метро, трамвай и паромы.',
-  tags:['excursion','gastro','shopping','active','mixed'],air:[9,9,12,17,22,27,29,29,26,20,15,11],sea:null,season:'LLSHHSSSHHSL',crowd:'112333332211',rain:[],price:2,kids:.65,tz:-2,schengen:false,
-  transit:{metro:true,tram:true,station:true},flight:{h:5.6,direct:true,carriers:['Air Astana','Turkish Airlines'],low:'Pegasus',base:170000},hotel:{base:58000},fee:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'}},
- {id:'tbs',city:'Тбилиси',country:'Грузия',flag:'🇬🇪',iata:'TBS',en:'Tbilisi',desc:'Старый город под крепостью Нарикала, серные бани, вино, хинкали и поездки в Мцхету и Кахетию.',
-  tags:['excursion','gastro','nature','mountains','active','mixed'],air:[7,9,14,19,24,29,32,32,27,20,13,8],sea:null,season:'LLSHHSSSHHSL',crowd:'111232223211',rain:[],price:1,kids:.65,tz:-1,schengen:false,
-  transit:{metro:true,station:true},flight:{h:3.4,direct:true,carriers:['Air Astana','SCAT'],low:'FlyArystan',base:150000},hotel:{base:38000},fee:{mode:'none'}},
- {id:'bus',city:'Батуми',country:'Грузия',flag:'🇬🇪',iata:'BUS',en:'Batumi',desc:'Черноморский бульвар, ботанический сад, горы Аджарии и мягкий климат летом.',
-  tags:['beach','passive','gastro','nature','mountains','mixed'],air:[11,11,13,16,20,24,27,27,25,21,17,13],sea:[11,10,11,13,17,23,26,27,25,21,17,13],season:'OOOLSHHHHSLO',crowd:'111122333211',rain:[8,9,10],price:1,kids:.8,tz:-1,schengen:false,
-  transit:{station:true},flight:{h:3.8,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:165000},hotel:{base:36000},fee:{mode:'none'}},
- {id:'ssh',city:'Шарм-эль-Шейх',country:'Египет',flag:'🇪🇬',iata:'SSH',en:'Sharm El Sheikh',desc:'Коралловые рифы Красного моря, снорклинг и дайвинг, отели с All Inclusive.',
-  tags:['beach','passive','active','nature'],air:[22,23,26,30,34,37,38,38,36,32,27,23],sea:[23,22,23,24,26,27,28,28,28,27,25,24],season:'SSHHSSSSSHHS',crowd:'223322223332',rain:[],price:1,kids:.9,tz:-2,schengen:false,
-  transit:{},flight:{h:6.3,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:220000},hotel:{base:45000},fee:{mode:'none'}},
- {id:'hkt',city:'Пхукет',country:'Таиланд',flag:'🇹🇭',iata:'HKT',en:'Phuket',desc:'Пляжи Карона и Каты, острова Пхи-Пхи, тайская кухня и спа. Сухой сезон — с ноября по апрель.',
-  tags:['beach','passive','gastro','nature','active','mixed'],air:[32,33,33,33,32,31,31,31,30,31,31,31],sea:[28,28,29,30,30,29,29,29,29,29,29,28],season:'HHHSLLLLLLSH',crowd:'333211112123',rain:[4,5,6,7,8,9],price:2,kids:.8,tz:2,schengen:false,
-  transit:{},flight:{h:8.6,direct:true,carriers:['Air Astana','SCAT'],low:'SCAT',base:320000},hotel:{base:48000},fee:{mode:'none'}},
- {id:'cxr',city:'Нячанг',country:'Вьетнам',flag:'🇻🇳',iata:'CXR',en:'Nha Trang',desc:'Длинный городской пляж, острова, грязевые ванны и недорогие отели. Дожди — с октября по декабрь.',
-  tags:['beach','passive','gastro','nature','mixed'],air:[27,28,29,31,32,32,32,32,31,29,28,27],sea:[25,25,26,27,29,29,29,29,28,27,26,25],season:'SHHHHHHHSLLL',crowd:'222233332111',rain:[9,10,11],price:1,kids:.8,tz:2,schengen:false,
-  transit:{station:true},flight:{h:7.2,direct:true,carriers:['SCAT','Air Astana'],low:'FlyArystan',base:270000},hotel:{base:30000},fee:{mode:'none'}},
- {id:'fco',city:'Рим',country:'Италия',flag:'🇮🇹',iata:'FCO',en:'Rome',desc:'Колизей, Ватикан, Трастевере и итальянская кухня. Много пешком, удобные метро и трамвай.',
-  tags:['excursion','gastro','shopping','active','mixed'],air:[12,13,16,19,23,28,31,31,27,22,17,13],sea:null,season:'LLSHHHSSHHLS',crowd:'112333222311',rain:[10],price:3,kids:.6,tz:-3,schengen:true,
-  transit:{metro:true,tram:true,station:true},flight:{h:10.2,direct:false,via:'IST',viaCity:'Стамбул',base:330000},hotel:{base:95000},fee:{mode:'adult',cur:'EUR',amt:[6,7.5,10],exempt:10,cap:10,note:'Городской налог Рима, не более 10 ночей'}},
- {id:'prg',city:'Прага',country:'Чехия',flag:'🇨🇿',iata:'PRG',en:'Prague',desc:'Карлов мост, Пражский Град, пивные и рождественские рынки. Компактный центр и удобный трамвай.',
-  tags:['excursion','gastro','shopping','mixed'],air:[3,5,10,15,20,23,25,25,20,14,7,3],sea:null,season:'LLSSHHHHHSLH',crowd:'111223333213',rain:[],price:2,kids:.7,tz:-3,schengen:true,
-  transit:{metro:true,tram:true,station:true},flight:{h:9.6,direct:false,via:'IST',viaCity:'Стамбул',base:300000},hotel:{base:60000},fee:{mode:'adult',cur:'EUR',amt:[2,2,2],exempt:18,note:'Городской сбор Праги'}},
- {id:'cta',city:'Сицилия · Катания',country:'Италия',flag:'🇮🇹',iata:'CTA',en:'Catania',desc:'Вулкан Этна, барочный центр, Таормина рядом, рыбные рынки и пляжи Ионического моря.',
-  tags:['beach','excursion','gastro','nature','mountains','mixed'],air:[15,16,18,20,24,29,32,32,29,25,20,16],sea:[15,15,15,16,19,23,26,27,26,23,20,17],season:'OOLSSHHHHSLO',crowd:'111123333211',rain:[],price:2,kids:.75,tz:-3,schengen:true,
-  transit:{metro:true,station:true},flight:{h:11.2,direct:false,via:'IST',viaCity:'Стамбул',base:360000},hotel:{base:58000},fee:{mode:'adult',cur:'EUR',amt:[1.5,2.5,3.5],exempt:12,note:'Городской налог Катании'}}
-];
-const DMAP=Object.fromEntries(DEST.map(d=>[d.id,d]));
+/* =====================================================================
+   1. DESTINATION CATALOG
+   Формат строки: id|город|страна|флаг|регион|IATA|lat,lon|UTC|цены 1–3|семьи 0–1|виды отдыха|транспорт|виза|
+                  t° воздуха днём ×12|t° моря ×12 или -|месяцы дождей|сезон ×12 (H высокий, S межсезонье, L низкий)|описание
+   виды отдыха: b пляж · p пассивный · a активный · e экскурсии · g гастро · n природа · m горы · s шопинг · x смешанный
+   транспорт: M метро · T трамвай · R ж/д вокзал.  виза: s шенген · v нужна виза · c виза Кипра · - не указываем
+   Климат — средние многолетние значения (DEMO-справочник). Прод: Open-Meteo Climate API.
+   ===================================================================== */
+const CATALOG_RAW=`
+ayt|Анталья|Турция|🇹🇷|me|AYT|36.9,30.7|3|2|.95|bpaenmsx|T|-|15 16 19 22 26 31 34 34 31 27 21 17|17 16 17 18 21 25 27 28 27 24 21 18|-|LLLSSHHHHSLL|Турецкая Ривьера: пляжи Лары и Коньяалты, старый город Калеичи, водопады и горы Таврос рядом.
+dxb|Дубай|ОАЭ|🇦🇪|me|DXB|25.2,55.3|4|3|.9|bpsegxa|MT|-|24 25 28 33 37 39 41 41 39 35 30 26|22 21 23 25 28 31 32 33 32 30 27 24|-|HHHSLLLLLSHH|Пляжи Джумейры, небоскрёбы Даунтауна, аквапарки и огромные торговые центры. Удобное метро.
+her|Крит · Ираклион|Греция|🇬🇷|eu|HER|35.3,25.1|2|2|.85|bpegnx|-|s|16 16 17 20 24 28 29 29 27 24 21 17|16 15 16 17 20 23 25 26 25 23 20 18|12 1|LLLSSHHHHSLL|Кносский дворец, венецианская крепость Кулес, пляжи северного побережья и критская кухня.
+pmi|Майорка · Пальма|Испания|🇪🇸|eu|PMI|39.6,2.7|1|3|.85|bpgnex|MR|s|15 15 17 20 23 28 31 31 28 24 19 16|14 14 14 16 19 23 25 26 25 22 19 16|-|LLLSSHHHHSLL|Готический собор Ла-Сеу, бухты с прозрачной водой, горы Трамунтана и хорошая гастрономия.
+bcn|Барселона|Испания|🇪🇸|eu|BCN|41.4,2.2|1|3|.75|begsax|MTR|s|14 15 17 19 22 26 29 29 26 22 17 14|13 13 13 15 18 22 25 26 24 21 17 14|10|LLSSSHHHHSLL|Гауди, кварталы Эшампле и Готический, городские пляжи, рынки и тапас. Отличное метро.
+ist|Стамбул|Турция|🇹🇷|me|IST|41.0,29.0|3|2|.65|egsax|MTR|-|9 9 12 17 22 27 29 29 26 20 15 11|-|12 1|LLSHHSSSHHSL|Айя-София, Босфор, рынки и районы на двух континентах. Метро, трамвай и паромы.
+tbs|Тбилиси|Грузия|🇬🇪|cc|TBS|41.7,44.8|4|1|.65|egnmax|MR|-|7 9 14 19 24 29 32 32 27 20 13 8|-|-|LLSHHSSSHHSL|Старый город под крепостью Нарикала, серные бани, вино, хинкали, поездки в Мцхету и Кахетию.
+bus|Батуми|Грузия|🇬🇪|cc|BUS|41.6,41.6|4|1|.8|bpgnmx|R|-|11 11 13 16 20 24 27 27 25 21 17 13|11 10 11 13 17 23 26 27 25 21 17 13|9 10 11|LLLLSHHHHSLL|Черноморский бульвар, ботанический сад, горы Аджарии и мягкий климат летом.
+ssh|Шарм-эль-Шейх|Египет|🇪🇬|af|SSH|27.9,34.3|2|1|.9|bpan|-|-|22 23 26 30 34 37 38 38 36 32 27 23|23 22 23 24 26 27 28 28 28 27 25 24|-|SSHHSSSSSHHS|Коралловые рифы Красного моря, снорклинг и дайвинг, отели с All Inclusive.
+hkt|Пхукет|Таиланд|🇹🇭|as|HKT|7.9,98.4|7|2|.8|bpgnax|-|-|32 33 33 33 32 31 31 31 30 31 31 31|28 28 29 30 30 29 29 29 29 29 29 28|5 6 7 8 9 10|HHHSLLLLLLSH|Пляжи Карона и Каты, острова Пхи-Пхи, тайская кухня и спа. Сухой сезон — с ноября по апрель.
+cxr|Нячанг|Вьетнам|🇻🇳|as|CXR|12.2,109.2|7|1|.8|bpgnx|R|-|27 28 29 31 32 32 32 32 31 29 28 27|25 25 26 27 29 29 29 29 28 27 26 25|10 11 12|SHHHHHHHSLLL|Длинный городской пляж, острова, грязевые ванны и недорогие отели. Дожди — с октября по декабрь.
+fco|Рим|Италия|🇮🇹|eu|FCO|41.9,12.5|1|3|.6|egsax|MTR|s|12 13 16 19 23 28 31 31 27 22 17 13|-|10 11|LLSHHHSSHHLS|Колизей, Ватикан, Трастевере и итальянская кухня. Много пешком, удобные метро и трамвай.
+prg|Прага|Чехия|🇨🇿|eu|PRG|50.1,14.4|1|2|.7|egsx|MTR|s|3 5 10 15 20 23 25 25 20 14 7 3|-|-|LLSSHHHHHSLH|Карлов мост, Пражский Град, пивные и рождественские рынки. Компактный центр и удобный трамвай.
+cta|Сицилия · Катания|Италия|🇮🇹|eu|CTA|37.5,15.1|1|2|.75|begnmx|MR|s|15 16 18 20 24 29 32 32 29 25 20 16|15 15 15 16 19 23 26 27 26 23 20 17|11 12|LLLSSHHHHSLL|Вулкан Этна, барочный центр, Таормина рядом, рыбные рынки и пляжи Ионического моря.
+cdg|Париж|Франция|🇫🇷|eu|CDG|48.9,2.35|1|3|.7|egsx|MTR|s|7 9 13 16 20 23 25 25 21 16 10 7|-|-|LLSHHHHHHSLH|Лувр, Монмартр, Сена и кафе. Диснейленд в часе езды — плюс для детей.
+lis|Лиссабон|Португалия|🇵🇹|eu|LIS|38.7,-9.1|0|2|.75|begsx|MTR|s|15 16 19 20 22 26 28 29 27 23 18 15|15 15 15 16 17 18 19 19 19 18 17 16|11 12 1|LLSHHHHHHSLL|Холмы Алфамы, трамвай 28, океанские пляжи Кашкайша и Синтра рядом.
+opo|Порту|Португалия|🇵🇹|eu|OPO|41.1,-8.6|0|2|.7|egx|MTR|s|14 15 17 18 20 23 25 25 24 21 17 14|-|11 12 1 2|LLSSHHHHHSLL|Набережная Рибейра, винные погреба, долина Дору и азулежу.
+fnc|Мадейра · Фуншал|Португалия|🇵🇹|eu|FNC|32.6,-16.9|0|2|.8|pnaegx|-|s|19 19 20 20 21 23 25 26 26 24 22 20|18 18 18 18 19 20 22 23 23 22 21 19|11 12|SSSHHHHHHSSH|Остров вечной весны: левады, скалы, сады и мягкий климат круглый год.
+tfs|Тенерифе|Испания|🇪🇸|eu|TFS|28.3,-16.5|0|2|.9|bpnax|-|s|21 21 22 23 24 26 28 29 28 26 24 22|19 19 19 19 20 21 22 23 24 23 22 20|-|HHHSSSHHSSHH|Канарские острова: тепло зимой, вулкан Тейде, аквапарк Siam Park и пляжи.
+agp|Малага · Коста-дель-Соль|Испания|🇪🇸|eu|AGP|36.7,-4.4|1|2|.85|bpgex|MR|s|17 18 20 22 25 29 31 31 29 25 20 18|15 14 15 16 18 20 22 23 22 20 18 16|11 12|LLSSHHHHHSLL|Пляжи Коста-дель-Соль, музей Пикассо, Гранада и Ронда рядом.
+vlc|Валенсия|Испания|🇪🇸|eu|VLC|39.5,-0.4|1|2|.85|begx|MTR|s|16 17 19 21 24 28 30 31 28 25 19 16|14 13 14 15 18 22 25 26 25 22 18 15|10|LLSSHHHHHSLL|Город искусств и наук, океанариум, паэлья и широкие городские пляжи.
+nce|Ницца · Лазурный берег|Франция|🇫🇷|eu|NCE|43.7,7.3|1|3|.7|begx|TR|s|13 14 16 18 22 25 28 28 25 21 17 14|13 13 13 14 17 21 24 25 23 20 17 14|10 11|LLSSHHHHHSLL|Английская набережная, Монако и Канны на электричке, прованские деревни.
+ath|Афины|Греция|🇬🇷|eu|ATH|38.0,23.7|2|2|.7|begx|MTR|s|14 15 17 21 26 31 34 34 29 24 19 15|16 15 16 17 20 24 26 26 25 22 19 17|11 12 1|LLSHHHHHHSLL|Акрополь, Плака, пляжи Афинской Ривьеры и паромы на острова.
+rho|Родос|Греция|🇬🇷|eu|RHO|36.4,28.2|2|2|.85|bpenx|-|s|16 16 18 21 25 29 31 32 29 25 21 17|17 16 17 18 20 23 25 26 25 23 20 18|12 1|LLLSSHHHHSLL|Рыцарский старый город, Линдос и тёплое море до конца октября.
+cfu|Корфу|Греция|🇬🇷|eu|CFU|39.6,19.9|2|2|.85|bpngx|-|s|14 15 17 20 24 29 32 32 28 23 19 15|15 15 15 16 19 23 25 26 24 22 19 16|11 12 1|LLLSSHHHHSLL|Зелёный остров Ионического моря, венецианский город и спокойные бухты.
+jtr|Санторини|Греция|🇬🇷|eu|JTR|36.4,25.4|2|3|.5|bpgex|-|s|14 14 16 19 23 27 29 29 27 23 19 16|16 15 16 17 19 22 24 24 24 22 19 17|-|LLLSHHHHHSLL|Белые дома Ии над кальдерой, закаты и винодельни. Скорее для пар.
+dbv|Дубровник|Хорватия|🇭🇷|eu|DBV|42.6,18.1|1|3|.7|bpegx|-|s|12 13 15 18 23 27 30 30 26 22 17 13|14 13 14 15 18 22 24 25 23 21 18 15|11 12|LLLSHHHHHSLL|Крепостные стены старого города, острова Элафити и Адриатика.
+spu|Сплит|Хорватия|🇭🇷|eu|SPU|43.5,16.4|1|2|.8|bpagnx|-|s|11 12 15 18 23 27 30 30 26 21 16 12|13 13 13 15 18 22 25 25 23 20 17 14|11 12|LLLSHHHHHSLL|Дворец Диоклетиана, острова Хвар и Брач, водопады Крка.
+tiv|Будва · Черногория|Черногория|🇲🇪|eu|TIV|42.3,18.8|1|1|.8|bpnmx|-|-|12 13 15 18 22 27 30 30 26 21 17 13|14 13 14 15 18 22 25 25 23 21 18 15|11 12 1|LLLSSHHHHSLL|Старая Будва, Которский залив, горы Ловчен и недорогие апартаменты.
+tia|Албания · Дуррес|Албания|🇦🇱|eu|TIA|41.3,19.5|1|1|.8|bpgx|-|-|12 13 16 19 24 28 31 31 27 23 17 13|15 14 15 16 19 23 25 26 24 22 19 16|11 12|LLLSSHHHHSLL|Недорогое Адриатическое побережье, Берат и Круя, свежая рыба.
+mla|Мальта|Мальта|🇲🇹|eu|MLA|35.9,14.5|1|2|.8|bpeax|-|s|16 16 17 20 24 28 31 31 28 25 21 17|16 15 15 16 19 22 25 26 25 23 20 18|11 12|LLSSHHHHHSLL|Валлетта, Голубая лагуна, крепости рыцарей и английский язык повсюду.
+lca|Ларнака · Кипр|Кипр|🇨🇾|eu|LCA|34.9,33.6|2|2|.9|bpegx|-|c|17 17 20 23 27 31 33 33 31 28 23 19|18 17 18 19 21 25 27 28 27 25 22 19|12 1|LLSSHHHHHSSL|Тёплое море до ноября, пляж Макензи, Айя-Напа рядом.
+pfo|Пафос · Кипр|Кипр|🇨🇾|eu|PFO|34.8,32.4|2|2|.9|bpenx|-|c|17 17 19 22 25 28 30 31 30 27 23 19|18 17 17 18 21 24 26 27 26 24 22 19|12 1|LLSSHHHHHSSL|Античные мозаики, скала Афродиты и спокойные отели у моря.
+vie|Вена|Австрия|🇦🇹|eu|VIE|48.2,16.4|1|3|.75|egsx|MTR|s|3 5 11 16 21 24 27 26 21 15 8 4|-|-|LLSSHHHHSSLH|Дворцы Хофбург и Шёнбрунн, опера, кофейни и рождественские ярмарки.
+bud|Будапешт|Венгрия|🇭🇺|eu|BUD|47.5,19.0|1|2|.7|egsx|MTR|s|3 6 11 17 22 25 28 28 22 16 9 4|-|-|LLSSHHHHSSLH|Дунай, Парламент, термальные купальни Сечени и доступные цены.
+ber|Берлин|Германия|🇩🇪|eu|BER|52.5,13.4|1|2|.7|egsx|MTR|s|3 5 9 15 19 22 25 24 20 14 8 4|-|-|LLLSHHHHSSLH|Музейный остров, Бранденбургские ворота, зоопарк и отличное метро.
+ams|Амстердам|Нидерланды|🇳🇱|eu|AMS|52.4,4.9|1|3|.7|egsx|MTR|s|6 7 10 14 18 20 22 22 19 15 10 7|-|10 11 12|LLSHHHHHSSLL|Каналы, Рейксмузеум, велосипеды и тюльпаны весной.
+lhr|Лондон|Великобритания|🇬🇧|eu|LHR|51.5,-0.1|0|3|.75|egsx|MTR|v|8 9 12 15 18 21 24 23 20 16 11 8|-|10 11 12|LLSSHHHHSSLH|Музеи с бесплатным входом, парки, мюзиклы и Гарри Поттер Студия.
+vce|Венеция|Италия|🇮🇹|eu|VCE|45.4,12.3|1|3|.6|egx|R|s|7 9 13 17 22 26 29 28 24 18 12 8|-|10 11|LLSHHHHHHSLS|Каналы, площадь Сан-Марко, острова Мурано и Бурано.
+flr|Флоренция · Тоскана|Италия|🇮🇹|eu|FLR|43.8,11.3|1|3|.6|egnx|TR|s|11 13 16 20 24 29 32 32 27 21 15 11|-|10 11|LLSHHHHHHSLL|Уффици, Дуомо, виноградники Кьянти и Пиза рядом.
+nap|Неаполь · Амальфи|Италия|🇮🇹|eu|NAP|40.9,14.3|1|2|.65|begnx|MR|s|13 14 16 19 23 27 30 30 27 23 18 14|15 14 14 15 18 22 25 26 24 21 18 16|11 12|LLSSHHHHHSLL|Пицца, Помпеи, Везувий, Капри и Амальфитанское побережье.
+inn|Инсбрук · Тироль|Австрия|🇦🇹|eu|INN|47.3,11.4|1|3|.8|amnx|TR|s|3 6 11 16 20 23 25 25 21 16 9 3|-|-|HHSLSHHHSLSH|Альпы: горнолыжные курорты зимой, озёра и треккинг летом.
+lju|Любляна|Словения|🇸🇮|eu|LJU|46.1,14.5|1|2|.75|egnx|-|s|3 6 11 16 21 25 27 27 22 16 9 4|-|10 11|LLSSHHHHSSLS|Уютная столица, озеро Блед и пещеры Постойна рядом.
+kef|Рейкьявик · Исландия|Исландия|🇮🇸|eu|KEF|64.1,-21.9|0|3|.6|anx|-|s|3 3 4 6 10 12 14 14 11 7 4 3|-|10 11 12 1|LLSSSHHHSSLS|Гейзеры, водопады, Голубая лагуна; северное сияние с сентября по март.
+cph|Копенгаген|Дания|🇩🇰|eu|CPH|55.7,12.6|1|3|.75|egx|MR|s|3 3 6 11 16 19 22 21 18 13 8 4|-|10 11|LLLSHHHHSSLS|Нюхавн, Тиволи, велосипеды и новая скандинавская кухня.
+bjv|Бодрум|Турция|🇹🇷|me|BJV|37.0,27.4|3|2|.8|bpgx|-|-|15 15 18 21 26 31 34 34 30 25 20 16|17 16 17 18 21 24 25 25 24 23 20 18|12 1|LLLSSHHHHSLL|Белые дома, замок Святого Петра, бухты Эгейского моря.
+dlm|Фетхие · Даламан|Турция|🇹🇷|me|DLM|36.7,28.8|3|2|.85|bpnax|-|-|15 16 19 22 27 32 35 35 31 26 20 16|17 16 17 18 21 24 26 27 26 23 20 18|12 1|LLLSSHHHHSLL|Лагуна Олюдениз, Ликийская тропа, параглайдинг и спокойные отели.
+nav|Каппадокия|Турция|🇹🇷|me|NAV|38.7,34.8|3|2|.65|enax|-|-|4 6 11 17 21 26 30 30 26 19 12 6|-|-|LLSHHSSSHHLL|Воздушные шары на рассвете, пещерные отели и подземные города.
+auh|Абу-Даби|ОАЭ|🇦🇪|me|AUH|24.5,54.4|4|3|.95|bpesx|-|-|24 26 29 34 39 41 42 43 40 36 30 26|22 21 23 26 29 32 33 34 32 30 27 24|-|HHHSLLLLLSHH|Мечеть шейха Зайда, Лувр Абу-Даби, Ferrari World и Yas Waterworld.
+doh|Доха · Катар|Катар|🇶🇦|me|DOH|25.3,51.5|3|3|.85|bpesx|M|-|22 24 27 32 38 41 42 41 39 35 29 24|20 20 22 25 29 32 33 34 32 30 27 23|-|HHHSLLLLLSHH|Музей исламского искусства, Сук-Вакиф, пляжи и пустыня.
+mct|Маскат · Оман|Оман|🇴🇲|me|MCT|23.6,58.4|4|2|.85|bpnax|-|-|25 26 29 34 39 40 38 36 35 34 30 26|24 24 25 27 30 31 30 28 28 28 27 25|-|HHHSLLLLLSHH|Горы Хаджар, вади с бирюзовой водой, фьорды Мусандама и спокойствие.
+aqj|Акаба · Петра|Иордания|🇯🇴|me|AQJ|29.5,35.0|3|2|.7|bpenax|-|-|21 23 26 31 35 38 39 39 36 32 27 22|22 21 22 23 25 26 27 28 27 26 24 22|-|HHHHSLLLSHHH|Красное море, пустыня Вади-Рам и древняя Петра в двух часах.
+rkt|Рас-эль-Хайма|ОАЭ|🇦🇪|me|RKT|25.8,55.9|4|2|.9|bpnax|-|-|24 25 28 33 38 40 41 41 39 35 30 26|22 21 23 25 28 31 32 33 32 30 27 24|-|HHHSLLLLLSHH|Тихие пляжные отели, горы Джебель-Джайс и самая длинная зиплайн.
+gyd|Баку|Азербайджан|🇦🇿|cc|GYD|40.4,49.9|4|1|.7|egx|M|-|7 7 10 16 22 27 30 30 25 19 13 9|8 7 8 11 16 22 25 26 23 18 14 10|11 12|LLSSHHHHHSLL|Ичери-шехер, Пламенные башни, бульвар на Каспии и азербайджанская кухня.
+evn|Ереван|Армения|🇦🇲|cc|EVN|40.2,44.5|4|1|.7|egnmx|M|-|2 5 12 19 24 30 34 33 29 21 12 4|-|-|LLSHHSSSHHLL|Каскад, вид на Арарат, Гарни и Гегард, озеро Севан.
+skd|Самарканд|Узбекистан|🇺🇿|cc|SKD|39.7,66.9|5|1|.7|egx|R|-|7 9 15 22 27 33 35 33 28 21 14 9|-|3 4|LLSHHLLLHHSL|Регистан, Шахи-Зинда, плов и Великий шёлковый путь.
+hrg|Хургада|Египет|🇪🇬|af|HRG|27.3,33.8|2|1|.9|bpan|-|-|21 22 25 29 33 35 36 36 34 31 26 22|22 21 22 23 25 27 28 29 28 27 25 23|-|SSHHSSSSSHHS|Рифы Красного моря, дайвинг, недорогие семейные отели и поездки в Луксор.
+rak|Марракеш|Марокко|🇲🇦|af|RAK|31.6,-8.0|1|2|.7|egsnx|-|-|19 20 23 25 29 33 37 37 32 28 23 20|-|11 12|SSHHHLLLSHHH|Медина, площадь Джемаа-эль-Фна, сады Мажорель и Атлас на горизонте.
+aga|Агадир|Марокко|🇲🇦|af|AGA|30.4,-9.6|1|1|.85|bpnax|-|-|21 22 23 23 24 25 27 27 27 26 24 21|18 18 18 19 20 21 22 22 22 21 20 19|-|SSSHHSHHSSSH|Океанский пляж на 10 км, сёрфинг и солнце почти круглый год.
+dje|Джерба · Тунис|Тунис|🇹🇳|af|DJE|33.9,10.9|1|1|.9|bpx|-|-|17 18 20 23 26 30 33 33 30 27 22 18|16 15 16 18 20 24 27 28 27 24 21 18|11 12 1|LLLSSHHHHSLL|Песчаные пляжи, мелкое море для детей и недорогие отели.
+cpt|Кейптаун|ЮАР|🇿🇦|af|CPT|-33.9,18.4|2|2|.75|bgnaex|-|-|27 27 26 23 20 18 18 18 19 21 24 26|20 20 19 17 16 15 14 14 15 16 17 19|5 6 7 8|HHHSLLLLSSHH|Столовая гора, мыс Доброй Надежды, пингвины и винные долины.
+znz|Занзибар|Танзания|🇹🇿|af|ZNZ|-6.2,39.2|3|2|.8|bpnx|-|-|32 32 32 30 29 29 28 28 29 30 31 31|28 29 29 29 28 27 26 26 26 27 28 28|4 5|HHSLLSHHHSLH|Белые пляжи Нунгви, Стоун-Таун, специи и сафари в Танзании.
+mru|Маврикий|Маврикий|🇲🇺|af|MRU|-20.2,57.5|4|3|.9|bpnax|-|-|30 30 30 29 27 26 25 25 26 27 28 29|27 28 28 27 26 25 24 23 23 24 25 26|1 2 3|SLLSSSHHSHHH|Лагуны, коралловые рифы, водопады и курорты для семей.
+sez|Сейшелы|Сейшелы|🇸🇨|af|SEZ|-4.6,55.5|4|3|.85|bpnx|-|-|30 30 31 31 30 29 28 28 29 29 30 30|28 28 29 29 28 27 26 26 27 28 28 28|12 1|SSHHHSSSSHHH|Гранитные пляжи Ла-Диг, черепахи и острова Индийского океана.
+hnd|Токио|Япония|🇯🇵|as|HND|35.7,139.7|9|3|.85|egsx|MR|v|10 10 14 19 23 26 29 31 27 22 17 12|-|6 9|LLHHSLSSSHHS|Сибуя, храмы Асакусы, Диснейленд, аниме и лучшая уличная еда.
+kix|Осака · Киото|Япония|🇯🇵|as|KIX|34.7,135.5|9|3|.8|egsx|MR|v|9 10 14 20 24 28 32 33 29 23 17 12|-|6 9|LLHHSLSSSHHS|Храмы Киото, олени Нары, Universal Studios и гастрономия Осаки.
+icn|Сеул|Южная Корея|🇰🇷|as|ICN|37.6,127.0|9|2|.8|egsax|MR|-|2 5 11 18 23 27 29 30 26 20 12 4|-|7 8|LLSHHSLLHHSL|Дворцы, K-pop, рынки, Lotte World и горы в черте города.
+cju|Чеджу|Южная Корея|🇰🇷|as|CJU|33.5,126.5|9|2|.85|bpnax|-|-|9 10 13 18 22 25 29 30 26 22 16 11|15 14 14 15 17 21 24 26 25 22 19 16|6 7|LLSHHSHHSSLL|Вулкан Халласан, лавовые пещеры, пляжи и мандариновые сады.
+pek|Пекин|Китай|🇨🇳|as|PEK|39.9,116.4|8|2|.7|egsx|M|-|2 5 12 21 27 31 31 30 26 19 10 3|-|7 8|LLSHHSSSHHLL|Великая стена, Запретный город, хутуны и утка по-пекински.
+syx|Санья · Хайнань|Китай|🇨🇳|as|SYX|18.3,109.5|8|2|.9|bpx|-|-|26 27 29 31 32 32 32 32 31 30 28 26|24 24 25 27 29 29 29 29 29 28 27 25|7 8 9 10|HHHSSLLLLSSH|Тропический остров Китая: пляжи, большие курортные отели, тепло зимой.
+bkk|Бангкок|Таиланд|🇹🇭|as|BKK|13.8,100.5|7|1|.75|egsx|MR|-|32 33 34 35 34 33 33 32 32 32 32 31|-|5 6 7 8 9 10|HHSSLLLLLSHH|Храмы, плавучие рынки, стритфуд и огромные торговые центры.
+usm|Самуи|Таиланд|🇹🇭|as|USM|9.5,100.0|7|2|.85|bpnx|-|-|29 30 32 33 33 33 32 32 32 31 29 28|27 27 28 29 30 30 29 29 29 28 27 27|10 11 12|SHHHSSHHSLLL|Спокойный остров Сиамского залива; хорош летом, когда на Андамане дожди.
+kbv|Краби|Таиланд|🇹🇭|as|KBV|8.1,98.9|7|2|.8|bpnax|-|-|33 34 35 35 33 32 32 32 31 31 31 32|28 28 29 30 30 29 29 29 29 29 29 28|5 6 7 8 9 10|HHHSLLLLLLSH|Скалы Рейли, острова Ко Лао, каякинг и тихие пляжи.
+cnx|Чиангмай|Таиланд|🇹🇭|as|CNX|18.8,99.0|7|1|.75|egnax|-|-|29 32 35 36 34 32 31 31 31 31 29 28|-|6 7 8 9|HHSLLLLLLSHH|Храмы севера Таиланда, ночные рынки, горы и этичные слоновьи парки.
+pqc|Фукуок|Вьетнам|🇻🇳|as|PQC|10.2,104.0|7|1|.9|bpnx|-|-|30 31 32 33 32 31 30 30 30 30 30 30|27 27 28 29 30 29 29 29 29 29 28 27|6 7 8 9 10|HHHSLLLLLSSH|Пляжи, канатная дорога над морем, VinWonders и сафари для детей.
+dad|Дананг · Хойан|Вьетнам|🇻🇳|as|DAD|16.1,108.2|7|1|.85|bpegx|-|-|25 26 28 30 33 34 34 34 32 29 27 25|23 23 24 26 28 29 29 29 28 27 25 24|9 10 11 12|LSSHHHHHSLLL|Пляж Ми Кхе, Золотой мост на Ба На, старинный Хойан.
+dps|Бали|Индонезия|🇮🇩|as|DPS|-8.7,115.2|8|2|.8|bpnagx|-|-|31 31 31 32 31 30 30 30 31 32 32 31|29 29 29 29 28 27 27 27 27 28 29 29|12 1 2|SLLSSHHHHSLH|Рисовые террасы Убуда, храмы, сёрфинг и виллы с бассейнами.
+lgk|Лангкави|Малайзия|🇲🇾|as|LGK|6.3,99.8|8|2|.85|bpnx|-|-|32 33 33 33 32 32 31 31 31 31 31 31|28 28 29 30 30 29 29 29 29 29 29 28|8 9 10|HHHSLLLLLLSH|Беспошлинный остров, канатная дорога, мангры и спокойные пляжи.
+kul|Куала-Лумпур|Малайзия|🇲🇾|as|KUL|3.1,101.7|8|1|.8|egsx|MR|-|32 33 33 33 33 33 32 32 32 32 32 32|-|4 10 11|SSSSSSHHSSSH|Башни Петронас, пещеры Бату, шопинг и кухня трёх культур.
+sin|Сингапур|Сингапур|🇸🇬|as|SIN|1.35,103.8|8|3|.95|egsx|MR|-|30 31 32 32 32 31 31 31 31 31 31 30|-|11 12 1|SSSSSHHSSSSH|Сады у залива, Сентоза, Universal Studios и самый удобный транспорт в Азии.
+cmb|Шри-Ланка · Бентота|Шри-Ланка|🇱🇰|as|CMB|6.4,80.0|5.5|1|.8|bpnegx|-|-|31 31 32 32 31 30 30 30 30 30 30 30|28 28 29 29 29 28 28 27 27 28 28 28|5 6 10 11|HHHSLLSSLLSH|Пляжи юго-запада, чайные плантации, сафари в Яле и древние города.
+mle|Мальдивы|Мальдивы|🇲🇻|as|MLE|4.2,73.5|5|3|.8|bpn|-|-|30 31 31 32 31 31 30 30 30 30 30 30|28 28 29 30 30 29 29 29 28 28 28 28|5 6 7|HHHHSLLLLSSH|Острова-отели, виллы над водой, рифы и полное уединение.
+goi|Гоа|Индия|🇮🇳|as|GOI|15.4,73.8|5.5|1|.75|bpgx|-|-|32 32 33 33 33 31 29 29 30 32 33 33|27 27 28 29 30 29 28 28 28 29 29 28|6 7 8 9|HHHSLLLLLSHH|Недорогие пляжи, португальское наследие и индийская кухня.
+del|Дели · Агра|Индия|🇮🇳|as|DEL|28.6,77.2|5.5|1|.55|egsx|M|-|20 24 30 36 40 39 35 33 34 33 28 23|-|7 8 9|HHSLLLLLLSHH|Тадж-Махал, Красный форт, базары и «Золотой треугольник».
+mph|Боракай|Филиппины|🇵🇭|as|MPH|11.97,121.9|8|2|.85|bpax|-|-|29 30 31 32 32 31 30 30 30 30 30 29|27 27 28 29 30 29 29 29 29 28 28 27|7 8 9 10|HHHHSLLLLLSH|Белый пляж, кайтсёрфинг и закаты на парусных лодках.
+hkg|Гонконг|Китай|🇭🇰|as|HKG|22.3,114.2|8|3|.9|egsx|MTR|-|19 19 22 26 29 31 32 32 31 28 24 20|-|5 6 7 8 9|HHHSSLLLSHHH|Небоскрёбы гавани Виктория, Диснейленд, дим-самы и острова.
+jfk|Нью-Йорк|США|🇺🇸|am|JFK|40.7,-74.0|-5|3|.8|egsx|MR|v|4 6 10 17 22 27 30 29 25 19 12 6|-|-|LLSSHHHHSHSH|Манхэттен, Центральный парк, музеи и Бродвей.
+mia|Майами|США|🇺🇸|am|MIA|25.8,-80.2|-5|3|.85|bpsgx|MR|v|24 25 26 28 30 31 32 32 31 29 27 25|23 23 24 26 27 29 30 30 29 28 26 24|6 7 8 9 10|HHHSSLLLLSSH|Саут-Бич, ар-деко, Эверглейдс и Ки-Уэст.
+lax|Лос-Анджелес|США|🇺🇸|am|LAX|34.0,-118.2|-8|3|.85|begsx|MR|v|20 20 21 22 23 25 28 29 28 26 23 20|15 15 15 15 16 18 20 21 21 19 17 16|1 2|SSSSSHHHHSSH|Голливуд, Санта-Моника, Диснейленд и Universal Studios.
+cun|Канкун · Ривьера-Майя|Мексика|🇲🇽|am|CUN|21.2,-86.8|-5|2|.9|bpenx|-|-|28 29 30 31 32 32 33 33 32 31 30 28|26 26 27 27 28 29 29 30 29 28 27 26|6 9 10|HHHHSLLLLSSH|Карибское море, сеноты, пирамиды Чичен-Ицы и Тулума.
+puj|Пунта-Кана|Доминикана|🇩🇴|am|PUJ|18.6,-68.4|-4|2|.9|bpx|-|-|29 29 29 30 30 31 31 32 32 31 30 29|26 26 26 27 28 28 28 29 29 29 28 27|5 9 10|HHHHSLLLLSSH|Пальмовые пляжи, отели «всё включено» и остров Саона.
+vra|Варадеро · Куба|Куба|🇨🇺|am|VRA|23.1,-81.3|-5|2|.85|bpgx|-|-|26 27 28 29 31 32 32 32 31 30 28 27|25 25 25 26 27 28 29 29 29 28 27 26|6 9 10|HHHSSLLLLSSH|Длинный пляж Варадеро и колониальная Гавана.
+sjo|Коста-Рика|Коста-Рика|🇨🇷|am|SJO|9.9,-84.1|-6|2|.8|anbx|-|-|27 28 29 29 28 27 27 27 27 27 26 26|27 27 28 28 29 29 28 28 28 28 28 27|5 6 9 10 11|HHHHSLLLLLSH|Вулканы, тропические леса, ленивцы и пляжи двух океанов.
+yvr|Ванкувер|Канада|🇨🇦|am|YVR|49.3,-123.1|-8|3|.8|egnamx|MR|v|7 8 10 13 17 19 22 22 19 14 9 6|-|10 11 12 1|LLLSSHHHSLLL|Океан и горы в одном городе, Стэнли-парк и Уистлер рядом.
+gig|Рио-де-Жанейро|Бразилия|🇧🇷|sa|GIG|-22.9,-43.2|-3|2|.65|bpgnx|M|-|30 31 30 28 26 25 25 26 25 26 28 29|26 26 26 25 24 23 22 22 22 23 24 25|12 1 2 3|HHHSSSSSSSSH|Копакабана, Сахарная голова, статуя Христа и карнавал.
+eze|Буэнос-Айрес|Аргентина|🇦🇷|sa|EZE|-34.6,-58.4|-3|2|.7|egsx|M|-|30 29 26 23 19 16 15 17 19 22 26 28|-|-|HHSHSLLLSHHH|Танго, стейки, архитектура Реколеты и водопады Игуасу в 2 часах лёта.
+lim|Перу · Лима и Куско|Перу|🇵🇪|sa|LIM|-12.0,-77.0|-5|2|.5|enamx|-|-|26 27 27 25 23 20 19 19 20 21 23 25|-|1 2 3|LLLSHHHHSSSL|Мачу-Пикчу, Священная долина инков и гастрономия Лимы.
+scl|Сантьяго · Чили|Чили|🇨🇱|sa|SCL|-33.4,-70.6|-4|2|.7|egnmax|M|-|30 29 27 23 18 15 15 17 19 23 26 29|-|6 7|HHSSSHHHSSSH|Анды рядом с городом, винные долины, лыжи зимой.
+syd|Сидней|Австралия|🇦🇺|oc|SYD|-33.9,151.2|10|3|.85|begsx|MR|v|26 26 25 23 20 18 17 18 20 22 23 25|23 24 23 22 20 19 18 18 18 19 20 22|2 3 6|HHSSLLLLSSHH|Оперный театр, пляж Бонди, Голубые горы и зоопарк Таронга.
+mel|Мельбурн|Австралия|🇦🇺|oc|MEL|-37.8,145.0|10|3|.8|egsx|MTR|v|26 26 24 20 17 14 13 15 17 20 22 24|-|-|HHSSLLLLSSSH|Кофейни, стрит-арт, Великая океанская дорога и пингвины Филлип-Айленда.
+akl|Окленд · Новая Зеландия|Новая Зеландия|🇳🇿|oc|AKL|-36.8,174.8|12|3|.8|nabx|-|v|24 25 23 21 18 16 15 15 17 18 20 22|21 22 21 20 18 16 15 15 15 16 18 20|6 7|HHHSLLLLSSSH|Вулканы, Хоббитон, фьорды и приключения на природе.
+`;
+const TAGMAP={b:'beach',p:'passive',a:'active',e:'excursion',g:'gastro',n:'nature',m:'mountains',s:'shopping',x:'mixed'};
+/* Туристические сборы — известны для части направлений (приблизительно; проверять) */
+const FEES={ayt:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'},ist:{mode:'incl',note:'Налог на проживание 2% обычно уже включён в цену'},
+ dxb:{mode:'room',cur:'AED',amt:[10,15,20],note:'Tourism Dirham — за номер в ночь, оплачивается в отеле'},
+ her:{mode:'room',cur:'EUR',amt:[3,7,10],note:'Климатический сбор Греции — за номер в ночь'},
+ pmi:{mode:'adult',cur:'EUR',amt:[2,3,4],exempt:16,note:'Экологический налог Балеарских островов'},
+ bcn:{mode:'adult',cur:'EUR',amt:[5,6.5,8],exempt:17,note:'Туристический налог Барселоны и Каталонии'},
+ fco:{mode:'adult',cur:'EUR',amt:[6,7.5,10],exempt:10,cap:10,note:'Городской налог Рима, не более 10 ночей'},
+ prg:{mode:'adult',cur:'EUR',amt:[2,2,2],exempt:18,note:'Городской сбор Праги'},
+ cta:{mode:'adult',cur:'EUR',amt:[1.5,2.5,3.5],exempt:12,note:'Городской налог Катании'},
+ tbs:{mode:'none'},bus:{mode:'none'},ssh:{mode:'none'},hkt:{mode:'none'},cxr:{mode:'none'}};
 
-/* =========================================================
-   REAL DATA · Фотографии городов (Wikimedia Commons)
-   Каждый файл найден в поисковом индексе commons.wikimedia.org (см. CONFIG.dataCheckedOn).
-   Изображение берётся через Special:FilePath — это официальный способ Commons
-   получить файл по имени; страница файла содержит автора и лицензию.
-   ========================================================= */
+/* REAL DATA · фото городов (Wikimedia Commons) — файлы найдены в индексе commons.wikimedia.org */
 const CITY_PHOTOS={
   ayt:[['Antalya kaleiçi 2.jpg','Старый город Калеичи'],['ANTALYA KALEİÇİ YAT LİMANI - panoramio.jpg','Яхтенная гавань Калеичи'],['Kaleiçi old town, Antalya, Turkey 🇹🇷 Feb 2022 - Vista.jpg','Вид на Калеичи'],['Kaleiçi old town, Antalya, Turkey 🇹🇷 Feb 2022 - Tram.jpg','Трамвай у старого города']],
   dxb:[['Dubai Marina Skyline.jpg','Дубай-Марина'],['Dubai Skyline (25500263365).jpg','Панорама Дубая'],['UAE Dubai Marina img1 asv2018-01.jpg','Набережная Дубай-Марины'],['DubaiMarinaPanorama.jpg','Панорама Марины']],
@@ -683,14 +817,7 @@ const CITY_PHOTOS={
   cta:[['Piazza Duomo, Catania.jpg','Соборная площадь'],["Catania vista dall'alto e il vulcano Etna a sovrastarla.jpg",'Катания и Этна'],['Mt Etna and Catania.JPG','Этна над городом'],['Catania - Piazza Duomo 03.jpg','Пьяцца Дуомо']]
 };
 
-/* =========================================================
-   REAL DATA · Отели (конкретные объекты на Booking.com)
-   url — адрес страницы отеля на Booking.com, найденный в поисковом индексе.
-   Поля рейтинга, отзывов, цены, завтрака, отмены, транспорта остаются null, пока
-   их не вернёт getHotelDetails() из Booking Demand API — мы их не придумываем.
-   reviewsIndexed — число из заголовка страницы отзывов Booking в поисковом индексе
-   (дата индексации неизвестна, поэтому показывается только как справка).
-   ========================================================= */
+/* REAL DATA · отели на Booking.com — адреса страниц найдены в поисковом индексе */
 const REAL_HOTELS={
  ayt:[
   {id:'ayt-sofa',name:'Sofa Hotels Kaleiçi',tier:'budget',district:'Калеичи',url:'https://www.booking.com/hotel/tr/sofa-hotels-kaleici-antalya.html'},
@@ -759,265 +886,451 @@ const REAL_HOTELS={
 };
 const HOTEL_INDEX={};Object.entries(REAL_HOTELS).forEach(([c,l])=>l.forEach(h=>HOTEL_INDEX[h.id]={...h,city:c}));
 
-/* =========================================================
+const commonsSrc=(file,w=1280)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g,'_'))}?width=${w}`;
+const commonsPage=file=>`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g,'_'))}`;
+
+const DestinationCatalog={
+  all:[],byId:{},byIata:{},
+  load(raw){
+    raw.trim().split('\n').forEach(line=>{
+      const f=line.split('|');if(f.length<18)return;
+      const [id,city,country,flag,region,iata,coord,utc,price,kids,tags,transit,visa,air,sea,rain,season,desc]=f;
+      const [lat,lon]=coord.split(',').map(Number);
+      const activities=[...tags].map(c=>TAGMAP[c]).filter(Boolean);
+      const photos=CITY_PHOTOS[id]||[];
+      const d={id,city,country,flag,region,iata,coordinates:{lat,lon},utc:+utc,priceLevel:+price,familyFriendly:+kids,activities,
+        transit:{metro:transit.includes('M'),tram:transit.includes('T'),rail:transit.includes('R')},visa,
+        climate:{air:air.split(' ').map(Number),rainMonths:rain==='-'?[]:rain.split(' ').map(Number)},
+        seaTemperature:sea==='-'?null:sea.split(' ').map(Number),season,desc,
+        fee:FEES[id]||null,
+        imageUrl:photos.length?commonsSrc(photos[0][0]):null,imageSource:photos.length?'Wikimedia Commons':null};
+      d.childAgeSuitability=this.childAges(d);
+      this.all.push(d);this.byId[id]=d;this.byIata[iata]=d;
+    });
+  },
+  /** Пригодность для детей по возрастам (0–1). Можно переопределить из внешнего источника. */
+  childAges(d){
+    const k=d.familyFriendly,has=a=>d.activities.includes(a);
+    const resort=has('beach')&&has('passive');
+    return {infant:clamp(k-.1+(resort?.05:0)),toddler:clamp(k+(resort?.06:-.12)),school:clamp(k+(has('active')||has('nature')?.04:0)),teen:clamp(k+(has('active')||has('excursion')||has('shopping')?.1:0))};
+  }
+};
+DestinationCatalog.load(CATALOG_RAW);
+function getDestinations(){return DestinationCatalog.all}
+
+/* =====================================================================
    State
-   ========================================================= */
+   ===================================================================== */
 function defaultDates(){let s=new Date(2026,9,17);if(s<=addDays(today0,5))s=addDays(today0,21);return [iso(s),iso(addDays(s,8))]}
 const [D0,D1]=defaultDates();
-const S={start:D0,end:D1,adults:2,children:[6],tripType:'family',rest:['beach','passive'],temp:'warm',pace:'calm',budget:'standard',genius:'g2',origin:'NQZ',dest:'',
-  allowLow:false,currency:'KZT',lang:'ru',step:0,calY:pd(D0).getFullYear(),calM:pd(D0).getMonth(),
-  results:null,selected:null,tab:'season',tier:{},flightSel:{},cmpCities:[],cmpHotels:[],cmpTab:'cities',openBreak:{},chat:[],loading:false};
+const S={start:D0,end:D1,adults:2,children:[6],tripType:'family',rest:['beach','passive'],temp:'warm',pace:'calm',budget:'standard',budgetMax:null,genius:'g2',
+  home:'NQZ',scope:'kz',lastScope:'kz',dest:'',allowLow:false,currency:'KZT',lang:'ru',step:0,calY:pd(D0).getFullYear(),calM:pd(D0).getMonth(),
+  results:null,selected:null,tab:'season',tier:{},flightSel:{},cmpCities:[],cmpHotels:[],cmpTab:'cities',openBreak:{},shown:CONFIG.pageSize,region:'all',knownOpen:false,chat:[],loading:false};
 
-/* =========================================================
-   Party helpers
-   ========================================================= */
 const pax=()=>S.adults+S.children.length;
 function paxFactor(){return S.adults+S.children.reduce((s,a)=>s+(a<2?.1:a<12?.75:1),0)}
 function rooms(){return Math.max(Math.ceil(S.adults/2),Math.ceil(pax()/4))}
 const nights=()=>S.end?Math.max(1,diffDays(S.start,S.end)):1;
 function ageLbl(a){return a===0?'до 1 года':`${a} ${plural(a,['год','года','лет'])}`}
-function partyText(){
-  let s=`${S.adults} ${plural(S.adults,['взрослый','взрослых','взрослых'])}`;
-  const n=S.children.length;
-  if(n) s+=` + ${n===1?'ребёнок':`${n} ${plural(n,['ребёнок','ребёнка','детей'])}`} (${S.children.map(ageLbl).join(', ')})`;
-  return s;
-}
+function partyText(){let s=`${S.adults} ${plural(S.adults,['взрослый','взрослых','взрослых'])}`;const n=S.children.length;if(n)s+=` + ${n===1?'ребёнок':`${n} ${plural(n,['ребёнок','ребёнка','детей'])}`} (${S.children.map(ageLbl).join(', ')})`;return s}
 function companyPhrase(){
-  const n=S.children.length;
-  const kids=n?(n===1?`с ребёнком ${ageLbl(S.children[0])}`:`с детьми ${S.children.map(ageLbl).join(' и ')}`):'';
+  const n=S.children.length,kids=n?(n===1?`с ребёнком ${ageLbl(S.children[0])}`:`с детьми ${S.children.map(ageLbl).join(' и ')}`):'';
   if(S.tripType==='couple'&&S.adults===2) return `вдвоём${kids?' '+kids:''}`;
   if(S.tripType==='solo'&&S.adults===1) return `один${kids?' '+kids:''}`;
   if(S.tripType==='family') return `семьёй: ${S.adults} ${plural(S.adults,['взрослый','взрослых','взрослых'])}${kids?' '+kids:''}`;
   if(S.tripType==='friends') return `компанией из ${pax()} ${plural(pax(),['человека','человек','человек'])}`;
-  return `${S.adults===2?'вдвоём':`компанией из ${pax()} ${plural(pax(),['человека','человек','человек'])}`}${kids&&S.adults===2?' '+kids:''}`;
+  return `компанией из ${pax()} ${plural(pax(),['человека','человек','человек'])}`;
 }
-function listJoin(a){return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' и '+a[a.length-1]}
-const query=()=>({start:S.start,end:S.end,adults:S.adults,children:S.children.slice(),rooms:rooms(),origin:S.origin,currency:'KZT'});
+const query=()=>({start:S.start,end:S.end,adults:S.adults,children:S.children.slice(),rooms:rooms(),home:S.home,scope:S.scope,currency:'KZT'});
 
-/* =========================================================
-   API LAYER — единые точки подключения реальных источников.
-   Сейчас: реальные ссылки и фото (REAL), цены/рейсы — DEMO.
-   Чтобы подключить API, замените тело функции; интерфейс и UI не меняются.
-   ========================================================= */
-const commonsSrc=(file,w=1280)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file.replace(/ /g,'_'))}?width=${w}`;
-const commonsPage=file=>`https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file.replace(/ /g,'_'))}`;
+/* =====================================================================
+   2. SEASON ENGINE
+   ===================================================================== */
+const SeasonEngine={
+  weights(start=S.start,end=S.end){const w=new Array(12).fill(0),n=Math.max(1,diffDays(start,end||start));for(let i=0;i<n;i++)w[addDays(pd(start),i).getMonth()]+=1/n;return w},
+  /** Код сезона месяца: высокий/межсезонье из справочника; низкий превращается в «не сезон» при плохом климате */
+  code(d,m){const c=d.season[m];if(c!=='L')return c;const a=d.climate.air[m];return (a<6||a>38||d.climate.rainMonths.includes(m+1))?'O':'L'},
+  analyze(d,w){
+    const wavg=arr=>arr.reduce((s,v,i)=>s+v*w[i],0);
+    const codes=d.climate.air.map((_,m)=>this.code(d,m));
+    const dom=w.indexOf(Math.max(...w));
+    return {score:wavg(codes.map(c=>SEASON_SC[c])),code:codes[dom],codes,
+      air:wavg(d.climate.air),sea:d.seaTemperature?wavg(d.seaTemperature):null,
+      rain:d.climate.rainMonths.reduce((s,m)=>s+w[m-1],0),
+      crowd:Math.round(wavg(codes.map(c=>c==='H'?3:c==='S'?2:1))),
+      priceMult:wavg(codes.map(c=>SEASON_PRICE[c]))};
+  }
+};
+function calculateSeasonScore(d,w=SeasonEngine.weights()){return SeasonEngine.analyze(d,w)}
 
-/** Фото города. Источник: Wikimedia Commons (REAL). Прод: Commons API generator=search + imageinfo/extmetadata. */
-function getCityImages(cityId){
-  return (CITY_PHOTOS[cityId]||[]).map(([file,caption],i)=>({id:`${cityId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),caption,source:'Wikimedia Commons',license:'см. страницу файла',status:'real'}));
+/* =====================================================================
+   3. TRAVEL PREFERENCE ENGINE — тип отдыха, компания, возраст детей
+   ===================================================================== */
+const PreferenceEngine={
+  beach(sea){return sea==null?0:sea>=24?100:sea>=22?80:sea>=20?50:15},
+  weather(se){const [lo,hi]=TEMP_RANGE[S.temp];const dist=se.air<lo?lo-se.air:se.air>hi?se.air-hi:0;return clamp((100-dist*9-se.rain*35)/100)*100},
+  type(d,se){
+    const has=a=>d.activities.includes(a),types=S.rest.length?S.rest:['mixed'];let sum=0;
+    for(const r of types){
+      if(r==='beach') sum+=has('beach')?this.beach(se.sea):0;
+      else if(r==='mixed') sum+=has('mixed')?90:60;
+      else if(r==='passive') sum+=has('passive')?100:55;
+      else sum+=has(r)?100:20;
+    }
+    let s=sum/types.length;
+    if(S.pace==='calm'&&!has('passive')) s-=10;
+    if(S.pace==='intense'&&!has('excursion')) s-=12;
+    return clamp(s/100)*100;
+  },
+  party(d){
+    const has=a=>d.activities.includes(a);let s;
+    switch(S.tripType){
+      case 'family':s=d.familyFriendly*100;break;
+      case 'couple':s=70+(has('gastro')?10:0)+(has('beach')?10:0)+(has('excursion')?10:0);break;
+      case 'friends':s=65+(has('active')?12:0)+(has('shopping')?8:0)+(has('gastro')?10:0)+(has('beach')?5:0);break;
+      case 'solo':s=65+(has('excursion')?15:0)+(has('gastro')?10:0)+(d.transit.metro?10:0);break;
+      default:s=85;
+    }
+    if(pax()>=5&&d.priceLevel===3) s-=10;
+    return clamp(s/100)*100;
+  },
+  family(d,ctx){
+    if(!S.children.length) return null;
+    const cs=d.childAgeSuitability;
+    const per=S.children.map(a=>{
+      const g=a<2?'infant':a<6?'toddler':a<12?'school':'teen';let v=cs[g];
+      if(a<2&&ctx.flightHours>7) v-=.15;
+      if(a>=2&&a<6&&ctx.flightHours>9) v-=.1;
+      if(a<6&&ctx.air>34) v-=.1;
+      if(a<6&&ctx.stops>=2) v-=.08;
+      return clamp(v);
+    });
+    return per.reduce((s,v)=>s+v,0)/per.length*100;
+  }
+};
+function calculateFamilyScore(d,ctx){return PreferenceEngine.family(d,ctx)}
+
+/* =====================================================================
+   4. FLIGHT SEARCH ENGINE — DEMO-сеть маршрутов
+   Прямые рейсы и хабы ниже — упрощённая схема по открытым данным о маршрутах
+   (наличие, частота и сезонность меняются). Каждое предложение помечено DEMO и
+   проверяется по ссылкам Aviasales / Google Flights. Прод: Travelpayouts · Amadeus · Duffel.
+   ===================================================================== */
+const AIRPORTS={
+  NQZ:{city:'Астана',cc:'KZ',lat:51.02,lon:71.47},ALA:{city:'Алматы',cc:'KZ',lat:43.35,lon:77.04},CIT:{city:'Шымкент',cc:'KZ',lat:42.36,lon:69.48},
+  SCO:{city:'Актау',cc:'KZ',lat:43.86,lon:51.09},GUW:{city:'Атырау',cc:'KZ',lat:47.12,lon:51.82},KGF:{city:'Караганда',cc:'KZ',lat:49.67,lon:73.33},
+  AKX:{city:'Актобе',cc:'KZ',lat:50.25,lon:57.21},TAS:{city:'Ташкент',cc:'UZ',lat:41.26,lon:69.28},FRU:{city:'Бишкек',cc:'KG',lat:43.06,lon:74.48},
+  IST:{city:'Стамбул',cc:'TR',lat:41.26,lon:28.74},DXB:{city:'Дубай',cc:'AE',lat:25.25,lon:55.36},FRA:{city:'Франкфурт',cc:'DE',lat:50.03,lon:8.57},DOH:{city:'Доха',cc:'QA',lat:25.27,lon:51.61}
+};
+const HOME_CITIES=['NQZ','ALA','CIT','SCO','GUW','KGF','AKX'];
+const KZ_ALT=['NQZ','ALA','CIT','SCO','GUW'];
+const NEIGHBOR_ALT=['TAS','FRU'];
+const REGION_ALT=['IST','DXB'];
+const set=s=>new Set(s.trim().split(/\s+/));
+const DIRECT={
+  NQZ:set('ALA CIT SCO GUW KGF AKX IST AYT DXB AUH TBS FRA SSH HRG DEL'),
+  ALA:set('NQZ CIT SCO GUW KGF AKX TAS FRU IST AYT DXB AUH TBS BUS GYD SSH HRG HKT BKK CXR MLE ICN PEK DEL FRA DOH'),
+  CIT:set('NQZ ALA IST DXB'),SCO:set('NQZ ALA IST'),GUW:set('NQZ ALA IST'),KGF:set('NQZ ALA'),AKX:set('NQZ ALA'),
+  TAS:set('ALA IST DXB ICN DEL FRA BKK CDG SKD'),FRU:set('ALA IST DXB')
+};
+const HUB_REACH={
+  IST:set('CDG LIS OPO AGP VLC BCN PMI FCO VCE FLR NAP CTA ATH DBV SPU TIA MLA VIE BUD BER AMS LHR PRG CPH KEF LJU NCE AYT BJV DLM NAV TBS BUS GYD AUH DXB DOH MCT AQJ HRG SSH RAK DJE CPT ZNZ MRU SEZ HND KIX ICN PEK HKG BKK HKT DPS SIN KUL CMB MLE DEL JFK MIA LAX CUN GIG EZE LIM YVR SYD MEL'),
+  DXB:set('CDG BCN FCO VCE ATH LCA MLA VIE BUD PRG AMS LHR CPH IST TBS BUS GYD EVN DOH MCT HRG CPT ZNZ MRU SEZ HND KIX ICN PEK HKG BKK HKT DPS SIN KUL CMB MLE GOI DEL JFK MIA LAX GIG EZE SYD MEL AKL'),
+  FRA:set('CDG LIS OPO FNC TFS AGP VLC BCN PMI FCO VCE FLR NAP CTA ATH HER RHO CFU JTR DBV SPU TIA MLA LCA PFO VIE BUD BER AMS LHR PRG CPH KEF LJU NCE INN BJV DLM AYT IST JFK MIA LAX CUN PUJ VRA SJO YVR GIG EZE SCL HND ICN PEK HKG BKK SIN CPT MRU MLE DEL'),
+  DOH:set('CDG LIS BCN FCO VCE ATH LCA MLA VIE BUD PRG AMS LHR CPH IST TBS GYD MCT RAK CPT ZNZ MRU SEZ HND KIX ICN PEK HKG BKK HKT DPS SIN KUL CMB MLE GOI DEL JFK MIA LAX GIG EZE SYD MEL AKL')
+};
+const INTL_HUBS=['IST','DXB','FRA','DOH'];
+/* DEMO: относительный уровень тарифов по городу вылета (больше конкуренция и лоукостеров — ниже) */
+const ORIGIN_FACTOR={ALA:.86,TAS:.84,FRU:.9,CIT:.95,SCO:.97,GUW:1.02,NQZ:1,KGF:1.05,AKX:1.05,IST:.8,DXB:.8};
+const KZ_HUBS=['ALA','NQZ'];
+function apt(code){if(AIRPORTS[code])return AIRPORTS[code];const d=DestinationCatalog.byIata[code];return d?{city:d.city.split(' · ')[0],cc:d.country,lat:d.coordinates.lat,lon:d.coordinates.lon,utc:d.utc}:null}
+const isKZ=c=>AIRPORTS[c]&&AIRPORTS[c].cc==='KZ';
+const cityOf=c=>{const a=apt(c);return a?a.city:c};
+
+/** Альтернативные города вылета для выбранного охвата (домашний город — первым). */
+function getAlternativeDepartureCities(home=S.home,scope=S.scope){
+  const list=[home];
+  if(scope!=='mine') KZ_ALT.forEach(c=>list.includes(c)||list.push(c));
+  if(scope==='neighbors'||scope==='region') NEIGHBOR_ALT.forEach(c=>list.push(c));
+  if(scope==='region') REGION_ALT.forEach(c=>list.push(c));
+  return list;
 }
-/** Фото отеля. REAL — только открытые фото здания из Commons. Прод: фото из Booking Demand API (hotel photos по категориям). */
-function getHotelImages(hotelId){
-  const h=HOTEL_INDEX[hotelId];
-  const own=(h.photos||[]).map(([file,cat,caption],i)=>({id:`${hotelId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),category:cat,caption,source:'Wikimedia Commons',status:'real'}));
-  const cats=['Фасад','Номер','Ванная','Ресторан / завтрак','Общие зоны'];
-  return {photos:own,categories:cats.map(c=>({category:c,photo:own.find(p=>p.category===c)||null})),bookingPhotosUrl:getHotelBookingUrl(h,query())};
+const FlightEngine={
+  carriers(a,b){
+    if(isKZ(a)&&isKZ(b)) return 'Air Astana · FlyArystan · SCAT';
+    const k=[a,b];
+    if(k.includes('IST')) return 'Turkish Airlines · Pegasus';
+    if(k.includes('DXB')) return 'flydubai · Emirates';
+    if(k.includes('FRA')) return 'Lufthansa · Condor';
+    if(k.includes('DOH')) return 'Qatar Airways';
+    if(k.includes('TAS')) return 'Uzbekistan Airways';
+    if(k.includes('FRU')) return 'Air Manas · Avia Traffic';
+    if(isKZ(a)||isKZ(b)) return 'Air Astana · FlyArystan · SCAT';
+    return 'местные авиакомпании';
+  },
+  /** Возможные маршруты O → D по DEMO-сети (без выдуманных прямых рейсов). */
+  routes(O,D,depth=0){
+    const out=[],dir=DIRECT[O]||new Set();
+    if(O===D) return out;
+    if(dir.has(D)) out.push({path:[O,D],tickets:['single']});
+    INTL_HUBS.forEach(H=>{if(H!==D&&dir.has(H)&&HUB_REACH[H].has(D)) out.push({path:[O,H,D],tickets:['single','single']})});
+    KZ_HUBS.forEach(K=>{if(K!==O&&dir.has(K)&&(DIRECT[K]||new Set()).has(D)&&!isKZ(D)){out.push({path:[O,K,D],tickets:['single','single']});out.push({path:[O,K,D],tickets:['self','self']})}});
+    if(!out.length){
+      const dp=apt(D);let best=null;const cands=new Set([...dir].filter(c=>!isKZ(c)));
+      INTL_HUBS.forEach(H=>{if(dir.has(H))HUB_REACH[H].forEach(c=>cands.add(c))});
+      cands.forEach(G=>{if(G===D||isKZ(G))return;const a=apt(G);if(!a)return;const dd=haversine(a,dp);if(dd<2600&&(!best||dd<best.d))best={G,d:dd}});
+      if(best){const G=best.G;
+        if(dir.has(G)) out.push({path:[O,G,D],tickets:['single','self']});
+        else{const H=INTL_HUBS.find(H=>dir.has(H)&&HUB_REACH[H].has(G));if(H)out.push({path:[O,H,G,D],tickets:['single','single','self']})}}
+    }
+    if(!out.length&&depth===0) KZ_HUBS.forEach(K=>{if(K!==O&&dir.has(K)) this.routes(K,D,1).forEach(r=>out.push({path:[O,...r.path],tickets:['single',...r.tickets]}))});
+    return out;
+  },
+  price(route,priceMult,pf){
+    let per=0,dur=0;const legs=[];
+    route.path.slice(1).forEach((b,i)=>{
+      const a=route.path[i],dist=haversine(apt(a),apt(b));
+      let p=14000+dist*30;if(route.path.length===2)p*=1.1;if(route.tickets[i]==='self')p*=.82;if(isKZ(a)&&isKZ(b))p*=.9;
+      const ld=dist/780+.55;per+=p;dur+=ld;
+      legs.push({from:a,to:b,dist:Math.round(dist),dur:ld,carriers:this.carriers(a,b),ticket:route.tickets[i]});
+    });
+    const transfers=legs.slice(1).map((l,i)=>{const self=l.ticket==='self'||legs[i].ticket==='self';return {at:l.from,hours:self?5:2.2,self}});
+    dur+=transfers.reduce((s,x)=>s+x.hours,0);
+    const perAdult=Math.round(per*2*priceMult/1000)*1000;
+    return {legs,transfers,dur,perAdult,total:Math.round(perAdult*pf/1000)*1000};
+  },
+  positioning(home,origin,pf){
+    if(home===origin) return null;
+    const dist=haversine(apt(home),apt(origin));
+    const per=Math.round(2*(9000+dist*14)/1000)*1000;
+    const land=(origin==='TAS'||origin==='FRU')&&isKZ(home);
+    return {from:home,to:origin,dist:Math.round(dist),dur:dist/780+.55,cost:Math.round(per*pf/1000)*1000,
+      note:isKZ(home)&&isKZ(origin)?'Внутренний перелёт, отдельный билет':land?'Перелёт или наземный транспорт до границы, отдельный билет':'Отдельный билет до города вылета'};
+  },
+  search(d,{priceMult}){
+    const pf=paxFactor(),origins=getAlternativeDepartureCities(),R=rng(hash(d.id+S.start+S.end));
+    let opts=[];
+    origins.forEach(O=>{
+      if(O===d.iata) return;
+      const seen=new Set();
+      this.routes(O,d.iata).forEach(r=>{
+        if(O!==S.home&&r.path.includes(S.home)) return; // не возвращаемся через свой город
+        if(new Set(r.path).size!==r.path.length) return;
+        const key=r.path.join('-')+r.tickets.join('');if(seen.has(key))return;seen.add(key);
+        const p=this.price(r,priceMult*(ORIGIN_FACTOR[O]||1),pf),pos=this.positioning(S.home,O,pf);
+        const ticket=r.tickets.includes('self')?'self':'single';
+        const dep=6+Math.floor(R()*15)+[0,.25,.5,.75][Math.floor(R()*4)];
+        opts.push({id:key,origin:O,path:r.path,ticket,stops:r.path.length-2,via:r.path.slice(1,-1),...p,pos,
+          totalWithPos:p.total+(pos?pos.cost:0),durWithPos:p.dur+(pos?pos.dur+3:0),
+          depTime:dep,arrTime:dep+p.dur+(d.utc-5),
+          bag:ticket==='single'?'Единый билет: багаж обычно 20–23 кг и перевозится до конечного пункта (проверить тариф)':'Раздельные билеты: багаж получать и сдавать заново; у лоукостеров часто за доплату',
+          status:'demo'});
+      });
+    });
+    // по каждому городу вылета оставляем 3 лучших по цене
+    const byO={};opts.sort((a,b)=>a.totalWithPos-b.totalWithPos).forEach(o=>{(byO[o.origin]=byO[o.origin]||[]).length<3&&byO[o.origin].push(o)});
+    opts=Object.values(byO).flat().sort((a,b)=>a.totalWithPos-b.totalWithPos);
+    if(!opts.length) return opts;
+    const minP=Math.min(...opts.map(o=>o.totalWithPos)),minT=Math.min(...opts.map(o=>o.durWithPos));
+    opts.forEach(o=>{o.value=.5*minP/o.totalWithPos+.35*minT/o.durWithPos+.15*(o.ticket==='single'?1:0)-(o.pos?.03:0)});
+    const rec=opts.reduce((a,b)=>b.value>a.value?b:a);rec.recommended=true;
+    opts.find(o=>o.totalWithPos===minP).cheapest=true;opts.find(o=>o.durWithPos===minT).fastest=true;
+    const homeBest=opts.filter(o=>o.origin===S.home).sort((a,b)=>a.total-b.total)[0];
+    opts.forEach(o=>{o.vsHome=homeBest&&o.origin!==S.home?homeBest.total-o.totalWithPos:0});
+    return opts;
+  }
+};
+function getFlightOffers(d,ctx){return FlightEngine.search(d,ctx)}
+function flightLinks(d,origin=S.home){
+  const kids=S.children.filter(a=>a>=2&&a<12).length,inf=S.children.filter(a=>a<2).length,ad=S.adults+S.children.filter(a=>a>=12).length;
+  const dm=s=>{const x=pd(s);return pad(x.getDate())+pad(x.getMonth()+1)};
+  return {av:`https://www.aviasales.kz/search/${origin}${dm(S.start)}${d.iata}${dm(S.end)}${ad}${kids||inf?`${kids}${inf}`:''}`,
+    gf:`https://www.google.com/travel/flights?hl=ru&curr=KZT&q=${encodeURIComponent(`Flights from ${origin} to ${d.iata} on ${S.start} through ${S.end}`)}`};
 }
-/** Детали отеля. Идентичность и ссылка — REAL. Рейтинг/отзывы/завтрак/отмена — null до подключения Booking Demand API. Цена — DEMO-оценка. */
-function getHotelDetails(hotelId,q,ctx){
-  const h=HOTEL_INDEX[hotelId],d=DMAP[h.city];
-  const band={budget:0,standard:1,premium:2}[h.tier];
+
+/* =====================================================================
+   5. HOTEL SEARCH ENGINE
+   ===================================================================== */
+const HOTEL_BASE={1:28000,2:48000,3:85000}; // DEMO: номер/ночь, STANDARD, средний сезон
+function stayEstimate(d,band,priceMult,q){
   const rm=q.rooms,extra=Math.max(0,q.adults+q.children.length-2*rm);
-  const night=Math.round(d.hotel.base*[.6,1,2.1][band]*(ctx?ctx.priceMult:1)*rm*(1+.14*extra)/100)*100;
-  const n=Math.max(1,diffDays(q.start,q.end));
-  const kidTooYoung=h.adultsOnly&&q.children.some(a=>a<h.adultsOnly);
-  return {...h,band,
-    rating:null, reviews:null,                      // ← Booking Demand API: review_score, number_of_reviews
-    breakfast:null, cancellation:null,              // ← тариф: meal_plan, cancellation_policy
-    stars:h.stars??null,
-    priceNightEst:night, priceStayEst:night*n, priceStatus:'demo-estimate',
-    transport:getTransportData(h),
-    familyOk:!kidTooYoung,
-    fees:feeFor(d,h,band),
-    bookingUrl:getHotelBookingUrl(h,q),
-    source:{booking:h.url,foundVia:'поисковый индекс',checkedOn:CONFIG.dataCheckedOn}};
+  const night=Math.round(HOTEL_BASE[d.priceLevel]*[.6,1,2.1][band]*priceMult*rm*(1+.14*extra)/100)*100;
+  return {night,stay:night*Math.max(1,diffDays(q.start,q.end))};
 }
-/** Прямая ссылка на страницу отеля на Booking.com + даты и состав гостей (параметры Booking). */
+function feeFor(d,stars,band){
+  const f=d.fee;if(!f) return {kzt:0,unknown:true,note:'Туристический сбор: уточните на Booking.com'};
+  if(f.mode==='none'||f.mode==='incl') return {kzt:0,note:f.note||'Обязательных городских сборов нет'};
+  const idx=stars?(stars>=5?2:stars===4?1:0):band,rate=f.amt[idx]*CONFIG.currency.kztPer[f.cur],n=Math.min(nights(),f.cap||99);
+  const payers=f.mode==='room'?rooms():S.adults+S.children.filter(a=>a>=(f.exempt||0)).length;
+  return {kzt:Math.round(rate*n*payers/100)*100,note:`${f.note}: ~${f.amt[idx]} ${f.cur==='EUR'?'€':f.cur}${f.mode==='room'?' за номер':' с человека'} в ночь`};
+}
+/** Прямая ссылка на страницу конкретного отеля + даты и гости. */
 function getHotelBookingUrl(h,q){
-  const base=h.url.split('?')[0];
   const p=new URLSearchParams({checkin:q.start,checkout:q.end,group_adults:String(q.adults),group_children:String(q.children.length),no_rooms:String(q.rooms),selected_currency:q.currency||'KZT'});
   q.children.forEach(a=>p.append('age',String(a)));
-  return `${base}?${p.toString()}`;
+  return `${h.url.split('?')[0]}?${p.toString()}`;
 }
-/** Транспорт рядом. Прод: OpenStreetMap Overpass (public_transport=stop_position/station вокруг координат отеля). */
-function getTransportData(h){
-  const d=DMAP[h.city||h.cityId]||DMAP[HOTEL_INDEX[h.id].city];
-  const q=encodeURIComponent(`${h.name}, ${d.en}`);
-  return {status:'unverified',metro:null,tram:null,bus:null,station:null,center:null,
-    cityHas:{metro:!!d.transit.metro,tram:!!d.transit.tram,station:!!d.transit.station},
-    mapUrl:`https://www.google.com/maps/search/?api=1&query=${q}`,
-    nearbyUrl:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`public transport near ${h.name}, ${d.en}`)}`};
+/** Поиск отелей города на Booking.com (не конкретный отель!) с фильтрами «8+» и «завтрак включён». */
+function bookingSearchUrl(d,q){
+  const p=new URLSearchParams({ss:`${d.city.split(' · ').pop()}, ${d.country}`,checkin:q.start,checkout:q.end,group_adults:String(q.adults),group_children:String(q.children.length),no_rooms:String(q.rooms),selected_currency:'KZT',nflt:'review_score=80;mealplan=1'});
+  q.children.forEach(a=>p.append('age',String(a)));
+  return 'https://www.booking.com/searchresults.ru.html?'+p.toString();
 }
-/** Предложения перелётов. Сейчас DEMO. Прод: Travelpayouts/Aviasales · Amadeus · Duffel. */
-function getFlightOffers(d,ctx){return demoFlights(d,ctx)}
-
-/* =========================================================
-   Engine: season & match
-   ========================================================= */
-function monthWeights(){const w=new Array(12).fill(0),n=nights();for(let i=0;i<n;i++){w[addDays(pd(S.start),i).getMonth()]+=1/n}return w}
-const wavg=(arr,w)=>arr.reduce((s,v,i)=>s+v*w[i],0);
-function beachScore(sea){return sea==null?0:sea>=24?100:sea>=22?80:sea>=20?50:15}
-
-function analyze(d){
-  const w=monthWeights();
-  const air=wavg(d.air,w), sea=d.sea?wavg(d.sea,w):null;
-  const codes=[...d.season];
-  const domM=w.indexOf(Math.max(...w));
-  const seasonCode=codes[domM];
-  const crowd=Math.round(wavg([...d.crowd].map(Number),w));
-  const rain=d.rain.reduce((s,m)=>s+w[m],0);
-  const sc={};
-  sc.season=wavg(codes.map(c=>SEASON_SC[c]),w);
-  const [lo,hi]=TEMP_RANGE[S.temp];
-  const dist=air<lo?lo-air:air>hi?air-hi:0;
-  sc.weather=clamp((100-dist*9-rain*35)/100)*100;
-  const types=S.rest.length?S.rest:['mixed'];
-  let tsum=0;
-  for(const r of types){
-    if(r==='beach') tsum+=d.tags.includes('beach')?beachScore(sea):0;
-    else if(r==='mixed') tsum+=d.tags.includes('mixed')?90:60;
-    else if(r==='passive') tsum+=d.tags.includes('passive')?100:55;
-    else tsum+=d.tags.includes(r)?100:20;
-  }
-  sc.type=tsum/types.length;
-  if(S.pace==='calm'&&!d.tags.includes('passive')) sc.type-=10;
-  if(S.pace==='intense'&&!d.tags.includes('excursion')) sc.type-=12;
-  sc.type=clamp(sc.type/100)*100;
-  const fl=d.flight, h=fl.h+ORIG[S.origin].dh;
-  sc.flight=clamp((fl.direct?100-Math.max(0,h-4)*6:72-Math.max(0,h-8)*6)/100)*100;
-  const tbl={budget:{1:100,2:80,3:50},standard:{1:92,2:100,3:78},premium:{1:78,2:95,3:100}};
-  sc.budget=tbl[S.budget][d.price]-(!fl.direct&&S.budget==='budget'?8:0);
-  const hasKids=S.children.length>0;
-  if(hasKids){
-    let k=d.kids*100;const young=Math.min(...S.children);
-    if(young<3&&h>6) k-=15;
-    if(air>34) k-=12;
-    if(young<6&&!fl.direct) k-=8;
-    sc.kids=clamp(k/100)*100;
-  }
-  const W={season:.20,weather:.22,type:.23,kids:hasKids?.12:0,budget:.13,flight:.10};
-  const tw=Object.values(W).reduce((a,b)=>a+b,0);
-  let match=0;for(const k in W) if(W[k]) match+=sc[k]*W[k];
-  match=Math.round(match/tw);
-  const priceMult=wavg(codes.map(c=>SEASON_PRICE[c]),w);
-  const r={d,air,sea,seasonCode,crowd,rain,sc,W,match,priceMult,h};
-  r.flights=getFlightOffers(d,r);
-  const q=query();
-  r.hotels=(REAL_HOTELS[d.id]||[]).map(x=>getHotelDetails(x.id,q,r));
-  r.tiers=pickTiers(r);
-  r.why=[];r.care=[];
-  buildReasons(r);
-  return r;
+function getHotelImages(hotelId){
+  const h=HOTEL_INDEX[hotelId];
+  const own=(h.photos||[]).map(([file,cat,caption],i)=>({id:`${hotelId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),category:cat,caption,source:'Wikimedia Commons'}));
+  return {photos:own,categories:['Фасад','Номер','Ванная','Ресторан / завтрак','Общие зоны'].map(c=>({category:c,photo:own.find(p=>p.category===c)||null}))};
 }
-function buildReasons(r){
-  const d=r.d,why=r.why,care=r.care,sea=r.sea&&Math.round(r.sea),air=Math.round(r.air);
-  if(r.sc.season>=88) why.push(`Подходящий сезон: ${SEASON_LBL[r.seasonCode].toLowerCase()}`);
-  if(S.rest.includes('beach')&&sea>=23&&d.tags.includes('beach')) why.push(`Тёплое море: около ${sea}°`);
-  if(r.sc.weather>=85) why.push(`Комфортная погода: днём около ${air}°`);
-  if(d.flight.direct) why.push(`Прямой перелёт ~${hm(r.h)}`);
-  {const n=r.hotels.filter(h=>h.familyOk).length;why.push(`${n} ${plural(n,['конкретный отель','конкретных отеля','конкретных отелей'])} с прямыми ссылками на Booking.com`)}
-  if(d.transit.metro||d.transit.tram) why.push(`В городе есть ${[d.transit.metro?'метро':'',d.transit.tram?'трамвай':''].filter(Boolean).join(' и ')}`);
-  if(S.children.length&&r.sc.kids>=82) why.push('Подходит для семейного отдыха с детьми этого возраста');
-  if(r.sc.budget>=95) why.push('Уровень цен соответствует выбранному бюджету');
-  if(r.seasonCode==='H'&&r.crowd>=3) care.push('Высокий сезон: много туристов, цены выше');
-  else if(r.crowd>=3) care.push('Много туристов в эти даты');
-  if(d.price===3) care.push('Высокий уровень цен на месте');
-  if(air>=33) care.push(`Жарко днём: около ${air}°`);
-  if(r.rain>=.3) care.push('Сезон дождей: возможны ливни и волны');
-  if(S.rest.includes('beach')&&d.tags.includes('beach')&&sea!=null&&sea<21) care.push(`Море прохладное для купания: ~${sea}°`);
-  if(S.rest.includes('beach')&&!d.tags.includes('beach')) care.push('Это город без пляжного отдыха');
-  if(r.seasonCode==='O'||r.seasonCode==='L') care.push('Межсезонье: часть курортных отелей и экскурсий может не работать');
-  if(!d.flight.direct) care.push(`Перелёт с пересадкой в городе ${d.flight.viaCity}`);
-  if(r.h>7) care.push(`Длительный перелёт ~${hm(r.h)}`);
-  if(d.schengen) care.push('Нужна шенгенская виза');
-  if(!d.transit.metro&&!d.transit.tram) care.push('В городе нет метро и трамвая: ориентируемся на автобусы и такси');
+/** Детали отеля: личность и ссылка — REAL; рейтинг/отзывы/завтрак/отмена — null до Booking Demand API; цена — DEMO-оценка. */
+function getHotelDetails(hotelId,q,ctx){
+  const h=HOTEL_INDEX[hotelId],d=DestinationCatalog.byId[h.city],band={budget:0,standard:1,premium:2}[h.tier];
+  const est=stayEstimate(d,band,ctx.priceMult,q);
+  return {...h,band,rating:null,reviews:null,breakfast:null,cancellation:null,stars:h.stars??null,
+    priceNightEst:est.night,priceStayEst:est.stay,priceStatus:'demo-estimate',
+    transport:getTransportData(h),familyOk:!(h.adultsOnly&&q.children.some(a=>a<h.adultsOnly)),
+    fees:feeFor(d,h.stars,band),bookingUrl:getHotelBookingUrl(h,q),
+    source:{booking:h.url,checkedOn:CONFIG.dataCheckedOn}};
 }
-
-/* DEMO flights */
-function demoFlights(d,r){
-  const R=rng(hash(d.id+S.origin+S.start+S.end));
-  const o=ORIG[S.origin], fl=d.flight, pm=r.priceMult*o.f, pf=paxFactor();
-  const opts=[];
-  const mk=(kind,airline,direct,dur,mult,bag,via)=>{
-    const dep=6+Math.floor(R()*14)+[0,.25,.5,.75][Math.floor(R()*4)];
-    const dep2=7+Math.floor(R()*13)+[0,.25,.5,.75][Math.floor(R()*4)];
-    const perAdult=Math.round(fl.base*mult*pm/1000)*1000;
-    return {id:kind,kind,airline,code:AIRCODE[airline]||'XX',direct,via:via||null,dur,
-      out:{date:S.start,dep,arr:dep+dur+d.tz},back:{date:S.end,dep:dep2,arr:dep2+dur-d.tz+(direct?-.15:.2)},
-      bag,perAdult,total:Math.round(perAdult*pf/1000)*1000,status:'demo'};
-  };
-  const h=fl.h+o.dh;
-  if(fl.direct){
-    opts.push(mk('optimal',fl.carriers[0],true,h,1,{kg:23,note:'Багаж 23 кг + ручная кладь 8 кг (типичный тариф, проверить)'}));
-    opts.push(mk('cheap',fl.low,true,h+.2,.84,{kg:0,note:'Только ручная кладь · багаж за доплату (типичный тариф, проверить)'}));
-    opts.push(mk('alt',fl.carriers[1]||'Turkish Airlines',false,h+4.6,.9,{kg:20,note:'Багаж 20 кг + ручная кладь (проверить)'},'IST'));
-  } else {
-    opts.push(mk('optimal','Turkish Airlines',false,h,1,{kg:23,note:'Багаж 23 кг + ручная кладь 8 кг (типичный тариф, проверить)'},fl.via));
-    opts.push(mk('cheap','Pegasus',false,h+2.4,.82,{kg:0,note:'Только ручная кладь · багаж за доплату (проверить)'},'SAW'));
-    opts.push(mk('alt','flydubai',false,h+1.8,.93,{kg:20,note:'Багаж 20 кг + ручная кладь (проверить)'},'DXB'));
-  }
-  const minP=Math.min(...opts.map(x=>x.total)),minD=Math.min(...opts.map(x=>x.dur));
-  opts.forEach(x=>{x.value=.55*(minP/x.total)+.3*(minD/x.dur)+.15*(x.bag.kg?1:0)});
-  const best=opts.reduce((a,b)=>b.value>a.value?b:a);best.recommended=true;
-  opts.forEach(x=>x.label=x.recommended?'Рекомендуем':x.total===minP?'Самый дешёвый':x.dur===minD?'Самый быстрый':'Альтернатива');
-  return opts;
-}
-function selFlight(r){return r.flights.find(f=>f.id===S.flightSel[r.d.id])||r.flights.find(f=>f.recommended)}
-function fmtT(h){const dayAdd=Math.floor(h/24);h=((h%24)+24)%24;const H=Math.floor(h),M=Math.round((h-H)*60);return {t:`${pad(H)}:${pad(M===60?0:M)}`,plus:dayAdd}}
-
-/* Hotels: scoring (готов к реальным данным) and tier choice */
-/** Релевантность. Работает, когда getHotelDetails() вернёт rating/reviews/breakfast/транспорт; с null возвращает null. */
-function scoreHotel(h){
+/** Релевантность отеля — включается, когда getHotelDetails() вернёт реальные рейтинг, отзывы, завтрак, транспорт. */
+function calculateHotelScore(h){
   if(h.rating==null||h.reviews==null) return null;
   if(h.rating<8&&!S.allowLow) return null;
   const bayes=(h.reviews*h.rating+800*8.2)/(h.reviews+800);
-  const q=clamp((bayes-7.6)/1.8)*100, rv=clamp(Math.log10(h.reviews)/Math.log10(15000))*100;
+  const q=clamp((bayes-7.6)/1.8)*100,rv=clamp(Math.log10(h.reviews)/Math.log10(15000))*100;
   const bf=h.breakfast==='included'?100:h.breakfast==='paid'?45:0;
   const tr=Math.max(...[[h.transport.metro,1],[h.transport.tram,.92],[h.transport.bus,.78],[h.transport.station,.72]].map(([m,w])=>m==null?0:clamp((1500-m)/1200)*100*w));
   return Math.round(.28*q+.17*rv+.22*tr+.13*bf+.2*50);
 }
-function feeFor(d,h,band){
-  const f=d.fee;if(!f||f.mode==='none'||f.mode==='incl') return {kzt:0,note:f&&f.note||'Обязательных городских сборов нет'};
-  const idx=h.stars?(h.stars>=5?2:h.stars===4?1:0):band;
-  const rate=f.amt[idx]*CONFIG.currency.kztPer[f.cur];
-  const n=Math.min(nights(),f.cap||99);
-  const payers=f.mode==='room'?rooms():S.adults+S.children.filter(a=>a>=(f.exempt||0)).length;
-  return {kzt:Math.round(rate*n*payers/100)*100,note:`${f.note}: ~${f.amt[idx]} ${f.cur==='EUR'?'€':f.cur}${f.mode==='room'?' за номер':' с человека'} в ночь`};
+const HotelEngine={
+  forDestination(d,q,priceMult){return (REAL_HOTELS[d.id]||[]).map(x=>getHotelDetails(x.id,q,{priceMult}))},
+  tiers(d,hotels,priceMult,q){
+    const out={};
+    TIERS.forEach(([key],band)=>{
+      const c=hotels.filter(h=>h.tier===key&&h.familyOk);
+      const scored=c.map(h=>[h,calculateHotelScore(h)]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
+      let pick=scored.length?scored[0][0]:c[0];
+      if(!pick){const e=stayEstimate(d,band,priceMult,q);pick={id:`${d.id}-est-${key}`,estimated:true,tier:key,band,name:null,priceNightEst:e.night,priceStayEst:e.stay,fees:feeFor(d,null,band),searchUrl:bookingSearchUrl(d,q)}}
+      out[key]=pick;
+    });
+    return out;
+  }
+};
+
+/* =====================================================================
+   6. TRANSPORT ENGINE
+   ===================================================================== */
+/** Транспорт у отеля. Прод: OpenStreetMap Overpass вокруг координат отеля. Сейчас — только факт наличия метро/трамвая в городе. */
+function getTransportData(h){
+  const d=DestinationCatalog.byId[h.city||(HOTEL_INDEX[h.id]||{}).city];
+  return {status:'unverified',metro:null,tram:null,bus:null,station:null,center:null,
+    cityHas:{metro:d.transit.metro,tram:d.transit.tram,station:d.transit.rail},
+    nearbyUrl:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`public transport near ${h.name}, ${d.city.split(' · ').pop()}`)}`};
 }
-function pickTiers(r){
-  const out={};
-  TIERS.forEach(([key])=>{
-    const c=r.hotels.filter(h=>h.tier===key&&h.familyOk);
-    const scored=c.map(h=>[h,scoreHotel(h)]).filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
-    out[key]=scored.length?scored[0][0]:(c[0]||r.hotels.find(h=>h.tier===key)||r.hotels[0]);
-  });
-  return out;
+function calculateTransportScore(d){
+  const resortOnly=S.rest.every(r=>r==='beach'||r==='passive');
+  if(d.transit.metro) return 100;if(d.transit.tram) return 88;if(d.transit.rail) return 72;
+  return resortOnly?75:50;
 }
+
+/* =====================================================================
+   7. SCORING ENGINE
+   ===================================================================== */
+const WEIGHTS={season:.30,weather:.15,type:.15,party:.10,kids:.10,budget:.10,flight:.05,transport:.05};
+const FACTOR_LBL={season:'Сезон',weather:'Погода',type:'Тип отдыха',party:'Состав путешественников',kids:'Возраст детей',budget:'Бюджет',flight:'Перелёт',transport:'Транспорт'};
+function calculateBudgetScore(d,estTotal){
+  const tbl={budget:{1:100,2:80,3:50},standard:{1:92,2:100,3:78},premium:{1:78,2:95,3:100}};
+  let s=tbl[S.budget][d.priceLevel];
+  if(S.budgetMax&&estTotal){const r=estTotal/S.budgetMax;s=r<=1?Math.min(100,s+8):s*Math.max(0,1-(r-1)*2)}
+  return s;
+}
+function calculateFlightScore(opt){
+  if(!opt) return 15;
+  const h=opt.dur;return clamp((100-Math.max(0,h-4)*5-opt.stops*8-(opt.ticket==='self'?6:0))/100,.1,1)*100;
+}
+function calculateDestinationScore(d,ctx){
+  const sc={season:ctx.season.score,weather:PreferenceEngine.weather(ctx.season),type:PreferenceEngine.type(d,ctx.season),party:PreferenceEngine.party(d),
+    kids:calculateFamilyScore(d,{flightHours:ctx.best?ctx.best.dur:12,air:ctx.season.air,stops:ctx.best?ctx.best.stops:2}),
+    budget:calculateBudgetScore(d,ctx.estTotal),flight:calculateFlightScore(ctx.best),transport:calculateTransportScore(d)};
+  const W={...WEIGHTS};if(sc.kids==null) W.kids=0;
+  const tw=Object.values(W).reduce((a,b)=>a+b,0);
+  let m=0;for(const k in W) if(W[k]) m+=sc[k]*W[k];
+  return {match:Math.round(m/tw),sc,W,tw};
+}
+function rankDestinations(list){return list.slice().sort((a,b)=>b.match-a.match||a.estTotal-b.estTotal)}
+
+/* =====================================================================
+   8. RESULTS ENGINE
+   ===================================================================== */
+function analyze(d){
+  const w=SeasonEngine.weights(),season=calculateSeasonScore(d,w),q=query();
+  const flights=getFlightOffers(d,{priceMult:season.priceMult});
+  const best=flights.find(f=>f.recommended)||null;
+  const hotels=HotelEngine.forDestination(d,q,season.priceMult);
+  const tiers=HotelEngine.tiers(d,hotels,season.priceMult,q);
+  const t=tiers[S.budget];
+  const estTotal=best?best.totalWithPos+t.priceStayEst+t.fees.kzt:null;
+  const r={d,season,flights,best,hotels,tiers,estTotal,air:season.air,sea:season.sea,seasonCode:season.code,crowd:season.crowd};
+  Object.assign(r,calculateDestinationScore(d,{season,best,estTotal}));
+  buildReasons(r);
+  return r;
+}
+function buildReasons(r){
+  const d=r.d,why=[],care=[],sea=r.sea!=null?Math.round(r.sea):null,air=Math.round(r.air),has=a=>d.activities.includes(a),sc=r.sc;
+  if(sc.season>=88) why.push(`Отличный сезон: ${SEASON_LBL[r.seasonCode].toLowerCase()}`);else if(sc.season>=75) why.push('Хороший сезон для этих дат');
+  if(S.rest.includes('beach')&&has('beach')&&sea>=23) why.push(`Тёплое море: около ${sea}°`);
+  if(sc.weather>=85) why.push(`Хорошая температура: днём около ${air}°`);
+  if(sc.type>=85) why.push(`Подходит для вашего формата: ${S.rest.map(x=>REST_PHRASE[x]).slice(0,2).join(', ')||'отдых'}`);
+  if(sc.kids!=null&&sc.kids>=80) why.push(`Подходит для отдыха с детьми (${S.children.map(ageLbl).join(', ')})`);
+  if(r.best&&sc.flight>=70) why.push(`Удобный перелёт: ${r.best.stops?`${r.best.stops} ${plural(r.best.stops,['пересадка','пересадки','пересадок'])}`:'прямой'}, ~${hm(r.best.dur)}`);
+  if(r.best&&r.best.origin!==S.home&&r.best.vsHome>20000) why.push(`Выгоднее лететь из города ${cityOf(r.best.origin)}: экономия ${approx(r.best.vsHome)}`);
+  if(sc.budget>=90) why.push(S.budgetMax?'Укладывается в ваш лимит бюджета':'Отели соответствуют бюджету');
+  if(sc.transport>=88&&(d.transit.metro||d.transit.tram)) why.push(`Удобный транспорт: ${[d.transit.metro?'метро':'',d.transit.tram?'трамвай':''].filter(Boolean).join(' и ')}`);
+  const nReal=r.hotels.filter(h=>h.familyOk).length;
+  if(nReal) why.push(`${nReal} ${plural(nReal,['конкретный отель','конкретных отеля','конкретных отелей'])} с прямыми ссылками на Booking.com`);
+  if(r.seasonCode==='H'&&r.crowd>=3) care.push('Высокий сезон: много туристов, цены выше');
+  if(d.priceLevel===3) care.push('Цены выше среднего');
+  if(air>=33) care.push(`Жарко днём: около ${air}°`);
+  if(r.season.rain>=.3) care.push('Сезон дождей: возможны ливни');
+  if(S.rest.includes('beach')&&has('beach')&&sea!=null&&sea<21) care.push(`Море прохладное для купания: ~${sea}°`);
+  if(S.rest.includes('beach')&&!has('beach')) care.push('Без пляжного отдыха');
+  if(r.seasonCode==='O'||r.seasonCode==='L') care.push('Не сезон: часть отелей и экскурсий может не работать');
+  if(r.best&&r.best.dur>9) care.push(`Длительная дорога: ~${hm(r.best.dur)}`);
+  if(r.best&&r.best.ticket==='self') care.push('Рекомендованный маршрут — с самостоятельной пересадкой');
+  if(!r.best) care.push('В DEMO-сети маршрутов нет варианта перелёта — проверьте на Aviasales');
+  if(d.visa==='s') care.push('Нужна шенгенская виза');else if(d.visa==='v') care.push('Нужна виза');else if(d.visa==='c') care.push('Нужна виза Кипра — проверьте условия');
+  if(S.budgetMax&&r.estTotal&&r.estTotal>S.budgetMax) care.push(`Оценка выше лимита на ${approx(r.estTotal-S.budgetMax)}`);
+  if(!nReal) care.push('Конкретные отели ещё не подобраны — поиск на Booking.com');
+  if(S.children.some(a=>a<2)&&r.best&&r.best.dur>7) care.push('Долгий перелёт для малыша до 2 лет');
+  r.why=why;r.care=care;
+}
+const ResultsEngine={
+  run(){
+    const all=rankDestinations(getDestinations().map(analyze));
+    const fit=all.filter(r=>r.match>=CONFIG.fitThreshold&&r.seasonCode!=='O');
+    let list=fit.length>=3?fit:all.slice(0,Math.max(3,fit.length));
+    if(S.dest){const p=all.find(r=>r.d.id===S.dest);list=[p,...list.filter(r=>r!==p)]}
+    const rest=all.filter(r=>!list.includes(r));
+    S.results={all,fit,list,rest,analyzed:all.length};
+    S.shown=CONFIG.pageSize;
+    if(!S.selected||!all.find(r=>r.d.id===S.selected)) S.selected=list[0].d.id;
+    S.cmpCities=list.slice(0,3).map(r=>r.d.id);
+    const sel=all.find(r=>r.d.id===S.selected);
+    S.cmpHotels=TIERS.map(([k])=>sel.tiers[k]).filter(h=>!h.estimated).map(h=>h.id);
+  },
+  visible(){const l=S.results.list.filter(r=>S.region==='all'||r.d.region===S.region);return {items:l.slice(0,S.shown),total:l.length}}
+};
+const R_=id=>S.results.all.find(r=>r.d.id===id);
+function selFlight(r){return r.flights.find(f=>f.id===S.flightSel[r.d.id])||r.best}
 function tripCost(r,tierKey){
   const h=r.tiers[tierKey],f=selFlight(r);
-  const total=f.total+h.priceStayEst+h.fees.kzt;
-  return {h,f,total,per:Math.round(total/pax())};
+  const fl=f?f.totalWithPos:0,total=fl+h.priceStayEst+h.fees.kzt;
+  return {h,f,fl,total,per:Math.round(total/pax())};
 }
 
-/* Search */
-function runSearch(){
-  const all=DEST.map(analyze).sort((a,b)=>b.match-a.match);
-  let good=all.filter(r=>r.match>=72).slice(0,8);
-  if(good.length<3) good=all.slice(0,3);
-  if(S.dest){const p=all.find(r=>r.d.id===S.dest);good=[p,...good.filter(r=>r!==p)]}
-  const rest=all.filter(r=>!good.includes(r));
-  S.results={all,good,rest};
-  const podium=good.slice(0,3);
-  if(!S.selected||!all.find(r=>r.d.id===S.selected)) S.selected=podium[0].d.id;
-  S.cmpCities=podium.map(r=>r.d.id);
-  const sel=all.find(r=>r.d.id===S.selected);
-  S.cmpHotels=TIERS.map(([k])=>sel.tiers[k].id);
-}
-const R_=id=>S.results.all.find(r=>r.d.id===id);
-
-/* =========================================================
-   Photo component (real images; honest fallback when blocked)
-   ========================================================= */
+/* =====================================================================
+   UI · фото
+   ===================================================================== */
+function getCityImages(cityId){return (CITY_PHOTOS[cityId]||[]).map(([file,caption],i)=>({id:`${cityId}-${i}`,src:commonsSrc(file),thumb:commonsSrc(file,480),page:commonsPage(file),caption,source:'Wikimedia Commons'}))}
 let photoStats={ok:0,fail:0};
 function photoHTML(p,{cls='',kind,id,i=0,alt}={}){
   return `<figure class="ph ${cls}" data-act="gal" data-kind="${kind}" data-id="${esc(id)}" data-i="${i}" tabindex="0" role="button" aria-label="Открыть галерею: ${esc(alt||p.caption)}">
@@ -1025,33 +1338,33 @@ function photoHTML(p,{cls='',kind,id,i=0,alt}={}){
     <div class="ph-fail"><b>${esc(p.caption)}</b><span>Реальное фото из Wikimedia Commons не загрузилось в этом просмотре</span><a href="${esc(p.page)}" target="_blank" rel="noopener">Открыть фото на Commons ↗</a></div>
     <figcaption class="credit"><a href="${esc(p.page)}" target="_blank" rel="noopener">© Wikimedia Commons ↗</a></figcaption></figure>`;
 }
-document.addEventListener('error',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.closest('.gal-th')){im.style.visibility='hidden';return}if(im&&im.tagName==='IMG'){const f=im.closest('.ph');if(f&&!f.classList.contains('failed')){f.classList.add('failed');photoStats.fail++;updatePhotoNotice()}}},true);
+function noPhotoCity(d,big){
+  const top=d.activities.filter(a=>a!=='mixed').slice(0,3);
+  return `<div class="nophoto r-${d.region} ${big?'big':''}"><span class="np-flag">${d.flag}</span><div><b>${esc(d.city)}</b><span>${esc(d.country)}</span></div><span class="np-tags">${top.map(a=>REST_ICON[a]).join(' ')}</span></div>`;
+}
+function cityVisual(d,{i=0}={}){const im=getCityImages(d.id);return im.length?photoHTML(im[0],{kind:'city',id:d.id,i,alt:d.city}):noPhotoCity(d)}
+document.addEventListener('error',e=>{const im=e.target;if(!(im&&im.tagName==='IMG'))return;if(im.closest('.gal-th')){im.style.visibility='hidden';return}const f=im.closest('.ph');if(f&&!f.classList.contains('failed')){f.classList.add('failed');photoStats.fail++;updatePhotoNotice()}},true);
 document.addEventListener('load',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.closest('.ph')){im.closest('.ph').classList.add('loaded');photoStats.ok++;updatePhotoNotice()}},true);
-function updatePhotoNotice(){const n=$('#photoNotice');if(!n)return;n.hidden=!(photoStats.fail>0&&photoStats.ok===0);renderChecks()}
+let noticeT;function updatePhotoNotice(){clearTimeout(noticeT);noticeT=setTimeout(()=>{const n=$('#photoNotice');if(n)n.hidden=!(photoStats.fail>0&&photoStats.ok===0);renderChecks()},300)}
 
-/* =========================================================
-   Render: planner
-   ========================================================= */
+/* =====================================================================
+   UI · planner
+   ===================================================================== */
 function renderPlanner(){
-  const steps=[['dates',t('step.dates'),`${dShort(S.start)} — ${S.end?dShort(S.end):'…'}`],['who',t('step.who'),partyText()],['pref',t('step.pref'),S.rest.map(r=>REST.find(x=>x[0]===r)[1]).join(', ')||'Любой'],['budget',t('step.budget'),BUDGET.find(b=>b[0]===S.budget)[1]]];
-  let body='';
-  if(S.step===0) body=calendarHTML();
-  if(S.step===1) body=whoHTML();
-  if(S.step===2) body=prefHTML();
-  if(S.step===3) body=budgetHTML();
+  const steps=[['dates',t('step.dates'),`${dShort(S.start)} — ${S.end?dShort(S.end):'…'}`],['who',t('step.who'),`${partyText()} · ${cityOf(S.home)}`],['pref',t('step.pref'),S.rest.map(r=>REST.find(x=>x[0]===r)[1]).join(', ')||'Любой'],['budget',t('step.budget'),BUDGET.find(b=>b[0]===S.budget)[1]+(S.budgetMax?` · до ${money(S.budgetMax)}`:'')]];
+  const body=[calendarHTML,whoHTML,prefHTML,budgetHTML][S.step]();
   $('#planner').innerHTML=`
    <div class="steps" role="tablist">${steps.map((s,i)=>`<button class="step-tab" role="tab" aria-selected="${S.step===i}" data-act="step" data-v="${i}"><span class="k">${pad(i+1)}</span><b>${s[1]}</b><small>${esc(s[2])}</small></button>`).join('')}</div>
    <div class="panel">${body}</div>
    <div class="panel-foot">
-     <p class="brief">${S.end?`Вы путешествуете <b>${esc(companyPhrase())}</b> с <b>${dLong(S.start)}</b> по <b>${dLong(S.end)}</b>, ${nights()} ${plural(nights(),['ночь','ночи','ночей'])}. Вылет из <b>${ORIG[S.origin].city}</b>.`:`Начало: <b>${dLong(S.start)}</b>. Выберите дату окончания в календаре.`}</p>
+     <p class="brief">${S.end?`Вы путешествуете <b>${esc(companyPhrase())}</b> с <b>${dLong(S.start)}</b> по <b>${dLong(S.end)}</b>, ${nights()} ${plural(nights(),['ночь','ночи','ночей'])}. Вылет из <b>${cityOf(S.home)}</b>${S.scope!=='mine'?' или других городов':''}.`:`Начало: <b>${dLong(S.start)}</b>. Выберите дату окончания в календаре.`}</p>
      <div class="actions">${S.step<3?`<button class="btn" data-act="next">Далее</button>`:''}<button class="btn btn-primary btn-big" data-act="search">${t('cta')}</button></div>
    </div>`;
 }
 function calendarHTML(){
   const n=nights();
   const month=(y,m)=>{
-    const first=new Date(y,m,1),off=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate();
-    let cells='';for(let i=0;i<off;i++)cells+='<span></span>';
+    const off=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate();let cells='';for(let i=0;i<off;i++)cells+='<span></span>';
     for(let d=1;d<=days;d++){const dt=new Date(y,m,d),s=iso(dt);const cls=[s===S.start?'s':'',s===S.end?'e':'',S.end&&s>S.start&&s<S.end?'in':'',+dt===+today0?'today':''].join(' ');
       cells+=`<button class="day ${cls}" data-act="day" data-v="${s}" ${dt<today0?'disabled':''} aria-label="${d} ${MON_GEN[m]}">${d}</button>`}
     return `<div class="cal-month"><h4>${MON_NOM[m]} ${y}</h4><div class="cal-grid">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(x=>`<span class="cal-dow">${x}</span>`).join('')}${cells}</div></div>`;
@@ -1060,173 +1373,189 @@ function calendarHTML(){
   return `<div class="cal-head"><div class="range-read">
       <div class="pill"><small>Дата начала</small><b>${dShort(S.start)}</b></div>
       <div class="pill"><small>Дата окончания</small><b>${S.end?dShort(S.end):'выберите'}</b></div>
-      <div class="pill accent"><small>Итого</small><b class="num">${S.end?`${n} ${plural(n,['ночь','ночи','ночей'])} · ${n+1} ${plural(n+1,['день','дня','дней'])}`:'—'}</b></div></div>
+      <div class="pill accent"><small>Итого</small><b class="num">${S.end?`${n+1} ${plural(n+1,['день','дня','дней'])} · ${n} ${plural(n,['ночь','ночи','ночей'])}`:'—'}</b></div></div>
     <div class="cal-nav"><button class="icon-btn" data-act="cal" data-v="-1" aria-label="Предыдущий месяц">‹</button><button class="icon-btn" data-act="cal" data-v="1" aria-label="Следующий месяц">›</button></div></div>
     <div class="cal">${month(S.calY,S.calM)}${month(m2.getFullYear(),m2.getMonth())}</div>
     <div class="quick"><span class="small muted" style="align-self:center">Длительность от даты начала:</span>${[5,7,10,14].map(k=>`<button class="chip" data-act="len" data-v="${k}" aria-pressed="${n===k}">${k} ${plural(k,['ночь','ночи','ночей'])}</button>`).join('')}</div>`;
 }
 function whoHTML(){
   const ages=S.children.map((a,i)=>`<div class="age-field"><label for="age${i}">Ребёнок ${i+1} — возраст</label><select id="age${i}" class="field" data-chg="age" data-i="${i}">${Array.from({length:18},(_,k)=>`<option value="${k}" ${k===a?'selected':''}>${ageLbl(k)}</option>`).join('')}</select></div>`).join('');
+  const alts=getAlternativeDepartureCities().map(cityOf);
   return `<div class="group">
     <div class="counter-row"><div><b>Взрослые</b><small>от 12 лет</small></div><div class="counter"><button class="icon-btn" data-act="adults" data-v="-1" aria-label="Меньше взрослых">−</button><b>${S.adults}</b><button class="icon-btn" data-act="adults" data-v="1" aria-label="Больше взрослых">+</button></div></div>
-    <div class="counter-row"><div><b>Дети</b><small>возраст влияет на цену билета, выбор направлений и отелей (Adults Only исключаются)</small></div><div class="counter"><button class="icon-btn" data-act="kids" data-v="-1" aria-label="Меньше детей">−</button><b>${S.children.length}</b><button class="icon-btn" data-act="kids" data-v="1" aria-label="Больше детей">+</button></div></div>
+    <div class="counter-row"><div><b>Дети</b><small>возраст влияет на направления, перелёт и отели (Adults Only исключаются)</small></div><div class="counter"><button class="icon-btn" data-act="kids" data-v="-1" aria-label="Меньше детей">−</button><b>${S.children.length}</b><button class="icon-btn" data-act="kids" data-v="1" aria-label="Больше детей">+</button></div></div>
     ${S.children.length?`<div class="ages">${ages}</div>`:''}</div>
-    <div class="group"><span class="lbl">Тип путешествия</span><div class="chips">${TRIP.map(([k,l])=>`<button class="chip" data-act="trip" data-v="${k}" aria-pressed="${S.tripType===k}">${l}</button>`).join('')}</div></div>
-    <div class="group"><label for="orig">Город вылета</label><select id="orig" class="field" data-chg="origin" style="max-width:280px">${Object.entries(ORIG).map(([k,o])=>`<option value="${k}" ${k===S.origin?'selected':''}>${o.city} · ${k}</option>`).join('')}</select></div>`;
+    <div class="group"><span class="lbl">Тип компании</span><div class="chips">${TRIP.map(([k,l])=>`<button class="chip" data-act="trip" data-v="${k}" aria-pressed="${S.tripType===k}">${l}</button>`).join('')}</div></div>
+    <div class="group"><label for="orig">Город вылета</label><select id="orig" class="field" data-chg="origin" style="max-width:280px">${HOME_CITIES.map(k=>`<option value="${k}" ${k===S.home?'selected':''}>${AIRPORTS[k].city} · ${k}</option>`).join('')}</select>
+      <label class="switch"><input type="checkbox" id="altOn" data-chg="altOn" ${S.scope!=='mine'?'checked':''}> Искать варианты из других городов</label>
+      <div class="chips">${SCOPES.map(([k,l])=>`<button class="chip" data-act="scope" data-v="${k}" aria-pressed="${S.scope===k}">${l}</button>`).join('')}</div>
+      <p class="small muted">Рассматриваем вылет из: ${esc(alts.join(', '))}. Дорога до другого города вылета добавляется к цене.</p></div>`;
 }
 function prefHTML(){
-  return `<div class="group"><span class="lbl">Тип отдыха · можно несколько</span><div class="chips">${REST.map(([k,l])=>`<button class="chip" data-act="rest" data-v="${k}" aria-pressed="${S.rest.includes(k)}">${l}</button>`).join('')}</div></div>
+  return `<div class="group"><span class="lbl">Тип отдыха · можно несколько</span><div class="chips">${REST.map(([k,l])=>`<button class="chip" data-act="rest" data-v="${k}" aria-pressed="${S.rest.includes(k)}">${REST_ICON[k]} ${l}</button>`).join('')}</div></div>
    <div class="group"><span class="lbl">Температура</span><div class="chips">${TEMP.map(([k,l,r])=>`<button class="chip" data-act="temp" data-v="${k}" aria-pressed="${S.temp===k}">${l} <small>${r}</small></button>`).join('')}</div></div>
    <div class="group"><span class="lbl">Темп путешествия</span><div class="chips">${PACE.map(([k,l])=>`<button class="chip" data-act="pace" data-v="${k}" aria-pressed="${S.pace===k}">${l}</button>`).join('')}</div></div>`;
 }
 function budgetHTML(){
   return `<div class="group"><span class="lbl">Бюджет</span><div class="chips">${BUDGET.map(([k,l])=>`<button class="chip" data-act="budget" data-v="${k}" aria-pressed="${S.budget===k}">${l}</button>`).join('')}</div>
-    <p class="small muted">В результатах всё равно будут три категории — BUDGET, STANDARD и PREMIUM, чтобы можно было сравнить.</p></div>
+    <p class="small muted">В результатах всё равно будут три категории — BUDGET, STANDARD и PREMIUM.</p></div>
+   <div class="group"><label for="budgetMax">Лимит на всю поездку, ₸ (необязательно)</label><input id="budgetMax" class="field plain" type="number" inputmode="numeric" min="0" step="50000" placeholder="например, 1000000" value="${S.budgetMax||''}" data-chg="budgetMax" style="max-width:280px"></div>
    <div class="group"><span class="lbl">У меня есть Genius на Booking</span><div class="chips">${GENIUS.map(([k,l])=>`<button class="chip" data-act="genius" data-v="${k}" aria-pressed="${S.genius===k}">${l}</button>`).join('')}</div></div>
    ${S.genius==='g2'?geniusBox():''}
    <label class="switch"><input type="checkbox" data-chg="allowLow" ${S.allowLow?'checked':''}> Разрешить отели с оценкой ниже 8.0 (применяется, когда подключены данные Booking)</label>`;
 }
-function geniusBox(h){return `<div class="infobox"><b>Проверьте персональные преимущества Genius на Booking.com</b>
-  <span>Возможность бесплатного завтрака, скидки или бесплатной отмены зависит от выбранного тарифа и ваших персональных преимуществ Genius. Travel Expert не видит ваш аккаунт Booking и ничего не обещает — проверьте на странице отеля.</span>
-  ${h?`<div><a class="btn btn-sm" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.check')} ↗</a></div>`:''}</div>`}
+function geniusBox(url){return `<div class="infobox"><b>Проверьте персональные преимущества Genius на Booking.com</b>
+  <span>Возможность зависит от выбранного тарифа и персональных условий Genius. Проверьте на Booking.com. Travel Expert не видит ваш аккаунт и не обещает скидку или бесплатный завтрак.</span>
+  ${url?`<div><a class="btn btn-sm" href="${esc(url)}" target="_blank" rel="noopener">${t('booking.check')} ↗</a></div>`:''}</div>`}
 
-/* =========================================================
-   Render: results
-   ========================================================= */
-function ringSVG(p){const r=26,c=2*Math.PI*r;return `<svg viewBox="0 0 58 58" width="58" height="58"><circle cx="29" cy="29" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="4"/><circle cx="29" cy="29" r="${r}" fill="none" stroke="${p>=85?'var(--green)':p>=72?'var(--teal)':'var(--gold)'}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 29 29)"/></svg>`}
-const FACTOR_LBL={season:'Сезон',weather:'Погода',type:'Тип отдыха',kids:'Подходит детям',budget:'Бюджет',flight:'Перелёт'};
+/* =====================================================================
+   UI · results
+   ===================================================================== */
+function ringSVG(p){const r=26,c=2*Math.PI*r;return `<svg viewBox="0 0 58 58" width="58" height="58"><circle cx="29" cy="29" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="4"/><circle cx="29" cy="29" r="${r}" fill="none" stroke="${p>=85?'var(--green)':p>=70?'var(--teal)':'var(--gold)'}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 29 29)"/></svg>`}
 function breakdownHTML(r){
-  const rows=Object.keys(r.W).filter(k=>r.W[k]).map(k=>`<div class="bar-row"><span>${FACTOR_LBL[k]}</span><span class="bar"><i style="width:${Math.round(r.sc[k])}%"></i></span><span>${Math.round(r.sc[k])}%</span></div>`).join('');
-  const tw=Object.values(r.W).reduce((a,b)=>a+b,0);
-  return `<div class="breakdown">${rows}<p class="formula">Итог ${r.match}% = ${Object.keys(r.W).filter(k=>r.W[k]).map(k=>`${FACTOR_LBL[k].toLowerCase()} × ${Math.round(r.W[k]/tw*100)}%`).join(' + ')}</p></div>`;
+  const keys=Object.keys(r.W).filter(k=>r.W[k]);
+  return `<div class="breakdown">${keys.map(k=>`<div class="bar-row"><span>${FACTOR_LBL[k]}</span><span class="bar"><i style="width:${Math.round(r.sc[k])}%"></i></span><span>${Math.round(r.sc[k])}%</span></div>`).join('')}<p class="formula">Итог ${r.match}% = ${keys.map(k=>`${FACTOR_LBL[k].toLowerCase()} × ${Math.round(r.W[k]/r.tw*100)}%`).join(' + ')}</p></div>`;
 }
-function costLabel(h){return 'Перелёт + отель'}
 function renderResults(){
-  const el=$('#results');const res=S.results;if(!res){el.innerHTML='';return}
-  const pod=res.good.slice(0,3);const medals=['🥇 Вариант 1','🥈 Вариант 2','🥉 Вариант 3'];
+  const el=$('#results'),res=S.results;if(!res){el.innerHTML='';return}
+  const pod=res.list.slice(0,3),medals=['🥇 Вариант 1','🥈 Вариант 2','🥉 Вариант 3'];
   const rest=S.rest.length?listJoin(S.rest.map(r=>REST_PHRASE[r])):'отдых';
+  const vis=ResultsEngine.visible();
+  const regs=Object.keys(REGIONS).filter(k=>res.list.some(r=>r.d.region===k));
   el.innerHTML=`
-  <div class="block-head"><div><span class="eyebrow">Анализ сезона · ${DEST.length} направлений</span><h2>Варианты для вашей поездки</h2></div><span class="demo">ЦЕНЫ — ОЦЕНКА DEMO</span></div>
+  <div class="block-head"><div><span class="eyebrow">Анализ каталога · ${res.analyzed} направлений</span><h2>Варианты для вашей поездки</h2></div><span class="demo">ЦЕНЫ — ОЦЕНКА DEMO</span></div>
   <div class="verdict ${S.loading?'loading':''}">
-    <p class="say">Вы путешествуете ${esc(companyPhrase())} с ${dLong(S.start)} по ${dLong(S.end)} и хотите ${esc(rest)}. Мы нашли <em>${res.good.length} ${plural(res.good.length,['подходящее направление','подходящих направления','подходящих направлений'])}</em> и подобрали для каждого перелёт и конкретные отели на Booking.com.</p>
-    <div class="scan">
-      <div class="scan-row"><i>✓</i>Сезон и климат по ${nights()} ночам поездки</div>
-      <div class="scan-row"><i>✓</i>Реальные фото городов · Wikimedia Commons</div>
-      <div class="scan-row"><i>✓</i>${Object.values(REAL_HOTELS).flat().length} реальных отелей с прямыми ссылками на Booking.com</div>
-      <div class="scan-row"><i>!</i>Рейтинг, цена и завтрак — проверяются на Booking.com</div>
+    <p class="say">Вы путешествуете ${esc(companyPhrase())} с ${dLong(S.start)} по ${dLong(S.end)} и хотите ${esc(rest)}. Для вашей поездки мы нашли <em>${res.fit.length} ${plural(res.fit.length,['подходящий вариант','подходящих варианта','подходящих вариантов'])}</em>.</p>
+    <div class="counts">
+      <div><b class="num">${res.analyzed}</b><span>направлений проанализировано</span></div>
+      <div><b class="num">${res.fit.length}</b><span>подходят под ваши даты</span></div>
+      <div><b class="num">${Math.min(CONFIG.pageSize,res.list.length)}</b><span>наиболее подходящих показываем сначала</span></div>
     </div>
   </div>
-  <div class="podium">${pod.map((r,i)=>{const c=tripCost(r,'standard');const ph=getCityImages(r.d.id)[0];return `
+  <div class="podium">${pod.map((r,i)=>{const c=tripCost(r,S.budget);return `
     <article class="pod">
-      <div class="pod-img">${photoHTML(ph,{kind:'city',id:r.d.id,i:0,alt:r.d.city})}<span class="medal">${medals[i]}</span></div>
+      <div class="pod-img">${cityVisual(r.d)}<span class="medal">${medals[i]}</span></div>
       <div class="pod-body">
         <div class="pod-title"><h3>${r.d.flag} ${esc(r.d.city)}</h3><span class="match-badge">${r.match}% подходит</span></div>
-        <div class="pricebox"><div><small>${costLabel(c.h)} · ориентировочно</small><b>${approx(c.total)}</b></div><div class="pp">${approx(c.per)}<br><small>на 1 человека</small></div></div>
-        <p class="small muted">Отель STANDARD: <b>${esc(c.h.name)}</b></p>
-        <div><p class="sub-h">Почему подходит</p><ul class="why">${r.why.slice(0,4).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="costlines">
+          <div><span>✈️ Перелёт${c.f&&c.f.origin!==S.home?` из ${cityOf(c.f.origin)}`:''}</span><b>${c.f?approx(c.fl):'проверить'}</b></div>
+          <div><span>🏨 ${c.h.estimated?'Отель (оценка по уровню цен)':esc(c.h.name)}</span><b>${approx(c.h.priceStayEst)}</b></div>
+          <div><span>🍳 Завтрак</span><b class="muted">проверить</b></div>
+          <div class="tot"><span>Итого · ${pax()} ${plural(pax(),['человек','человека','человек'])}</span><b>${approx(c.total)}</b></div>
+          <div class="pp"><span>на 1 человека</span><span>${approx(c.per)}</span></div>
+        </div>
+        <div><p class="sub-h">Почему подходит</p><ul class="why">${r.why.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         ${r.care.length?`<div><p class="sub-h">Что учесть</p><ul class="care">${r.care.slice(0,3).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
-        <div class="pod-foot"><button class="btn btn-primary btn-sm" data-act="open" data-v="${r.d.id}">Открыть вариант</button><button class="btn btn-sm" data-act="open-tab" data-v="${r.d.id}" data-t="hotels">Отели</button></div>
+        <div class="pod-foot"><button class="btn btn-primary btn-sm" data-act="open" data-v="${r.d.id}">Открыть вариант</button><button class="btn btn-sm" data-act="open-tab" data-v="${r.d.id}" data-t="flights">Как добраться</button></div>
       </div>
     </article>`}).join('')}</div>
-  <div class="block-head" style="margin-top:36px"><div><span class="eyebrow">Все подходящие направления</span><h3 style="font-family:var(--display);font-size:30px;font-weight:600">Сезон, погода и соответствие</h3></div><span class="small muted">Отметьте до трёх для сравнения</span></div>
-  <div class="dgrid">${res.good.map(cardHTML).join('')}</div>
+  <div class="block-head" style="margin-top:36px"><div><span class="eyebrow">Все подходящие направления · ${vis.total}</span><h3 class="h3d">Сезон, погода и соответствие</h3></div><span class="small muted">Отметьте до трёх для сравнения</span></div>
+  <div class="chips region-chips"><button class="chip" data-act="region" data-v="all" aria-pressed="${S.region==='all'}">Все регионы</button>${regs.map(k=>`<button class="chip" data-act="region" data-v="${k}" aria-pressed="${S.region===k}">${REGIONS[k]} <small>${res.list.filter(r=>r.d.region===k).length}</small></button>`).join('')}</div>
+  <div class="dgrid">${vis.items.map(cardHTML).join('')}</div>
+  <div class="more-row"><span class="small muted">Показано ${Math.min(S.shown,vis.total)} из ${vis.total}</span>${S.shown<vis.total?`<button class="btn" data-act="more">Показать ещё ${Math.min(CONFIG.pageSize,vis.total-S.shown)}</button>`:''}</div>
   ${res.rest.length?`<details class="others"><summary>Не рекомендуем в эти даты · ${res.rest.length}</summary><div class="other-list">${res.rest.map(r=>`<div class="other"><span><b>${r.d.flag} ${esc(r.d.city)}</b><br><span class="muted">${esc(r.care[0]||'Низкое соответствие')}</span></span><span><b>${r.match}%</b><br><button class="linkbtn" data-act="open" data-v="${r.d.id}">открыть</button></span></div>`).join('')}</div></details>`:''}`;
 }
 function cardHTML(r){
-  const d=r.d,open=S.openBreak[d.id],sea=r.sea!=null&&d.tags.includes('beach'),ph=getCityImages(d.id)[0];
+  const d=r.d,open=S.openBreak[d.id],sea=r.sea!=null&&d.activities.includes('beach'),nimg=getCityImages(d.id).length;
+  const main=d.activities.filter(x=>x!=='mixed')[0];
   return `<article class="dcard ${S.selected===d.id?'active':''}">
-   <div class="dcard-img">${photoHTML(ph,{kind:'city',id:d.id,i:0,alt:d.city})}<div class="ring">${ringSVG(r.match)}<b>${r.match}%</b></div><span class="count-badge">${getCityImages(d.id).length} фото</span></div>
+   <div class="dcard-img">${cityVisual(d)}<div class="ring">${ringSVG(r.match)}<b>${r.match}%</b></div>${nimg?`<span class="count-badge">${nimg} фото</span>`:''}</div>
    <div class="dcard-body">
-     <div><span class="country">${d.flag} ${esc(d.country)}</span><h3>${esc(d.city)}</h3></div>
+     <div><span class="country">${d.flag} ${esc(d.country)} · ${REGIONS[d.region]}</span><h3>${esc(d.city)}</h3></div>
      <p class="desc">${esc(d.desc)}</p>
-     <div class="metrics"><div class="metric"><small>Воздух</small><b>${Math.round(r.air)}°</b></div><div class="metric"><small>Море</small><b>${sea?Math.round(r.sea)+'°':'—'}</b></div><div class="metric"><small>Цены</small><b>${'₸'.repeat(d.price)}<span style="opacity:.25">${'₸'.repeat(3-d.price)}</span></b></div></div>
-     <div class="tags"><span class="season ${r.seasonCode}">${SEASON_LBL[r.seasonCode]}</span><span class="tag">${CROWD_LBL[r.crowd]}</span>${d.tags.filter(x=>x!=='mixed').slice(0,4).map(x=>`<span class="tag ${S.rest.includes(x)?'ok':''}">${REST.find(q=>q[0]===x)[1]}</span>`).join('')}</div>
-     <button class="linkbtn" data-act="break" data-v="${d.id}" aria-expanded="${!!open}">Подходит для вашей поездки: ${r.match}% · как посчитано</button>
-     ${open?breakdownHTML(r):''}
+     <div class="metrics"><div class="metric"><small>Воздух</small><b>${Math.round(r.air)}°</b></div><div class="metric"><small>Море</small><b>${sea?Math.round(r.sea)+'°':'—'}</b></div><div class="metric"><small>Итого ≈</small><b>${r.estTotal?money(Math.round(r.estTotal/1e4)*1e4).replace(' ₸','')+' ₸':'—'}</b></div></div>
+     <div class="tags"><span class="season ${r.seasonCode}">${SEASON_LBL[r.seasonCode]}</span><span class="tag">${CROWD_LBL[r.crowd]}</span>${d.activities.filter(x=>x!=='mixed').slice(0,3).map(x=>`<span class="tag ${S.rest.includes(x)?'ok':''}">${REST_ICON[x]} ${REST.find(q=>q[0]===x)[1]}</span>`).join('')}</div>
+     <button class="linkbtn" data-act="break" data-v="${d.id}" aria-expanded="${!!open}">${r.match}% подходит вам · как посчитано</button>
+     ${open?breakdownHTML(r):`<ul class="why compact">${r.why.slice(0,2).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`}
      <div class="dcard-foot"><label class="cmp-toggle"><input type="checkbox" data-chg="cmpCity" data-v="${d.id}" ${S.cmpCities.includes(d.id)?'checked':''}> Сравнить</label><button class="btn btn-sm ${S.selected===d.id?'btn-teal':''}" data-act="open" data-v="${d.id}">${S.selected===d.id?'Открыто':'Подробнее'}</button></div>
    </div></article>`;
 }
 
-/* =========================================================
-   Render: destination detail
-   ========================================================= */
+/* =====================================================================
+   UI · destination detail
+   ===================================================================== */
 function renderDetail(){
   const el=$('#detail');if(!S.results){el.innerHTML='';return}
   const r=R_(S.selected),d=r.d,imgs=getCityImages(d.id);
-  const tabs=[['season','Сезон и погода'],['flights','Перелёты'],['hotels','Отели'],['cost','Стоимость и бронирование']];
-  let body='';
-  if(S.tab==='season') body=seasonTab(r);
-  if(S.tab==='flights') body=flightsTab(r);
-  if(S.tab==='hotels') body=hotelsTab(r);
-  if(S.tab==='cost') body=costTab(r);
-  el.innerHTML=`<div class="block-head"><div><span class="eyebrow">Выбранное направление</span><h2>${d.flag} ${esc(d.city)}</h2></div><div class="actions">${S.results.good.slice(0,6).map(x=>`<button class="chip" data-act="open" data-v="${x.d.id}" aria-pressed="${x.d.id===d.id}">${esc(x.d.city.split(' · ')[0])}</button>`).join('')}</div></div>
+  const tabs=[['season','Сезон и погода'],['flights','Как добраться'],['hotels','Отели'],['cost','Стоимость и бронирование']];
+  const body={season:seasonTab,flights:flightsTab,hotels:hotelsTab,cost:costTab}[S.tab](r);
+  const over=`<div class="over"><div><h2>${esc(d.city)}</h2><p>${d.flag} ${esc(d.country)} · ${esc(d.desc)}</p></div><div class="match-big"><b>${r.match}%</b><small>подходит</small></div></div>`;
+  el.innerHTML=`<div class="block-head"><div><span class="eyebrow">Выбранное направление</span><h2>${d.flag} ${esc(d.city)}</h2></div><div class="actions">${S.results.list.slice(0,6).map(x=>`<button class="chip" data-act="open" data-v="${x.d.id}" aria-pressed="${x.d.id===d.id}">${esc(x.d.city.split(' · ')[0])}</button>`).join('')}</div></div>
   <div class="detail">
-    <div class="city-gallery">
-      <div class="cg-main">${photoHTML(imgs[0],{kind:'city',id:d.id,i:0,alt:d.city})}
-        <div class="over"><div><h2>${esc(d.city)}</h2><p>${esc(d.country)} · ${esc(d.desc)}</p></div><div class="match-big"><b>${r.match}%</b><small>подходит</small></div></div></div>
-      <div class="cg-side">${imgs.slice(1,4).map((p,i)=>photoHTML(p,{kind:'city',id:d.id,i:i+1,alt:d.city})).join('')}</div>
-    </div>
-    <p class="gal-note small muted">Фото: Wikimedia Commons, открытые лицензии. Автор и лицензия — на странице каждого файла. Нажмите на фото, чтобы открыть галерею.</p>
+    ${imgs.length?`<div class="city-gallery"><div class="cg-main">${photoHTML(imgs[0],{kind:'city',id:d.id,i:0,alt:d.city})}${over}</div><div class="cg-side">${imgs.slice(1,4).map((p,i)=>photoHTML(p,{kind:'city',id:d.id,i:i+1,alt:d.city})).join('')}</div></div>
+    <p class="gal-note small muted">Фото: Wikimedia Commons, открытые лицензии. Автор и лицензия — на странице каждого файла. Нажмите на фото, чтобы открыть галерею.</p>`
+    :`<div class="detail-nophoto r-${d.region}"><span class="np-flag">${d.flag}</span><div class="np-main"><h2>${esc(d.city)}</h2><p>${esc(d.country)} · ${REGIONS[d.region]} · ${esc(d.desc)}</p><p class="small">Фотографии этого города ещё не подключены — getCityImages() вернёт их, когда появится источник. Данные о направлении от этого не зависят.</p></div><div class="match-big"><b>${r.match}%</b><small>подходит</small></div></div>`}
     <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab" role="tab" aria-selected="${S.tab===k}" data-act="tab" data-v="${k}">${l}</button>`).join('')}</div>
     <div class="tab-body">${body}</div>
   </div>`;
 }
 function seasonTab(r){
-  const d=r.d,sea=r.sea!=null&&d.tags.includes('beach');
+  const d=r.d,sea=r.sea!=null&&d.activities.includes('beach');
   return `<div class="stats">
     <div class="stat"><small>Воздух днём</small><b>${Math.round(r.air)}°</b><span>средняя норма</span></div>
     ${sea?`<div class="stat"><small>Море</small><b>${Math.round(r.sea)}°</b><span>${r.sea>=24?'комфортно для купания':r.sea>=21?'бодрит':'прохладно'}</span></div>`:''}
-    <div class="stat"><small>Сезон</small><b style="font-size:17px">${SEASON_LBL[r.seasonCode]}</b></div>
-    <div class="stat"><small>Туристы</small><b style="font-size:17px">${CROWD_LBL[r.crowd]}</b></div>
-    <div class="stat"><small>Уровень цен</small><b>${'₸'.repeat(d.price)}</b><span>${['','ниже среднего','средний','высокий'][d.price]}</span></div>
-    <div class="stat"><small>Перелёт</small><b style="font-size:17px">${d.flight.direct?'Прямой':'С пересадкой'}</b><span>~${hm(r.h)}</span></div>
+    <div class="stat"><small>Сезон</small><b class="s17">${SEASON_LBL[r.seasonCode]}</b></div>
+    <div class="stat"><small>Осадки</small><b class="s17">${r.season.rain>=.3?'Сезон дождей':'Мало дождей'}</b></div>
+    <div class="stat"><small>Туристы</small><b class="s17">${CROWD_LBL[r.crowd]}</b></div>
+    <div class="stat"><small>Уровень цен</small><b>${'₸'.repeat(d.priceLevel)}</b><span>${['','ниже среднего','средний','высокий'][d.priceLevel]}</span></div>
+    <div class="stat"><small>Для семей</small><b>${Math.round(d.familyFriendly*100)}%</b><span>малыши ${Math.round(d.childAgeSuitability.toddler*100)}% · подростки ${Math.round(d.childAgeSuitability.teen*100)}%</span></div>
   </div>
   <div class="split">
-    <div class="chart-box"><div class="legend"><span><i style="background:var(--ink)"></i>Воздух днём, °C</span>${d.sea?`<span><i style="background:var(--teal)"></i>Море, °C</span>`:''}<span><i style="background:var(--teal-soft);height:10px"></i>Ваши даты</span><span class="demo">климатическая норма</span></div>${climateSVG(r)}</div>
-    <div class="group"><p class="sub-h">Подходит для вашей поездки: ${r.match}%</p>${breakdownHTML(r)}</div>
+    <div class="chart-box"><div class="legend"><span><i style="background:var(--ink)"></i>Воздух днём, °C</span>${d.seaTemperature?`<span><i style="background:var(--teal)"></i>Море, °C</span>`:''}<span><i style="background:var(--teal-soft);height:10px"></i>Ваши даты</span><span><i style="background:var(--warn-soft);height:10px"></i>Дожди</span><span class="demo">климатическая норма</span></div>${climateSVG(r)}</div>
+    <div class="group"><p class="sub-h">${r.match}% подходит вам</p>${breakdownHTML(r)}</div>
   </div>
-  <div class="two"><div><p class="sub-h" style="margin-bottom:8px">Почему мы рекомендуем это направление</p><ul class="why">${r.why.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-   <div><p class="sub-h" style="margin-bottom:8px">Что стоит учесть</p><ul class="care">${r.care.map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Существенных минусов в эти даты нет</li>'}</ul></div></div>
-  <div class="actions"><button class="btn btn-primary" data-act="tab" data-v="flights">Смотреть перелёты</button><button class="btn" data-act="tab" data-v="hotels">Смотреть отели</button></div>`;
+  <div class="two"><div><p class="sub-h mb8">Почему подходит</p><ul class="why">${r.why.map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Направление выбрано вами</li>'}</ul></div>
+   <div><p class="sub-h mb8">Что учесть</p><ul class="care">${r.care.map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Существенных минусов в эти даты нет</li>'}</ul></div></div>
+  <div class="actions"><button class="btn btn-primary" data-act="tab" data-v="flights">Как добраться</button><button class="btn" data-act="tab" data-v="hotels">Смотреть отели</button></div>`;
 }
 function climateSVG(r){
-  const d=r.d,W=640,H=230,L=36,Rr=12,T=14,B=30,maxT=45,minT=Math.min(0,...d.air)-2,mw=monthWeights();
-  const x=i=>L+(i+.5)*(W-L-Rr)/12,y=v=>T+(maxT-v)/(maxT-minT)*(H-T-B);
+  const d=r.d,W=640,H=230,L=36,Rr=12,T=14,B=30,maxT=45,minT=Math.min(0,...d.climate.air)-2,mw=SeasonEngine.weights(),cw=(W-L-Rr)/12;
+  const x=i=>L+(i+.5)*cw,y=v=>T+(maxT-v)/(maxT-minT)*(H-T-B);
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Климат по месяцам">`;
-  mw.forEach((w,i)=>{if(w>0)s+=`<rect x="${x(i)-(W-L-Rr)/24}" y="${T}" width="${(W-L-Rr)/12}" height="${H-T-B}" style="fill:var(--teal-soft)"/>`});
-  for(let v=0;v<=40;v+=10){s+=`<line x1="${L}" x2="${W-Rr}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" style="fill:var(--ink-3)">${v}°</text>`}
+  d.climate.rainMonths.forEach(m=>{s+=`<rect x="${x(m-1)-cw/2}" y="${H-B-6}" width="${cw}" height="6" style="fill:var(--warn-soft)"/>`});
+  mw.forEach((w,i)=>{if(w>0)s+=`<rect x="${x(i)-cw/2}" y="${T}" width="${cw}" height="${H-T-B-6}" style="fill:var(--teal-soft)"/>`});
+  for(let v=Math.ceil(minT/10)*10;v<=40;v+=10){s+=`<line x1="${L}" x2="${W-Rr}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" style="fill:var(--ink-3)">${v}°</text>`}
   MON_SH.forEach((m,i)=>s+=`<text x="${x(i)}" y="${H-10}" text-anchor="middle" font-size="11" style="fill:var(--ink-3)">${m}</text>`);
   const line=(arr,col)=>`<polyline fill="none" style="stroke:${col}" stroke-width="2.5" stroke-linejoin="round" points="${arr.map((v,i)=>`${x(i)},${y(v)}`).join(' ')}"/>`+arr.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" style="fill:${col}"/>`).join('');
-  s+=line(d.air,'var(--ink)');if(d.sea)s+=line(d.sea,'var(--teal)');
+  s+=line(d.climate.air,'var(--ink)');if(d.seaTemperature)s+=line(d.seaTemperature,'var(--teal)');
   const mi=mw.indexOf(Math.max(...mw));
-  s+=`<text x="${x(mi)}" y="${y(d.air[mi])-10}" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--ink)">${d.air[mi]}°</text>`;
+  s+=`<text x="${x(mi)}" y="${y(d.climate.air[mi])-10}" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--ink)">${d.climate.air[mi]}°</text>`;
   return s+'</svg>';
 }
-function legHTML(code1,city1,leg,code2,city2,f){
-  const a=fmtT(leg.dep),b=fmtT(leg.arr);
-  return `<div><div class="leg-date">${dLong(leg.date)}</div><div class="leg">
-   <div><div class="t">${a.t}</div><div class="c">${code1} · ${esc(city1)}</div></div>
-   <div class="mid"><span>${hm(f.dur)}</span><span class="line ${f.direct?'':'stop'}"></span><span>${f.direct?'прямой':'пересадка '+f.via}</span></div>
-   <div style="text-align:right"><div class="t">${b.t}${b.plus?`<sup class="small">+${b.plus}</sup>`:''}</div><div class="c">${code2} · ${esc(city2)}</div></div></div></div>`;
-}
-function flightsLinks(d){
-  const kids=S.children.filter(a=>a>=2&&a<12).length,inf=S.children.filter(a=>a<2).length,ad=S.adults+S.children.filter(a=>a>=12).length;
-  const dm=s=>{const x=pd(s);return pad(x.getDate())+pad(x.getMonth()+1)};
-  return {av:`https://www.aviasales.kz/search/${S.origin}${dm(S.start)}${d.iata}${dm(S.end)}${ad}${kids||inf?`${kids}${inf}`:''}`,
-    gf:`https://www.google.com/travel/flights?hl=ru&curr=KZT&q=${encodeURIComponent(`Flights from ${S.origin} to ${d.iata} on ${S.start} through ${S.end}`)}`};
+function fmtT(h){const dd=Math.floor(h/24);h=((h%24)+24)%24;let H=Math.floor(h),M=Math.round((h-H)*60/5)*5;if(M===60){H=(H+1)%24;M=0}return {t:`${pad(H)}:${pad(M)}`,plus:dd}}
+function routeCard(o,r){
+  const sel=selFlight(r)&&selFlight(r).id===o.id,chain=o.path.map(c=>`<span>${esc(cityOf(c))} <small class="mono">${c}</small></span>`).join('<span class="arr">→</span>');
+  const badges=[o.recommended?'<span class="tag ok">Рекомендуем</span>':'',o.cheapest?'<span class="tag money">Самый выгодный</span>':'',o.fastest?'<span class="tag">Самый быстрый</span>':''].join('');
+  const a=fmtT(o.depTime),b=fmtT(o.arrTime);
+  return `<div class="route ${sel?'on':''}">
+    <div class="route-main">
+      <div class="route-top">${badges}<span class="tkt ${o.ticket}">${o.ticket==='single'?'Единый билет':'⚠️ Самостоятельная пересадка'}</span><span class="demo">DEMO</span></div>
+      <div class="chain">${o.pos?`<span class="posleg">${esc(cityOf(o.pos.from))}</span><span class="arr">⇢</span>`:''}${chain}</div>
+      <div class="legs">
+        ${o.pos?`<div>🚆 ${esc(cityOf(o.pos.from))} → ${esc(cityOf(o.pos.to))}: ${esc(o.pos.note)} · ≈ ${hm(o.pos.dur)} · ${approx(o.pos.cost)}</div>`:''}
+        <div>🗓 ${dLong(S.start)} · вылет ${a.t} → прилёт ${b.t}${b.plus?` (+${b.plus})`:''} местного времени · обратно ${dLong(S.end)}</div>
+        ${o.legs.map(l=>`<div>✈️ ${esc(cityOf(l.from))} → ${esc(cityOf(l.to))} · ${hm(l.dur)} · ${esc(l.carriers)}${l.ticket==='self'?' · отдельный билет':''}</div>`).join('')}
+        ${o.transfers.map(x=>`<div>⏱ Пересадка в ${esc(cityOf(x.at))}: ${x.self?'заложено ~5 ч (раздельные билеты)':'~2 ч по единому билету'}</div>`).join('')}
+        <div>🧳 ${esc(o.bag)}</div>
+      </div>
+      ${o.ticket==='self'?`<p class="selfwarn">⚠️ Самостоятельная пересадка. Необходимо самостоятельно пройти регистрацию и при необходимости получить багаж. Оставьте достаточный запас времени. При задержке первого рейса авиакомпания второго не обязана пересаживать вас бесплатно.</p>`:''}
+    </div>
+    <div class="route-side">
+      <small class="muted">${o.stops?`${o.stops} ${plural(o.stops,['пересадка','пересадки','пересадок'])}${o.via.length?' · '+o.via.map(cityOf).join(', '):''}`:'Прямой рейс'} · в пути ~${hm(o.dur)}</small>
+      <b>${approx(o.totalWithPos)}</b>
+      <small class="muted">${o.pos?`билеты ${approx(o.total)} + дорога ${approx(o.pos.cost)}`:`за ${pax()} ${plural(pax(),['пассажира','пассажиров','пассажиров'])}`}</small>
+      ${o.vsHome>0?`<small class="save">дешевле, чем из ${esc(cityOf(S.home))}, на ${approx(o.vsHome)}</small>`:''}
+      <button class="btn btn-sm ${sel?'btn-teal':''}" data-act="flight" data-v="${esc(o.id)}">${sel?'Выбран':'Выбрать'}</button>
+      <a class="linkbtn" href="${flightLinks(r.d,o.origin).av}" target="_blank" rel="noopener">Проверить на Aviasales ↗</a>
+    </div></div>`;
 }
 function flightsTab(r){
-  const d=r.d,sel=selFlight(r),o=ORIG[S.origin],L=flightsLinks(d);
-  return `<div class="fl-sum"><div><p class="sub-h">Цена перелёта · туда-обратно</p><p class="muted small">${esc(partyText())}</p></div><div style="text-align:right"><b>${approx(sel.total)}</b><div class="small muted">${approx(Math.round(sel.total/pax()))} на человека · <span class="demo">DEMO · требует проверки</span></div></div></div>
-  <p class="small muted">Авиакомпании летают по этим направлениям, но расписание, номера рейсов и цены здесь демонстрационные. Актуальные рейсы — по ссылкам ниже, они открываются с вашими датами и составом. Детские билеты: 2–11 лет ~75% взрослого тарифа, до 2 лет без места ~10%.</p>
-  ${r.flights.map(f=>`<div class="pass ${f.id===sel.id?'on':''}">
-    <div class="pass-main"><div class="pass-top"><b>${f.airline}</b><span class="tag ${f.recommended?'ok':''}">${f.label}</span><span class="demo">DEMO</span></div>
-      ${legHTML(S.origin,o.city,f.out,d.iata,d.city.split(' · ').pop(),f)}
-      ${legHTML(d.iata,d.city.split(' · ').pop(),f.back,S.origin,o.city,f)}
-      <p class="bag">🧳 ${f.bag.note}</p></div>
-    <div class="pass-side"><div><small class="muted">за ${pax()} ${plural(pax(),['пассажира','пассажиров','пассажиров'])}</small><br><b>${approx(f.total)}</b><div class="small muted">взрослый: ${approx(f.perAdult)}</div></div>
-      <button class="btn btn-sm ${f.id===sel.id?'btn-teal':''}" data-act="flight" data-v="${f.id}">${f.id===sel.id?'Выбран':'Выбрать'}</button></div>
-  </div>`).join('')}
+  const d=r.d,sel=selFlight(r),L=flightLinks(d);
+  if(!r.flights.length) return `<div class="infobox warn"><b>В DEMO-сети маршрутов нет варианта до ${esc(d.city)}</b><span>Это не значит, что туда нельзя долететь. Проверьте реальные рейсы:</span><div class="actions"><a class="btn" href="${L.av}" target="_blank" rel="noopener">Aviasales ↗</a><a class="btn" href="${L.gf}" target="_blank" rel="noopener">Google Flights ↗</a></div></div>`;
+  const origins=[...new Set(r.flights.map(o=>o.origin))];
+  return `<div class="fl-sum"><div><p class="sub-h">Цена перелёта · туда-обратно</p><p class="muted small">${esc(partyText())} · выбранный вариант</p></div><div style="text-align:right"><b>${approx(sel.totalWithPos)}</b><div class="small muted">${approx(Math.round(sel.totalWithPos/pax()))} на человека · <span class="demo">DEMO · требует проверки</span></div></div></div>
+  <div><h3 class="h3d">Как выгоднее добраться</h3><p class="small muted">Рассмотрены вылеты из: ${esc(origins.map(cityOf).join(', '))} (охват: ${SCOPES.find(s=>s[0]===S.scope)[1].toLowerCase()}). Маршруты построены по DEMO-схеме реальных направлений; расписание, авиакомпании и цены требуют проверки. Несуществующих прямых рейсов мы не показываем: где прямого нет, строим маршрут через пересадку.</p></div>
+  ${r.flights.slice(0,8).map(o=>routeCard(o,r)).join('')}
   <div class="actions"><a class="btn btn-primary" href="${L.av}" target="_blank" rel="noopener">Найти реальные рейсы на Aviasales ↗</a><a class="btn" href="${L.gf}" target="_blank" rel="noopener">Google Flights ↗</a><button class="btn" data-act="tab" data-v="hotels">Дальше: отели</button></div>`;
 }
 function transitHTML(h){
@@ -1235,10 +1564,9 @@ function transitHTML(h){
    <p class="fine">Расстояния появятся после подключения getTransportData(). Сейчас: <a href="${esc(T.nearbyUrl)}" target="_blank" rel="noopener">транспорт рядом на карте ↗</a></p>`;
 }
 function hotelPhotoHTML(h,tier){
-  const im=getHotelImages(h.id);
-  const label=tier?`<span class="tierlabel t-${tier[0]}">${tier[1]}</span>`:'';
+  const im=getHotelImages(h.id),label=tier?`<span class="tierlabel t-${tier[0]}">${tier[1]}</span>`:'';
   if(im.photos.length) return `<div class="himg">${photoHTML({...im.photos[0],caption:`${h.name}: ${im.photos[0].caption}`},{kind:'hotel',id:h.id,i:0,alt:h.name})}${label}${im.photos.length>1?`<span class="count-badge">${im.photos.length} фото</span>`:''}</div>`;
-  return `<div class="himg noimg">${label}<div class="noimg-body"><span>📷</span><b>Фото этого отеля есть на Booking.com</b><span>Открытых фото здания в Commons не найдено. Мы не подставляем чужие или сгенерированные изображения.</span><a class="btn btn-sm" href="${esc(h.bookingUrl)}#hotelPhotos" target="_blank" rel="noopener">Смотреть фото на Booking.com ↗</a><button class="linkbtn" data-act="gal" data-kind="hotel" data-id="${h.id}" data-i="0">Что есть в галерее</button></div></div>`;
+  return `<div class="himg noimg">${label}<div class="noimg-body"><span>📷</span><b>Фото отеля — на Booking.com</b><span>Открытых фото этого отеля не найдено. Чужие или сгенерированные изображения мы не подставляем.</span><a class="btn btn-sm" href="${esc(h.bookingUrl)}#hotelPhotos" target="_blank" rel="noopener">Смотреть фото на Booking.com ↗</a><button class="linkbtn" data-act="gal" data-kind="hotel" data-id="${h.id}" data-i="0">Что есть в галерее</button></div></div>`;
 }
 function hotelCard(h,r,tier){
   const n=nights();
@@ -1252,116 +1580,118 @@ function hotelCard(h,r,tier){
      <p class="bf unk">🍳 Завтрак: зависит от тарифа — ${t('verify')}</p>
      ${h.mealNote?`<p class="fine">${esc(h.mealNote)}</p>`:''}
      <p class="fine">Условия отмены: зависят от тарифа — ${t('verify')}</p>
-     ${S.genius==='g2'?`<p class="genius">Genius Level 2: преимущества для этого отеля неизвестны — проверьте на Booking.com</p>`:''}
-     <div class="hprice"><div><small>${tier?tier[1]:h.tier.toUpperCase()} · оценка DEMO</small><b>${approx(h.priceStayEst)}</b><small>${approx(h.priceNightEst)} / ночь · ${n} ${plural(n,['ночь','ночи','ночей'])}, ${rooms()} ${plural(rooms(),['номер','номера','номеров'])}</small><small class="warn-t">Цена требует проверки на Booking.com</small></div>
+     ${S.genius==='g2'?`<p class="genius">Genius Level 2: возможность зависит от тарифа и персональных условий — проверьте на Booking.com</p>`:''}
+     <div class="hprice"><div><small>${tier?tier[1]:h.tier.toUpperCase()} · оценка DEMO</small><b>${approx(h.priceStayEst)}</b><small>${approx(h.priceNightEst)} / ночь · ${n} ${plural(n,['ночь','ночи','ночей'])}, ${rooms()} ${plural(rooms(),['номер','номера','номеров'])}</small><small class="warn-t">DEMO DATA — цена требует проверки на Booking.com</small></div>
        <label class="cmp-toggle"><input type="checkbox" data-chg="cmpHotel" data-v="${h.id}" ${S.cmpHotels.includes(h.id)?'checked':''}> Сравнить</label></div>
      <a class="btn btn-booking" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.open')} ↗</a>
-     <p class="src">Источник ссылки: страница отеля на booking.com, найдена ${CONFIG.dataCheckedOn.split('-').reverse().join('.')}${h.official?` · <a href="${esc(h.official)}" target="_blank" rel="noopener">официальный сайт ↗</a>`:''}</p>
+     <p class="src">Ссылка на страницу отеля booking.com, найдена ${CONFIG.dataCheckedOn.split('-').reverse().join('.')}${h.official?` · <a href="${esc(h.official)}" target="_blank" rel="noopener">официальный сайт ↗</a>`:''}</p>
+   </div></article>`;
+}
+function estCard(h,r,tier){
+  const n=nights();
+  return `<article class="hcard est">
+   <div class="himg noimg"><span class="tierlabel t-${tier[0]}">${tier[1]}</span><div class="noimg-body"><span>🏨</span><b>Отель ещё не выбран</b><span>Для этого города конкретные отели пока не подобраны. Мы не придумываем названия, рейтинги и ссылки.</span></div></div>
+   <div class="hbody">
+     <h4>${tier[1]} · ${esc(r.d.city.split(' · ')[0])}</h4>
+     <p class="fine">Критерии поиска: оценка 8.0+, много отзывов, транспорт рядом, завтрак включён, категория ${tier[1]}.</p>
+     <div class="hprice"><div><small>Оценка стоимости проживания · DEMO</small><b>${approx(h.priceStayEst)}</b><small>${approx(h.priceNightEst)} / ночь · ${n} ${plural(n,['ночь','ночи','ночей'])}, ${rooms()} ${plural(rooms(),['номер','номера','номеров'])}</small><small class="warn-t">Проверить актуальную цену на Booking</small></div></div>
+     <a class="btn" href="${esc(h.searchUrl)}" target="_blank" rel="noopener">Поиск на Booking.com: 8+ и завтрак ↗</a>
+     <p class="src">Это поиск по городу, а не страница конкретного отеля.</p>
    </div></article>`;
 }
 function hotelsTab(r){
-  const d=r.d,ex=r.hotels.filter(h=>!h.familyOk);
-  return `${S.genius==='g2'?geniusBox(r.tiers.standard):''}
-  <div class="infobox warn"><b>Что здесь реальное, а что нет</b><span>Отели и ссылки на их страницы на Booking.com — реальные. Рейтинг, число отзывов, цена, завтрак, отмена и расстояния до транспорта без Booking API подтвердить нельзя, поэтому мы их не показываем как факт. Порог 8.0 и ранжирование по отзывам включатся автоматически, когда getHotelDetails() начнёт получать эти данные.</span></div>
-  <div class="tier-grid">${TIERS.map(tr=>hotelCard(r.tiers[tr[0]],r,tr)).join('')}</div>
-  <div><p class="sub-h" style="margin-bottom:10px">Все отели направления</p>
+  const ex=r.hotels.filter(h=>!h.familyOk),hasReal=r.hotels.length>0;
+  const tierCards=TIERS.map(tr=>{const h=r.tiers[tr[0]];return h.estimated?estCard(h,r,tr):hotelCard(h,r,tr)}).join('');
+  return `${S.genius==='g2'?geniusBox(hasReal?r.tiers.standard.bookingUrl||r.tiers.standard.searchUrl:r.tiers.standard.searchUrl):''}
+  <div class="infobox warn"><b>Что здесь реальное, а что нет</b><span>${hasReal?'Отели и ссылки на их страницы на Booking.com — реальные. ':'Для этого направления конкретные отели ещё не подобраны: показываем оценку стоимости и поиск на Booking.com. '}Рейтинг, число отзывов, цена, завтрак, отмена и расстояния до транспорта без Booking API подтвердить нельзя, поэтому они не показаны как факт. Порог 8.0 и ранжирование по отзывам включатся автоматически, когда getHotelDetails() начнёт получать эти данные.</span></div>
+  <div class="tier-grid">${tierCards}</div>
+  ${hasReal?`<div><p class="sub-h mb8">Все отели направления</p>
   <div class="tbl-wrap"><table><thead><tr><th>Отель</th><th>Класс</th><th>Район</th><th>Рейтинг / отзывы</th><th>Завтрак</th><th>Цена / ночь</th><th>Для вашего состава</th><th>Booking.com</th><th>Сравнить</th></tr></thead><tbody>
   ${r.hotels.map(h=>`<tr class="${h.familyOk?'':'low'}"><td><b>${esc(h.name)}</b>${h.stars?`<br><span class="stars small">${'★'.repeat(h.stars)}</span>`:''}</td><td>${h.tier.toUpperCase()}</td><td>${esc(h.district)}</td><td>проверить${h.reviewsIndexed?`<br><span class="small muted">индекс: ${nf(h.reviewsIndexed)}*</span>`:''}</td><td>проверить</td><td class="n">${approx(h.priceNightEst)}<br><span class="small muted">DEMO</span></td><td>${h.familyOk?'подходит':`нет, ${h.adultsOnly}+`}</td><td><a href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a></td><td><input type="checkbox" aria-label="Сравнить ${esc(h.name)}" data-chg="cmpHotel" data-v="${h.id}" ${S.cmpHotels.includes(h.id)?'checked':''}></td></tr>`).join('')}
   </tbody></table></div>
-  <p class="small muted" style="margin-top:8px">* Число отзывов из заголовка страницы отзывов Booking в поисковом индексе; дата индексации неизвестна, актуальное число — на Booking.com.${ex.length?` Отели Adults Only исключены из подборки для вашего состава: ${ex.map(h=>esc(h.name)).join(', ')}.`:''}</p></div>`;
+  <p class="small muted" style="margin-top:8px">* Число отзывов из заголовка страницы отзывов Booking в поисковом индексе; дата индексации неизвестна.${ex.length?` Adults Only исключены из подборки для вашего состава: ${ex.map(h=>esc(h.name)).join(', ')}.`:''}</p></div>`:''}`;
 }
 function costTab(r){
-  const tier=S.tier[r.d.id]||S.budget, c=tripCost(r,tier), h=c.h, f=c.f, n=nights(), d=r.d, L=flightsLinks(d);
+  const tier=S.tier[r.d.id]||S.budget,c=tripCost(r,tier),h=c.h,f=c.f,n=nights(),d=r.d,L=flightLinks(d,f?f.origin:S.home);
   const all=TIERS.map(([k,l])=>[l,tripCost(r,k)]);
+  const hotelLink=h.estimated?h.searchUrl:h.bookingUrl;
   return `<div class="toggle-row"><div class="seg" role="group" aria-label="Категория отеля">${TIERS.map(([k,l])=>`<button data-act="tier" data-v="${k}" aria-pressed="${tier===k}">${l}</button>`).join('')}</div><span class="demo">СУММЫ — ОЦЕНКА DEMO</span></div>
   <div class="scen">
    <div class="scard main">
-     <span class="eyebrow">Вариант 1 · Готовая поездка</span>
-     <h3>Перелёт + отель</h3>
+     <span class="eyebrow">✈️ + 🏨 Перелёт + отель</span>
+     <h3>Готовая поездка</h3>
      <div class="lines">
-       <div class="ln"><span>Перелёт туда-обратно<small>${f.airline} · ${f.direct?'прямой':'пересадка '+f.via} · ${esc(partyText())}</small></span><span>${approx(f.total)}</span></div>
-       <div class="ln"><span>Проживание<small>${esc(h.name)} · ${n} ${plural(n,['ночь','ночи','ночей'])}</small></span><span>${approx(h.priceStayEst)}</span></div>
+       <div class="ln"><span>Перелёт туда-обратно<small>${f?`${f.path.map(cityOf).join(' → ')} · ${f.ticket==='single'?'единый билет':'самостоятельная пересадка'} · ${esc(partyText())}`:'маршрут не найден в DEMO-сети'}</small></span><span>${f?approx(c.fl):'проверить'}</span></div>
+       <div class="ln"><span>Проживание<small>${h.estimated?`отель ${tier.toUpperCase()} ещё не выбран · оценка по уровню цен`:esc(h.name)} · ${n} ${plural(n,['ночь','ночи','ночей'])}</small></span><span>${approx(h.priceStayEst)}</span></div>
        <div class="ln"><span>Завтрак<small>Включён ли завтрак, зависит от тарифа на Booking.com</small></span><span>проверить</span></div>
-       <div class="ln"><span>Обязательные сборы<small>${esc(h.fees.note)}</small></span><span>${h.fees.kzt?approx(h.fees.kzt):'0 ₸'}</span></div>
+       <div class="ln"><span>Транспорт у отеля<small>${h.estimated?'появится после выбора отеля':'наличие метро/трамвая в городе — факт, расстояния — проверить'}</small></span><span>${d.transit.metro?'🚇':''}${d.transit.tram?'🚋':''}${!d.transit.metro&&!d.transit.tram?'🚌':''}</span></div>
+       <div class="ln"><span>Обязательные сборы<small>${esc(h.fees.note)}</small></span><span>${h.fees.unknown?'проверить':h.fees.kzt?approx(h.fees.kzt):'0 ₸'}</span></div>
      </div>
-     <div class="total"><div><span class="sub-h">Ориентировочная полная стоимость: перелёт + проживание</span><br><b>${approx(c.total)}</b><br><span class="small muted">на всех путешественников · не цена Booking</span></div><div class="pp"><b style="font-size:18px">${approx(c.per)}</b><br>на 1 человека</div></div>
-     <p class="small muted">Если на Booking выберете тариф с завтраком, в названии итога появится «+ завтрак». Мы не называем завтрак включённым, пока это не подтверждено.</p>
-     <div class="actions"><a class="btn btn-booking" href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">${t('booking.open')} ↗</a><a class="btn" href="${L.av}" target="_blank" rel="noopener">Проверить перелёт ↗</a></div>
+     <div class="total"><div><span class="sub-h">Полная стоимость поездки · перелёт + проживание</span><br><b>${approx(c.total)}</b><br><span class="small muted">на всех путешественников · не цена Booking</span></div><div class="pp"><b style="font-size:18px">${approx(c.per)}</b><br>стоимость на одного человека</div></div>
+     <p class="small muted">Название «перелёт + проживание + завтрак» появится, только когда тариф с завтраком будет подтверждён. «All Inclusive» мы не пишем, если он не входит в тариф.</p>
+     <div class="actions"><a class="btn btn-booking" href="${esc(hotelLink)}" target="_blank" rel="noopener">${h.estimated?'Поиск отелей на Booking.com':t('booking.open')} ↗</a><a class="btn" href="${L.av}" target="_blank" rel="noopener">Проверить перелёт ↗</a></div>
    </div>
    <div class="scard">
-     <span class="eyebrow">Вариант 2 · Только перелёт</span>
+     <span class="eyebrow">✈️ Только перелёт</span>
      <h3>Я сама выберу отель</h3>
-     <div class="lines"><div class="ln"><span>Перелёт туда-обратно<small>${esc(partyText())}</small></span><span>${approx(f.total)}</span></div><div class="ln"><span>На 1 человека</span><span>${approx(Math.round(f.total/pax()))}</span></div></div>
-     <p class="small muted">Подходит, если хотите бронировать отель на Booking со своими персональными условиями.</p>
-     ${S.genius==='g2'?geniusBox():''}
-     <div class="actions"><button class="btn btn-teal" data-act="tab" data-v="hotels">Выбрать отель самостоятельно</button><a class="btn btn-ghost" href="${L.av}" target="_blank" rel="noopener">Купить перелёт ↗</a></div>
+     <div class="lines"><div class="ln"><span>Перелёт туда-обратно<small>${esc(partyText())}</small></span><span>${f?approx(c.fl):'проверить'}</span></div><div class="ln"><span>На 1 человека</span><span>${f?approx(Math.round(c.fl/pax())):'—'}</span></div>${f&&f.pos?`<div class="ln"><span>Из них дорога до ${esc(cityOf(f.origin))}<small>${esc(f.pos.note)}</small></span><span>${approx(f.pos.cost)}</span></div>`:''}</div>
+     <p class="small muted">Все варианты перелёта, пересадки, багаж и альтернативные города вылета — во вкладке «Как добраться».</p>
+     ${S.genius==='g2'?geniusBox(hotelLink):''}
+     <div class="actions"><button class="btn btn-teal" data-act="tab" data-v="hotels">Выбрать отель самостоятельно</button><button class="btn" data-act="tab" data-v="flights">Все перелёты</button><a class="btn btn-ghost" href="${L.av}" target="_blank" rel="noopener">Купить перелёт ↗</a></div>
    </div>
   </div>
   <div class="tbl-wrap"><table><thead><tr><th>Категория</th><th>Отель</th><th>Перелёт</th><th>Проживание</th><th>Сборы</th><th>Итого (оценка)</th><th>На человека</th><th>Booking.com</th></tr></thead><tbody>
-   ${all.map(([l,x])=>`<tr><td><b>${l}</b></td><td>${esc(x.h.name)}</td><td class="n">${approx(x.f.total)}</td><td class="n">${approx(x.h.priceStayEst)}</td><td class="n">${money(x.h.fees.kzt)}</td><td class="n"><b>${approx(x.total)}</b></td><td class="n">${approx(x.per)}</td><td><a href="${esc(x.h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a></td></tr>`).join('')}
+   ${all.map(([l,x])=>`<tr><td><b>${l}</b></td><td>${x.h.estimated?'<span class="muted">не выбран</span>':esc(x.h.name)}</td><td class="n">${x.f?approx(x.fl):'—'}</td><td class="n">${approx(x.h.priceStayEst)}</td><td class="n">${x.h.fees.unknown?'проверить':money(x.h.fees.kzt)}</td><td class="n"><b>${approx(x.total)}</b></td><td class="n">${approx(x.per)}</td><td><a href="${esc(x.h.estimated?x.h.searchUrl:x.h.bookingUrl)}" target="_blank" rel="noopener">${x.h.estimated?'Поиск':'Открыть'} ↗</a></td></tr>`).join('')}
   </tbody></table></div>`;
 }
 
-/* =========================================================
-   Render: compare
-   ========================================================= */
+/* =====================================================================
+   UI · compare
+   ===================================================================== */
 function renderCompare(){
   const el=$('#compare');if(!S.results){el.innerHTML='';return}
   const tabs=[['cities','Города'],['flights','Перелёты'],['hotels','Отели'],['total','Полная стоимость']];
-  const cs=S.cmpCities.map(R_).filter(Boolean);
-  let body='';
-  const best=(vals,low)=>{const v=low?Math.min(...vals):Math.max(...vals);return vals.map(x=>x===v)};
-  if(S.cmpTab==='cities'){
-    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),[
-      ['Подходит',cs.map(r=>r.match),x=>x+'%',false],
-      ['Сезон',cs.map(r=>SEASON_LBL[r.seasonCode])],['Воздух днём',cs.map(r=>Math.round(r.air)+'°')],
-      ['Море',cs.map(r=>r.sea!=null&&r.d.tags.includes('beach')?Math.round(r.sea)+'°':'—')],['Туристы',cs.map(r=>CROWD_LBL[r.crowd])],
-      ['Уровень цен',cs.map(r=>'₸'.repeat(r.d.price))],['Перелёт',cs.map(r=>`${r.d.flight.direct?'прямой':'пересадка'} · ~${hm(r.h)}`)],
-      ['Метро / трамвай',cs.map(r=>[r.d.transit.metro?'метро':'',r.d.transit.tram?'трамвай':''].filter(Boolean).join(', ')||'нет')],
-      ['Шенгенская виза',cs.map(r=>r.d.schengen?'нужна':'не нужна')],
-      ['Итого STANDARD (оценка)',cs.map(r=>tripCost(r,'standard').total),approx,true]],best);
-  }
-  if(S.cmpTab==='flights'){
-    const fs=cs.map(selFlight);
-    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),[
-      ['Авиакомпания (DEMO)',fs.map(f=>f.airline)],['Маршрут',fs.map((f,i)=>`${S.origin} → ${f.direct?'':f.via+' → '}${cs[i].d.iata}`)],
-      ['Прямой',fs.map(f=>f.direct?'да':'нет')],['В пути',fs.map(f=>f.dur),hm,true],['Багаж',fs.map(f=>f.bag.note)],
-      ['Цена на всех (оценка)',fs.map(f=>f.total),approx,true],['На человека (оценка)',fs.map(f=>Math.round(f.total/pax())),approx,true]],best);
-  }
+  const cs=S.cmpCities.map(R_).filter(Boolean);let body='';
+  const best=(vals,low)=>{const nums=vals.filter(v=>typeof v==='number');const v=low?Math.min(...nums):Math.max(...nums);return vals.map(x=>x===v)};
+  const heads=cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`);
+  if(S.cmpTab==='cities') body=tableCmp(heads,[
+      ['Подходит',cs.map(r=>r.match),x=>x+'%',false],['Регион',cs.map(r=>REGIONS[r.d.region])],['Сезон',cs.map(r=>SEASON_LBL[r.seasonCode])],['Воздух днём',cs.map(r=>Math.round(r.air)+'°')],
+      ['Море',cs.map(r=>r.sea!=null&&r.d.activities.includes('beach')?Math.round(r.sea)+'°':'—')],['Туристы',cs.map(r=>CROWD_LBL[r.crowd])],['Уровень цен',cs.map(r=>'₸'.repeat(r.d.priceLevel))],
+      ['Для семей',cs.map(r=>Math.round(r.d.familyFriendly*100)),x=>x+'%',false],['Метро / трамвай',cs.map(r=>[r.d.transit.metro?'метро':'',r.d.transit.tram?'трамвай':''].filter(Boolean).join(', ')||'нет')],
+      ['Виза',cs.map(r=>r.d.visa==='s'?'шенген':r.d.visa==='v'?'нужна':r.d.visa==='c'?'виза Кипра':'проверить правила')],
+      ['Итого (оценка)',cs.map(r=>r.estTotal||0),approx,true]],best);
+  if(S.cmpTab==='flights'){const fs=cs.map(selFlight);body=tableCmp(heads,[
+      ['Маршрут',fs.map(f=>f?f.path.map(cityOf).join(' → '):'нет в DEMO-сети')],['Город вылета',fs.map(f=>f?cityOf(f.origin):'—')],['Билет',fs.map(f=>f?(f.ticket==='single'?'единый':'⚠️ самостоятельная пересадка'):'—')],
+      ['Пересадки',fs.map(f=>f?f.stops:99),x=>x===99?'—':String(x),true],['В пути',fs.map(f=>f?f.dur:99),x=>x===99?'—':hm(x),true],['Авиакомпании (DEMO)',fs.map(f=>f?[...new Set(f.legs.map(l=>l.carriers))].join('; '):'—')],
+      ['Цена на всех (оценка)',fs.map(f=>f?f.totalWithPos:0),approx,true],['На человека',fs.map(f=>f?Math.round(f.totalWithPos/pax()):0),approx,true]],best)}
   if(S.cmpTab==='hotels'){
     const hs=S.cmpHotels.map(id=>{for(const r of S.results.all){const h=r.hotels.find(x=>x.id===id);if(h)return [h,r]}return null}).filter(Boolean);
-    if(!hs.length) body='<p class="muted">Отметьте «Сравнить» у отелей во вкладке «Отели».</p>';
-    else body=tableCmp(hs.map(([h,r])=>`${esc(h.name)}<br><span class="small muted">${esc(r.d.city)}</span>`),[
+    body=!hs.length?'<p class="muted">Отметьте «Сравнить» у конкретных отелей во вкладке «Отели».</p>':tableCmp(hs.map(([h,r])=>`${esc(h.name)}<br><span class="small muted">${esc(r.d.city)}</span>`),[
       ['Рейтинг Booking',hs.map(()=>'проверить')],['Отзывы',hs.map(([h])=>h.reviewsIndexed?`${nf(h.reviewsIndexed)} (индекс*)`:'проверить')],
       ['Цена за ночь (оценка)',hs.map(([h])=>h.priceNightEst),approx,true],['Проживание (оценка)',hs.map(([h])=>h.priceStayEst),approx,true],
-      ['Завтрак',hs.map(()=>'проверить')],['Метро',hs.map(([h])=>h.transport.cityHas.metro?'проверить':'нет в городе')],['Центр',hs.map(([h])=>esc(h.district))],
-      ['Категория',hs.map(([h])=>h.stars?'★'.repeat(h.stars):h.tier.toUpperCase())],['Для вашего состава',hs.map(([h])=>h.familyOk?'подходит':`только ${h.adultsOnly}+`)],
-      ['Итого с перелётом (оценка)',hs.map(([h,r])=>selFlight(r).total+h.priceStayEst+h.fees.kzt),approx,true],
+      ['Завтрак',hs.map(()=>'проверить')],['Метро',hs.map(([h])=>h.transport.cityHas.metro?'проверить':'нет в городе')],['Транспорт',hs.map(([h])=>h.transport.cityHas.tram?'трамвай в городе':'автобус')],
+      ['Район',hs.map(([h])=>esc(h.district))],['Категория',hs.map(([h])=>h.stars?'★'.repeat(h.stars):h.tier.toUpperCase())],['Для вашего состава',hs.map(([h])=>h.familyOk?'подходит':`только ${h.adultsOnly}+`)],
+      ['Полная стоимость (оценка)',hs.map(([h,r])=>(selFlight(r)?selFlight(r).totalWithPos:0)+h.priceStayEst+h.fees.kzt),approx,true],
       ['Booking.com',hs.map(([h])=>`<a href="${esc(h.bookingUrl)}" target="_blank" rel="noopener">Открыть ↗</a>`),null,null,true]],best);
   }
-  if(S.cmpTab==='total'){
-    const rows=TIERS.map(([k,l])=>[`${l} (оценка)`,cs.map(r=>tripCost(r,k).total),approx,true]);
-    rows.push(['Только перелёт (оценка)',cs.map(r=>selFlight(r).total),approx,true]);
-    rows.push(['STANDARD на человека',cs.map(r=>tripCost(r,'standard').per),approx,true]);
-    body=tableCmp(cs.map(r=>`${r.d.flag} ${esc(r.d.city)}`),rows,best);
-  }
+  if(S.cmpTab==='total'){const rows=TIERS.map(([k,l])=>[`${l} (оценка)`,cs.map(r=>tripCost(r,k).total),approx,true]);rows.push(['Только перелёт',cs.map(r=>tripCost(r,'standard').fl),approx,true]);rows.push(['STANDARD на человека',cs.map(r=>tripCost(r,'standard').per),approx,true]);body=tableCmp(heads,rows,best)}
   el.innerHTML=`<div class="block-head"><div><span class="eyebrow">Сравнение</span><h2>Сравните варианты</h2></div><span class="demo">ЦЕНЫ — ОЦЕНКА DEMO</span></div>
   <div class="detail"><div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab" role="tab" aria-selected="${S.cmpTab===k}" data-act="cmptab" data-v="${k}">${l}</button>`).join('')}</div>
-  <div class="tab-body">${S.cmpTab!=='hotels'?`<div class="cmp-pick"><span class="small muted" style="align-self:center">Направления (до 3):</span>${S.results.good.map(r=>`<button class="chip" data-act="cmpcity" data-v="${r.d.id}" aria-pressed="${S.cmpCities.includes(r.d.id)}">${esc(r.d.city.split(' · ')[0])}</button>`).join('')}</div>`:''}${body}<p class="small muted">Зелёным отмечено лучшее значение в строке. Цены — ориентировочная оценка, не цены Booking.</p></div></div>`;
+  <div class="tab-body">${S.cmpTab!=='hotels'?`<div class="cmp-pick"><span class="small muted" style="align-self:center">Направления (до 3):</span>${S.results.list.slice(0,12).map(r=>`<button class="chip" data-act="cmpcity" data-v="${r.d.id}" aria-pressed="${S.cmpCities.includes(r.d.id)}">${esc(r.d.city.split(' · ')[0])}</button>`).join('')}</div>`:''}${body}<p class="small muted">Зелёным отмечено лучшее значение в строке. Цены — ориентировочная оценка, не цены Booking и авиакомпаний.</p></div></div>`;
 }
 function tableCmp(heads,rows,best){
-  return `<div class="tbl-wrap"><table><thead><tr><th></th>${heads.map(h=>`<th style="text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--ink)">${h}</th>`).join('')}</tr></thead><tbody>
+  return `<div class="tbl-wrap"><table><thead><tr><th></th>${heads.map(h=>`<th class="colh">${h}</th>`).join('')}</tr></thead><tbody>
    ${rows.map(([lbl,vals,f,low,raw])=>{const b=f&&typeof vals[0]==='number'&&vals.length>1?best(vals,low):vals.map(()=>false);return `<tr><td class="muted">${lbl}</td>${vals.map((v,i)=>`<td class="n ${b[i]?'best-cell':''}">${raw?v:f?f(v):esc(v)}</td>`).join('')}</tr>`}).join('')}
   </tbody></table></div>`;
 }
 
-/* =========================================================
-   Gallery modal
-   ========================================================= */
+/* =====================================================================
+   UI · gallery
+   ===================================================================== */
 let gal={items:[],i:0,title:'',extra:''};
 function openGallery(kind,id,i){
-  if(kind==='city'){const d=DMAP[id];gal={items:getCityImages(id),i:+i||0,title:`${d.flag} ${d.city}`,extra:''}}
-  else{const h=HOTEL_INDEX[id],q=query(),im=getHotelImages(id),url=getHotelBookingUrl(h,q);
+  if(kind==='city'){const d=DestinationCatalog.byId[id];gal={items:getCityImages(id),i:+i||0,title:`${d.flag} ${d.city}`,extra:''}}
+  else{const h=HOTEL_INDEX[id],im=getHotelImages(id),url=getHotelBookingUrl(h,query());
     gal={items:im.photos,i:+i||0,title:h.name,extra:`<div class="gal-cats">${im.categories.map(c=>`<div class="gal-cat ${c.photo?'ok':''}"><b>${c.category}</b><span>${c.photo?'открытое фото · Wikimedia Commons':'нет в открытом источнике'}</span></div>`).join('')}</div><p class="small muted">Фото номеров, ванных, ресторана и общих зон публикует отель на Booking.com. Мы не копируем их и не генерируем замену.</p><a class="btn btn-booking" href="${esc(url)}#hotelPhotos" target="_blank" rel="noopener">Все фото отеля на Booking.com ↗</a>`}}
   renderGallery();$('#gal').hidden=false;
 }
@@ -1374,43 +1704,51 @@ function renderGallery(){
    ${gal.extra}`;
 }
 
-/* =========================================================
-   Data check panel (самопроверка по пунктам ТЗ)
-   ========================================================= */
+/* =====================================================================
+   UI · самопроверка (раздел 33 ТЗ)
+   ===================================================================== */
 function renderChecks(){
-  const el=$('#checks');if(!el)return;
-  const cities=DEST.map(d=>getCityImages(d.id));
-  const allCityFiles=cities.flat().map(p=>p.src);
-  const hotels=Object.values(HOTEL_INDEX);
-  const hotelFiles=hotels.flatMap(h=>(h.photos||[]).map(p=>p[0]));
-  const dupCity=allCityFiles.length-new Set(allCityFiles).size, dupHotel=hotelFiles.length-new Set(hotelFiles).size;
-  const withUrl=hotels.filter(h=>/^https:\/\/www\.booking\.com\/hotel\/[a-z]{2}\/[^/?#]+\.html$/.test(h.url)).length;
-  const withPhotos=hotels.filter(h=>h.photos&&h.photos.length).length;
+  const el=$('#checks');if(!el||!S.results)return;
+  const all=getDestinations(),res=S.results;
+  const regions=new Set(all.map(d=>d.region)).size;
+  const cityFiles=all.flatMap(d=>getCityImages(d.id).map(p=>p.src)),hotels=Object.values(HOTEL_INDEX),hotelFiles=hotels.flatMap(h=>(h.photos||[]).map(p=>p[0]));
+  const dup=(cityFiles.length-new Set(cityFiles).size)+(hotelFiles.length-new Set(hotelFiles).size);
+  const urlOk=hotels.filter(h=>/^https:\/\/www\.booking\.com\/hotel\/[a-z]{2}\/[^/?#]+\.html$/.test(h.url)).length;
+  const noPhotoShown=res.list.filter(r=>!getCityImages(r.d.id).length).length;
+  const altOrigins=getAlternativeDepartureCities().length;
+  const anySelf=res.all.some(r=>r.flights.some(f=>f.ticket==='self')),anySingle=res.all.some(r=>r.flights.some(f=>f.ticket==='single'&&f.stops>0));
+  const monthsDiffer=(()=>{const a=all.map(d=>SeasonEngine.code(d,0)).join(''),b=all.map(d=>SeasonEngine.code(d,6)).join('');return a!==b})();
   const row=(st,title,detail)=>`<li class="chk ${st}"><span class="chk-i">${st==='ok'?'✓':st==='warn'?'!':'✕'}</span><div><b>${title}</b><span>${detail}</span></div></li>`;
   el.innerHTML=`<ul class="checks">
-   ${row(cities.every(c=>c.length>=3)?'ok':'warn','У каждого города есть реальные фото',`${DEST.length} из ${DEST.length} городов, от 3 до 4 файлов Wikimedia Commons на город. В этом просмотре загрузилось ${photoStats.ok}, заблокировано ${photoStats.fail}.`)}
-   ${row(dupCity===0&&dupHotel===0?'ok':'bad','Нет повторяющихся фотографий',`Повторов среди фото городов: ${dupCity}, среди фото отелей: ${dupHotel}.`)}
-   ${row(withUrl===hotels.length?'ok':'bad','У каждого отеля прямая ссылка на страницу в Booking.com',`${withUrl} из ${hotels.length}. Формат booking.com/hotel/<страна>/<отель>.html, адреса найдены в поисковом индексе ${CONFIG.dataCheckedOn.split('-').reverse().join('.')} — не сгенерированы.`)}
-   ${row('warn','Фото именно этого отеля',`${withPhotos} из ${hotels.length} отелей имеют открытые фото здания в Commons. Для остальных — кнопка на фото отеля в Booking.com; чужие и сгенерированные изображения не используются.`)}
-   ${row('warn','Рейтинг и количество отзывов','Без Booking Demand API актуальные значения недоступны, поэтому в карточках стоит «проверить». Там, где число отзывов есть в поисковом индексе Booking, оно показано со звёздочкой.')}
-   ${row('ok','Демо-цены не выдаются за актуальные','Все суммы помечены «≈» и «оценка DEMO», рядом — «Цена требует проверки на Booking.com».')}
-   ${row('ok','Бесплатный завтрак не обещается','Завтрак показан как «зависит от тарифа — проверить», пока нет подтверждения тарифа.')}
-   ${row('ok','Genius Level 2 без ложных обещаний','Показываем только напоминание проверить персональные преимущества и кнопку на Booking.com.')}
-   ${row('warn','Расстояния до транспорта','Данные о метро и трамвае в городе — факт; расстояния от конкретного отеля появятся после подключения getTransportData(). Сейчас — ссылка на карту.')}
+   ${row(all.length>=50?'ok':'bad','Каталог 50–100 направлений',`${all.length} направлений в ${regions} регионах. Строки каталога читаются парсером, источник можно заменить на API.`)}
+   ${row('ok','Нет ограничения 14 направлениями',`Анализируются все ${res.analyzed}; подходят ${res.fit.length}; первые ${CONFIG.pageSize} показаны, остальные — кнопкой «Показать ещё».`)}
+   ${row(monthsDiffer?'ok':'bad','Выбор по датам и сезонности','Сезон считается по каждой ночи поездки из помесячного климата и сезонности каждого направления, а не списком «месяц → страны».')}
+   ${row('ok','Учитываются тип отдыха, состав, возраст детей, бюджет','Отдельные оценки в формуле: тип отдыха 15%, состав 10%, возраст детей 10%, бюджет 10%; лимит бюджета снижает оценку при превышении.')}
+   ${row(altOrigins>1?'ok':'warn','Альтернативные города вылета',`Сейчас рассматривается ${altOrigins} ${plural(altOrigins,['город','города','городов'])}: ${getAlternativeDepartureCities().map(cityOf).join(', ')}. Дорога до другого города добавляется к цене.`)}
+   ${row(anySelf&&anySingle?'ok':'warn','Единый билет и самостоятельная пересадка различаются','Самостоятельная пересадка помечена ⚠️, с предупреждением и запасом ~5 ч на стыковку.')}
+   ${row('warn','Реальные рейсы','Маршруты строятся по DEMO-схеме направлений; прямые рейсы показаны только там, где они есть в схеме. Расписание и цены — DEMO, проверка по ссылкам Aviasales и Google Flights.')}
+   ${row('ok','Отсутствие фото не исключает направление',`${noPhotoShown} из ${res.list.length} подходящих направлений показаны карточкой без фото.`)}
+   ${row(dup===0?'ok':'bad','Фото соответствуют городу и отелю, без повторов',`Фото есть у ${all.filter(d=>getCityImages(d.id).length).length} городов (Wikimedia Commons) и ${hotels.filter(h=>h.photos).length} отелей. Повторов: ${dup}. В этом просмотре загрузилось ${photoStats.ok}, заблокировано ${photoStats.fail}.`)}
+   ${row(urlOk===hotels.length?'ok':'bad','Прямые ссылки Booking без выдуманных URL',`${urlOk} из ${hotels.length} отелей ведут на страницу конкретного отеля (адреса найдены поиском). Для городов без подобранных отелей — явно подписанный поиск по городу.`)}
+   ${row('warn','Рейтинг 8+, отзывы, завтрак, транспорт у отеля','Без Booking API не подтверждаются: показано «проверить», бесплатный завтрак не обещается. Логика порога 8.0 и учёта отзывов готова в calculateHotelScore().')}
+   ${row('ok','Budget / Standard / Premium, «Только перелёт» и «Перелёт + отель»','Три категории в каждом направлении, два сценария во вкладке «Стоимость и бронирование».')}
+   ${row('ok','Genius Level 2 без ложных обещаний','Только напоминание проверить персональные условия и кнопка на Booking.com.')}
+   ${row('ok','DEMO DATA обозначены','Все цены с «≈» и меткой DEMO; климат помечен как норма.')}
   </ul>`;
 }
 
-/* =========================================================
+/* =====================================================================
    Global render & events
-   ========================================================= */
+   ===================================================================== */
 function renderAll(){renderPlanner();renderResults();renderDetail();renderCompare();renderChecks();document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=t(e.dataset.i18n))}
 function search({scroll=true,animate=true}={}){
   S.loading=animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
-  runSearch();renderAll();
+  ResultsEngine.run();renderAll();
   if(scroll) $('#results').scrollIntoView({behavior:'smooth',block:'start'});
   if(S.loading) setTimeout(()=>{S.loading=false;renderResults()},900);
 }
-function refreshKeep(){const sel=S.selected,cc=S.cmpCities.slice(),ch=S.cmpHotels.slice();runSearch();S.selected=sel;S.cmpCities=cc.filter(id=>R_(id));S.cmpHotels=ch;renderAll()}
+function refreshKeep(){const sel=S.selected,cc=S.cmpCities.slice(),ch=S.cmpHotels.slice(),sh=S.shown;ResultsEngine.run();S.selected=R_(sel)?sel:S.selected;S.cmpCities=cc.filter(id=>R_(id));S.cmpHotels=ch;S.shown=sh;renderAll()}
+function toggleCmpCity(id){if(S.cmpCities.includes(id))S.cmpCities=S.cmpCities.filter(x=>x!==id);else{S.cmpCities.push(id);if(S.cmpCities.length>3)S.cmpCities.shift()}}
 document.addEventListener('click',e=>{
   if(e.target.closest('a[href]')) return;
   const el=e.target.closest('[data-act]');if(!el)return;
@@ -1419,19 +1757,23 @@ document.addEventListener('click',e=>{
     case 'step':S.step=+v;renderPlanner();break;
     case 'next':S.step=Math.min(3,S.step+1);renderPlanner();break;
     case 'search':if(!S.end)S.end=iso(addDays(pd(S.start),7));search();break;
+    case 'known':S.knownOpen=true;$('#known').hidden=false;$('#destPick').focus();break;
     case 'cal':{const d=new Date(S.calY,S.calM+ +v,1);S.calY=d.getFullYear();S.calM=d.getMonth();renderPlanner();break}
-    case 'day':{if(S.end||v<=S.start){S.start=v;S.end=''}else{S.end=v}renderPlanner();break}
+    case 'day':if(S.end||v<=S.start){S.start=v;S.end=''}else S.end=v;renderPlanner();break;
     case 'len':S.end=iso(addDays(pd(S.start),+v));renderPlanner();break;
     case 'adults':S.adults=Math.max(1,Math.min(8,S.adults+ +v));renderPlanner();break;
     case 'kids':if(+v>0&&S.children.length<6)S.children.push(6);if(+v<0)S.children.pop();if(S.children.length&&S.tripType==='couple')S.tripType='family';renderPlanner();break;
     case 'trip':S.tripType=v;renderPlanner();break;
+    case 'scope':S.scope=v;if(v!=='mine')S.lastScope=v;renderPlanner();break;
     case 'rest':S.rest=S.rest.includes(v)?S.rest.filter(x=>x!==v):[...S.rest,v];renderPlanner();break;
     case 'temp':S.temp=v;renderPlanner();break;
     case 'pace':S.pace=v;renderPlanner();break;
     case 'budget':S.budget=v;renderPlanner();break;
-    case 'genius':S.genius=v;renderPlanner();if(S.results){renderDetail()}break;
+    case 'genius':S.genius=v;renderPlanner();if(S.results)renderDetail();break;
     case 'break':S.openBreak[v]=!S.openBreak[v];renderResults();break;
-    case 'open':S.selected=v;S.tab='season';S.cmpHotels=TIERS.map(([k])=>R_(v).tiers[k].id);renderResults();renderDetail();renderCompare();$('#detail').scrollIntoView({behavior:'smooth'});break;
+    case 'region':S.region=v;S.shown=CONFIG.pageSize;renderResults();break;
+    case 'more':S.shown+=CONFIG.pageSize;renderResults();break;
+    case 'open':S.selected=v;S.tab='season';S.cmpHotels=TIERS.map(([k])=>R_(v).tiers[k]).filter(h=>!h.estimated).map(h=>h.id);renderResults();renderDetail();renderCompare();$('#detail').scrollIntoView({behavior:'smooth'});break;
     case 'open-tab':S.selected=v;S.tab=el.dataset.t;renderResults();renderDetail();$('#detail').scrollIntoView({behavior:'smooth'});break;
     case 'tab':S.tab=v;renderDetail();$('#detail').scrollIntoView({behavior:'smooth',block:'start'});break;
     case 'flight':S.flightSel[S.selected]=v;renderDetail();renderCompare();renderResults();break;
@@ -1449,16 +1791,17 @@ document.addEventListener('click',e=>{
   }
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&!$('#gal').hidden){$('#gal').hidden=true}
+  if(e.key==='Escape'&&!$('#gal').hidden)$('#gal').hidden=true;
   if(!$('#gal').hidden&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&gal.items.length>1){gal.i=(gal.i+(e.key==='ArrowRight'?1:-1)+gal.items.length)%gal.items.length;renderGallery()}
   if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('figure.ph[data-act="gal"]')){e.preventDefault();e.target.click()}
 });
 $('#gal').addEventListener('click',e=>{if(e.target.id==='gal')$('#gal').hidden=true});
-function toggleCmpCity(id){if(S.cmpCities.includes(id))S.cmpCities=S.cmpCities.filter(x=>x!==id);else{S.cmpCities.push(id);if(S.cmpCities.length>3)S.cmpCities.shift()}}
 document.addEventListener('change',e=>{
   const el=e.target,c=el.dataset.chg;if(!c)return;
   if(c==='age'){S.children[+el.dataset.i]=+el.value;renderPlanner()}
-  if(c==='origin'){S.origin=el.value;renderPlanner()}
+  if(c==='origin'){S.home=el.value;renderPlanner()}
+  if(c==='altOn'){S.scope=el.checked?(S.lastScope||'kz'):'mine';renderPlanner()}
+  if(c==='budgetMax'){const v=Math.round(+el.value);S.budgetMax=v>0?v:null;renderPlanner()}
   if(c==='allowLow'){S.allowLow=el.checked;if(S.results)refreshKeep();else renderPlanner()}
   if(c==='cmpCity'){toggleCmpCity(el.dataset.v);renderResults();renderCompare()}
   if(c==='cmpHotel'){const v=el.dataset.v;if(el.checked){S.cmpHotels.push(v);if(S.cmpHotels.length>3)S.cmpHotels.shift()}else S.cmpHotels=S.cmpHotels.filter(x=>x!==v);S.cmpTab='hotels';renderDetail();renderCompare()}
@@ -1468,18 +1811,19 @@ function initTopSelects(){
   cur.onchange=()=>{S.currency=cur.value;renderAll()};
   const lang=$('#lang');lang.innerHTML=CONFIG.languages.map(l=>`<option value="${l.code}" ${l.ready?'':'disabled'} ${l.code===S.lang?'selected':''}>${l.label}</option>`).join('');
   lang.onchange=()=>{S.lang=lang.value;renderAll()};
-  const dp=$('#destPick');dp.innerHTML=`<option value="">Любое — подберите за меня</option>`+DEST.map(d=>`<option value="${d.id}">${d.flag} ${d.city}, ${d.country}</option>`).join('');
+  const dp=$('#destPick');
+  dp.innerHTML=`<option value="">Любое — подберите за меня</option>`+Object.entries(REGIONS).map(([k,l])=>`<optgroup label="${l}">${getDestinations().filter(d=>d.region===k).sort((a,b)=>a.city.localeCompare(b.city,'ru')).map(d=>`<option value="${d.id}">${d.flag} ${esc(d.city)}, ${esc(d.country)}</option>`).join('')}</optgroup>`).join('');
   dp.onchange=()=>{S.dest=dp.value;if(S.dest){S.selected=S.dest;S.tab='season'}search({scroll:false,animate:false});if(S.dest)$('#detail').scrollIntoView({behavior:'smooth'})};
 }
 
-/* =========================================================
+/* =====================================================================
    AI Travel Expert chat
-   ========================================================= */
-let sampleFn=null, aiReady=false, chatTurns=[], chatCtl=null;
-const SUGGESTIONS=['Мы хотим поехать в июле на 10 дней, два взрослых и ребёнок 6 лет. Хотим море, хороший отель и не хотим каждый день ездить на экскурсии.','Вдвоём на майские праздники, хотим экскурсии и вкусную еду, бюджет средний','Какой вариант сейчас самый выгодный и почему?'];
+   ===================================================================== */
+let sampleFn=null,aiReady=false,chatTurns=[],chatCtl=null;
+const SUGGESTIONS=['Мы хотим поехать в июле на 10 дней, два взрослых и ребёнок 6 лет. Хотим море, хороший отель, спокойный отдых и бюджет до 1 млн тенге.','Вдвоём на майские праздники, хотим экскурсии и вкусную еду, бюджет средний','Как выгоднее добраться до лучшего варианта?'];
 function openChat(){
   $('#drawer').hidden=false;$('#fab').hidden=true;
-  if(!S.chat.length){S.chat.push({role:'bot',html:'Здравствуйте! Я Travel Expert. Опишите поездку своими словами: когда, на сколько, кто едет, возраст детей и какой отдых хотите. Я разберу запрос, подберу направления, перелёты и конкретные отели с прямыми ссылками на Booking.com.'});renderChat()}
+  if(!S.chat.length){S.chat.push({role:'bot',html:'Здравствуйте! Я Travel Expert. Опишите поездку своими словами: когда, на сколько, кто едет, возраст детей, какой отдых и бюджет. Я проанализирую каталог направлений, варианты вылета из разных городов и отели.'});renderChat()}
   setTimeout(()=>$('#chatIn').focus(),50);
 }
 function renderChat(){
@@ -1487,72 +1831,74 @@ function renderChat(){
   $('#msgs').scrollTop=1e6;
   $('#suggest').innerHTML=S.chat.length<=1?SUGGESTIONS.map(s=>`<button data-act="suggest" data-text="${esc(s)}">${esc(s)}</button>`).join(''):'';
 }
-function stateSummary(){return `Текущий запрос: ${S.start}—${S.end} (${nights()} ночей), ${partyText()}, тип: ${S.tripType}, отдых: ${S.rest.join(',')}, температура: ${S.temp}, темп: ${S.pace}, бюджет: ${S.budget}, вылет: ${S.origin}.`}
+function stateSummary(){return `Текущий запрос: ${S.start}—${S.end} (${nights()} ночей), ${partyText()}, компания: ${S.tripType}, отдых: ${S.rest.join(',')}, температура: ${S.temp}, темп: ${S.pace}, бюджет: ${S.budget}${S.budgetMax?`, лимит ${S.budgetMax} KZT`:''}, вылет: ${S.home}, охват: ${S.scope}.`}
 function resultsSummary(){
   if(!S.results) return 'Результатов пока нет.';
-  return S.results.good.slice(0,5).map(r=>{const c=tripCost(r,'standard');return `${r.d.city} (${r.d.country}): соответствие ${r.match}%, воздух ${Math.round(r.air)}°, море ${r.sea?Math.round(r.sea)+'°':'нет'}, ${SEASON_LBL[r.seasonCode]}, перелёт ≈${c.f.total} KZT (DEMO, ${r.d.flight.direct?'прямой':'пересадка'}), отели: ${r.hotels.filter(h=>h.familyOk).map(h=>`${h.name} (${h.tier})`).join(', ')} — рейтинг и завтрак не подтверждены, проверяются на Booking.com; итого STANDARD ≈${c.total} KZT (оценка). Плюсы: ${r.why.slice(0,3).join('; ')}. Учесть: ${r.care.slice(0,3).join('; ')}`}).join('\n');
+  return `Проанализировано ${S.results.analyzed}, подходят ${S.results.fit.length}.\n`+S.results.list.slice(0,6).map(r=>{const c=tripCost(r,S.budget);return `${r.d.city} (${r.d.country}): ${r.match}%, воздух ${Math.round(r.air)}°, море ${r.sea!=null?Math.round(r.sea)+'°':'нет'}, ${SEASON_LBL[r.seasonCode]}; лучший перелёт ${c.f?`${c.f.path.join('→')} (${c.f.ticket==='single'?'единый билет':'самостоятельная пересадка'}) ≈${c.fl} KZT`:'нет'}; отель: ${c.h.estimated?'не выбран, оценка':c.h.name} ≈${c.h.priceStayEst}; итого ≈${c.total} KZT (DEMO). Плюсы: ${r.why.slice(0,3).join('; ')}. Минусы: ${r.care.slice(0,3).join('; ')}`}).join('\n');
 }
 function rulesPrompt(){
   return `Ты — Travel Expert, персональный travel-консьерж для путешественников из Казахстана. Сегодня ${iso(today0)}. Отвечай по-русски, тепло и по делу.
-Твоя задача — понять потребности и превратить сообщение пользователя в параметры поиска. Цены и рейсы на странице — оценка DEMO; рейтинги отелей и завтрак не подтверждены. Сам цены, рейтинги и наличие НЕ придумывай; если спрашивают про них — говори, что это проверяется на Booking.com.
-Верни ТОЛЬКО JSON вида {"reply": string, "action": "search" | "answer", "params": object | null}.
-params (указывай только то, что понятно из разговора): start "YYYY-MM-DD", end "YYYY-MM-DD", adults 1-8, children [возрасты 0-17], tripType family|couple|friends|solo|other, rest [beach|passive|active|excursion|gastro|nature|mountains|shopping|mixed], temp hot|warm|mild, pace calm|balance|intense, budget budget|standard|premium, origin NQZ|ALA|CIT, dest один из [${DEST.map(d=>d.id+'='+d.city).join(', ')}] или "".
-Правила: если назван только месяц, начало ~10–15 числа ближайшего такого месяца в будущем; "на N дней" = N-1 ночей; "море" = beach; "не хотим каждый день экскурсии" = passive и pace calm. Если пользователь задаёт вопрос о текущих результатах — action "answer", params null, ответ строй только на DATA ниже.
+Задача: понять потребности и превратить сообщение в параметры поиска. Цены и рейсы на странице — оценка DEMO; рейтинги отелей и завтрак не подтверждены. Сам цены, рейтинги, рейсы и наличие НЕ придумывай; если спрашивают — говори, что это проверяется на Booking.com и Aviasales.
+Верни ТОЛЬКО JSON {"reply": string, "action": "search" | "answer", "params": object | null}.
+params (только то, что понятно): start "YYYY-MM-DD", end "YYYY-MM-DD", adults 1-8, children [возрасты 0-17], tripType family|couple|friends|solo|other, rest [beach|passive|active|excursion|gastro|nature|mountains|shopping|mixed], temp hot|warm|mild, pace calm|balance|intense, budget budget|standard|premium, budgetMax число в тенге или null, home NQZ|ALA|CIT|SCO|GUW|KGF|AKX, scope mine|kz|neighbors|region, dest id направления из каталога (${getDestinations().map(d=>d.id+'='+d.city.split(' · ')[0]).join(', ')}) или "".
+Правила: только месяц → начало ~10–15 числа ближайшего такого месяца в будущем; "на N дней" = N-1 ночей; "море" = beach; "спокойный отдых"/"не хотим каждый день экскурсии" = passive и pace calm; "до 1 млн" = budgetMax 1000000. Вопрос о текущих результатах → action "answer", params null, отвечай только по DATA (плюсы, минусы, как добраться).
 reply: 2–4 предложения, без markdown.
 ${stateSummary()}
-DATA (текущие результаты):
+DATA:
 ${resultsSummary()}`;
 }
 async function initAI(){
-  try{ if(window.claude&&window.claude.use){ sampleFn=await window.claude.use('sample'); } }catch(e){ sampleFn=null }
+  try{if(window.claude&&window.claude.use) sampleFn=await window.claude.use('sample')}catch(e){sampleFn=null}
   aiReady=!!sampleFn;
   $('#aiMode').textContent=aiReady?'Запрос разбирает Claude от имени вашего аккаунта. Подбор считает Travel Expert.':'Консультант работает в упрощённом режиме: запрос разбирается прямо в браузере.';
 }
 function applyParams(p){
   if(!p||typeof p!=='object') return false;
   const okD=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s);
-  if(okD(p.start)){S.start=p.start<iso(today0)?iso(addDays(today0,14)):p.start}
-  if(okD(p.end)&&p.end>S.start) S.end=p.end; else if(okD(p.start)) S.end=iso(addDays(pd(S.start),7));
+  if(okD(p.start)) S.start=p.start<iso(today0)?iso(addDays(today0,14)):p.start;
+  if(okD(p.end)&&p.end>S.start) S.end=p.end;else if(okD(p.start)) S.end=iso(addDays(pd(S.start),7));
   if(Number.isFinite(+p.adults)&&+p.adults>=1) S.adults=Math.min(8,Math.round(+p.adults));
   if(Array.isArray(p.children)) S.children=p.children.map(Number).filter(a=>a>=0&&a<=17).slice(0,6);
-  if(TRIP.some(x=>x[0]===p.tripType)) S.tripType=p.tripType; else if(S.children.length) S.tripType='family';
+  if(TRIP.some(x=>x[0]===p.tripType)) S.tripType=p.tripType;else if(S.children.length) S.tripType='family';
   if(Array.isArray(p.rest)){const r=p.rest.filter(x=>REST.some(q=>q[0]===x));if(r.length)S.rest=r}
   if(TEMP_RANGE[p.temp]) S.temp=p.temp;
   if(PACE.some(x=>x[0]===p.pace)) S.pace=p.pace;
   if(BUDGET.some(x=>x[0]===p.budget)) S.budget=p.budget;
-  if(ORIG[p.origin]) S.origin=p.origin;
-  if(typeof p.dest==='string'&&(p.dest===''||DMAP[p.dest])) {S.dest=p.dest;$('#destPick').value=p.dest}
+  if(p.budgetMax===null||Number.isFinite(+p.budgetMax)) S.budgetMax=+p.budgetMax>0?Math.round(+p.budgetMax):S.budgetMax;
+  if(HOME_CITIES.includes(p.home)) S.home=p.home;
+  if(SCOPES.some(s=>s[0]===p.scope)) S.scope=p.scope;
+  if(typeof p.dest==='string'&&(p.dest===''||DestinationCatalog.byId[p.dest])){S.dest=p.dest;$('#destPick').value=p.dest}
   const d=pd(S.start);S.calY=d.getFullYear();S.calM=d.getMonth();
   return true;
 }
 function parseLocal(text){
   const s=text.toLowerCase(),p={};
   const mons=['январ','феврал','март','апрел','ма[йея]','июн','июл','август','сентябр','октябр','ноябр','декабр'];
-  let m=-1;mons.forEach((k,i)=>{if(new RegExp('(^|\\s)'+k).test(s))m=i});
-  if(/майск/.test(s))m=4;
+  let m=-1;mons.forEach((k,i)=>{if(new RegExp('(^|\\s)'+k).test(s))m=i});if(/майск/.test(s))m=4;
   let n=null;const dn=s.match(/(\d+)\s*(дн|дня|дней|сут)/),nn=s.match(/(\d+)\s*(ноч)/);
   if(nn)n=+nn[1];else if(dn)n=Math.max(1,+dn[1]-1);else if(/две недели/.test(s))n=14;else if(/недел/.test(s))n=7;
   if(m>=0){let y=today0.getFullYear();if(m<today0.getMonth()||(m===today0.getMonth()&&today0.getDate()>12))y++;const st=new Date(y,m,/майск/.test(s)?1:12);p.start=iso(st);p.end=iso(addDays(st,n||7))}
   else if(n){p.start=S.start;p.end=iso(addDays(pd(S.start),n))}
   const words={'один':1,'одна':1,'двое':2,'два':2,'две':2,'трое':3,'три':3,'четверо':4,'четыре':4,'пятеро':5};
-  const am=s.match(/(\d+|один|одна|двое|два|две|трое|три|четверо|четыре|пятеро)\s*взросл/);if(am)p.adults=words[am[1]]||+am[1];
-  else if(/вдво[её]м|с мужем|с женой|пара/.test(s))p.adults=2;
-  const kids=[];const re=/(\d{1,2})\s*(год|года|лет)/g;let k;while((k=re.exec(s)))kids.push(+k[1]);
+  const am=s.match(/(\d+|один|одна|двое|два|две|трое|три|четверо|четыре|пятеро)\s*взросл/);if(am)p.adults=words[am[1]]||+am[1];else if(/вдво[её]м|с мужем|с женой|пара/.test(s))p.adults=2;
+  const kids=[];const re=/(\d{1,2})\s*(год|года|лет)(?!\s*назад)/g;let k;while((k=re.exec(s)))kids.push(+k[1]);
   if(kids.length)p.children=kids.slice(0,6);else if(/без дет/.test(s))p.children=[];
+  const bm=s.match(/до\s*(\d+(?:[.,]\d+)?)\s*(млн|миллион)/)||s.match(/до\s*(\d[\d\s]*)\s*(тыс|₸|тенге|тг)/);
+  if(bm){const v=parseFloat(bm[1].replace(/\s/g,'').replace(',','.'));p.budgetMax=bm[2].startsWith('млн')||bm[2].startsWith('миллион')?v*1e6:bm[2].startsWith('тыс')?v*1e3:v}
   const rest=[];if(/мор|пляж|купа/.test(s))rest.push('beach');if(/не хот.*экскурс|спокой|отдохнуть|расслаб/.test(s))rest.push('passive');else if(/экскурс|достопримеч|музе/.test(s))rest.push('excursion');
-  if(/гор[ыау]|поход/.test(s))rest.push('mountains');if(/ед[ауы]|кухн|гастро|вкусн/.test(s))rest.push('gastro');if(/шопинг|магазин/.test(s))rest.push('shopping');if(/природ/.test(s))rest.push('nature');if(/актив|дайв|сноркл/.test(s))rest.push('active');
+  if(/гор[ыау]|поход|лыж/.test(s))rest.push('mountains');if(/ед[ауы]|кухн|гастро|вкусн/.test(s))rest.push('gastro');if(/шопинг|магазин/.test(s))rest.push('shopping');if(/природ/.test(s))rest.push('nature');if(/актив|дайв|сноркл/.test(s))rest.push('active');
   if(rest.length)p.rest=rest;
   if(/не хот.*каждый день|спокойн|без спешки/.test(s))p.pace='calm';else if(/насыщ|максимум/.test(s))p.pace='intense';
   if(/недорог|дешев|бюджетн|эконом/.test(s))p.budget='budget';else if(/премиум|люкс|роскош|5 зв/.test(s))p.budget='premium';else if(/средн|хороший отель/.test(s))p.budget='standard';
   if(/жар/.test(s))p.temp='hot';else if(/не жарк|умерен|прохлад/.test(s))p.temp='mild';else if(rest.includes('beach'))p.temp='warm';
-  if(/алмат/.test(s))p.origin='ALA';if(/шымкент/.test(s))p.origin='CIT';
+  [['алмат','ALA'],['шымкент','CIT'],['актау','SCO'],['атырау','GUW'],['караганд','KGF'],['актобе','AKX'],['астан','NQZ']].forEach(([k,v])=>{if(new RegExp('из\\s+'+k).test(s))p.home=v});
   p.tripType=p.children&&p.children.length?'family':p.adults===2?'couple':p.adults===1?'solo':undefined;
   return p;
 }
 function engineReply(){
-  const pod=S.results.good.slice(0,3),medals=['🥇','🥈','🥉'];
-  return `<b>Готово.</b> ${esc(companyPhrase())}, ${dLong(S.start)} — ${dLong(S.end)}. Лучшие направления (перелёт + отель STANDARD, ориентировочно):
-   <div class="mini">${pod.map((r,i)=>`<div><span>${medals[i]} ${esc(r.d.city)} · ${r.match}%</span><b class="num">${approx(tripCost(r,'standard').total)}</b></div>`).join('')}</div>
+  const pod=S.results.list.slice(0,3),medals=['🥇','🥈','🥉'];
+  return `<b>Готово.</b> Проанализировано ${S.results.analyzed} направлений, подходят ${S.results.fit.length}. ${esc(companyPhrase())}, ${dLong(S.start)} — ${dLong(S.end)}${S.budgetMax?`, лимит ${money(S.budgetMax)}`:''}. Лучшие (перелёт + проживание, ориентировочно):
+   <div class="mini">${pod.map((r,i)=>{const c=tripCost(r,S.budget);return `<div><span>${medals[i]} ${esc(r.d.city)} · ${r.match}%${c.f&&c.f.origin!==S.home?` · вылет из ${esc(cityOf(c.f.origin))}`:''}</span><b class="num">${approx(c.total)}</b></div>`}).join('')}</div>
    <div style="margin-top:10px"><button class="btn btn-sm btn-teal" data-act="chat-show">Показать варианты</button></div>`;
 }
 async function sendChat(){
@@ -1574,15 +1920,14 @@ async function sendChat(){
     }
   }
   if(reply===null){
-    const low=text.toLowerCase(),q=/\?|какой|почему|что лучше|выгодн/.test(low)&&!/(поехать|хотим|едем|планируем)/.test(low);
-    if(q&&S.results){action='answer';const best=S.results.good.slice(0,3).map(r=>[r,tripCost(r,'standard')]).sort((a,b)=>a[1].total-b[1].total)[0];reply=`По ориентировочной оценке самый недорогой из топ-3 — ${best[0].d.city}: ${approx(best[1].total)} за всех (перелёт + отель STANDARD). Точную цену отеля проверьте на Booking.com по кнопке в карточке.`}
-    else{params=parseLocal(text);const parts=[];if(params.start)parts.push(`даты около ${dLong(params.start)}${params.end?` — ${dLong(params.end)}`:''}`);if(params.adults)parts.push(`${params.adults} ${plural(params.adults,['взрослый','взрослых','взрослых'])}`);if(params.children&&params.children.length)parts.push(`дети: ${params.children.map(ageLbl).join(', ')}`);if(params.rest)parts.push(params.rest.map(r=>REST_PHRASE[r]).join(', '));
-      reply=parts.length?`Понял: ${parts.join('; ')}. Учту сезон, семейный формат и транспорт; для отелей дам прямые ссылки на Booking.com, где можно проверить рейтинг, завтрак и цену.`:'Уточните, пожалуйста, даты или месяц поездки, кто едет и какой отдых хотите — и я всё подберу.';
+    const low=text.toLowerCase(),q=/\?|какой|почему|что лучше|выгодн|добрат/.test(low)&&!/(поехать|хотим|едем|планируем)/.test(low);
+    if(q&&S.results){action='answer';const r=S.results.list[0],c=tripCost(r,S.budget);reply=`Лучший вариант сейчас — ${r.d.city} (${r.match}%). ${c.f?`Выгоднее всего добраться по маршруту ${c.f.path.map(cityOf).join(' → ')} (${c.f.ticket==='single'?'единый билет':'самостоятельная пересадка'}), ${approx(c.fl)} за всех.`:''} Итого с проживанием ${approx(c.total)} — это оценка, цены проверьте по ссылкам.`}
+    else{params=parseLocal(text);const parts=[];if(params.start)parts.push(`даты около ${dLong(params.start)}${params.end?` — ${dLong(params.end)}`:''}`);if(params.adults)parts.push(`${params.adults} ${plural(params.adults,['взрослый','взрослых','взрослых'])}`);if(params.children&&params.children.length)parts.push(`дети: ${params.children.map(ageLbl).join(', ')}`);if(params.rest)parts.push(params.rest.map(r=>REST_PHRASE[r]).join(', '));if(params.budgetMax)parts.push(`лимит ${money(params.budgetMax)}`);
+      reply=parts.length?`Понял: ${parts.join('; ')}. Проанализирую весь каталог, вылет из разных городов и отели; рейтинг, завтрак и цену отеля можно проверить на Booking.com.`:'Уточните, пожалуйста, даты или месяц поездки, кто едет и какой отдых хотите — и я всё подберу.';
       if(!parts.length)params=null}
   }
-  S.chat.pop();
-  S.chat.push({role:'bot',html:esc(reply).replace(/\n/g,'<br>')});
-  if(action==='search'&&params&&applyParams(params)){runSearch();renderAll();S.chat.push({role:'bot',html:engineReply()})}
+  S.chat.pop();S.chat.push({role:'bot',html:esc(reply).replace(/\n/g,'<br>')});
+  if(action==='search'&&params&&applyParams(params)){ResultsEngine.run();renderAll();S.chat.push({role:'bot',html:engineReply()})}
   renderChat();$('#chatSend').disabled=false;
 }
 $('#composer').addEventListener('submit',e=>{e.preventDefault();sendChat()});
@@ -1590,7 +1935,7 @@ $('#chatIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.p
 
 /* boot */
 initTopSelects();
-runSearch();renderAll();
+ResultsEngine.run();renderAll();
 initAI();
 
 </script>
