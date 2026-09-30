@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
+/* атрибут hidden всегда скрывает элемент, даже если у класса задан display */
+[hidden]{display:none!important}
 :root{
   --bg:#F3EFE7; --surface:#FFFFFF; --surface-2:#EDE7DC; --surface-3:#F8F5EF; --line:#E2DACC; --line-2:#D5CBB9;
   --ink:#0B1F3A; --ink-2:#44536A; --ink-3:#7A8698;
@@ -307,6 +309,23 @@ table.ctab{min-width:520px}
 .ctab small.cs{display:block;color:var(--ink-3);font-size:11px;margin-top:2px;font-weight:400}
 .ctab tr.total td{background:var(--surface-3);font-weight:700}
 @media (max-width:600px){.opt .ol{min-width:0;flex-basis:100%}.chead .btn{margin-left:0}table.ctab{min-width:0}.ctab td,.ctab th{padding:7px 6px}}
+/* статус загрузки и ошибки */
+.busy{position:fixed;left:50%;top:70px;transform:translateX(-50%);z-index:90;display:flex;gap:8px;align-items:center;background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);pointer-events:none}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.errbar{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:95;display:flex;gap:10px;align-items:center;max-width:calc(100vw - 32px);background:var(--bad-soft);color:var(--ink);border:1px solid var(--bad);border-radius:14px;padding:9px 12px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.errbar button{border:0;background:none;font-weight:800;color:var(--ink-2)}
+.modfail{border:1px dashed var(--line-2);border-radius:12px;padding:12px;font-size:13px;color:var(--ink-2);background:var(--surface-3)}
+.errbar.ok{background:var(--ok-soft);border-color:var(--ok)}
+.srcname{font-weight:800;font-size:12.5px}
+.mform{display:flex;flex-direction:column;gap:12px}
+.mform fieldset{border:1px solid var(--line);border-radius:14px;padding:10px 12px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.mform legend{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:800;padding:0 6px}
+.mform label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.mform label.wide{grid-column:1/-1}
+.mform textarea{resize:vertical}
+.st-snap{white-space:nowrap}
+details summary{cursor:pointer;padding:4px 0}
 </style>
 
 <header class="top">
@@ -339,11 +358,17 @@ table.ctab{min-width:520px}
 
 <main class="app">
   <aside class="panel params" id="params" aria-label="Параметры поездки"></aside>
-  <section id="results" aria-live="polite"></section>
+  <section id="results" aria-live="polite"><div class="empty">Загрузка Travel Expert…</div></section>
   <aside class="panel details" id="details" aria-label="Детали направления"></aside>
 </main>
 
 <div class="tray" id="tray" hidden></div>
+<script>
+/* Сторож загрузки: если основной скрипт не запустился (ошибка, блокировка), через 8 с показываем понятное сообщение вместо вечной «Загрузки». */
+setTimeout(function(){if(window.__TE_READY)return;var r=document.getElementById('results');if(r)r.innerHTML='<div class="empty"><b>Не удалось загрузить приложение.</b><br>Обновите страницу. Если ошибка повторяется — откройте консоль браузера (F12) и пришлите текст ошибки.</div>';},8000);
+</script>
+<div class="busy" id="busy" role="status" hidden><span class="spin"></span><span id="busyTxt">Считаю варианты…</span></div>
+<div class="errbar" id="errbar" role="alert" hidden><span id="errTxt"></span><button type="button" id="errClose" aria-label="Закрыть">✕</button></div>
 <div class="modal" id="modal" hidden><div class="mcard" id="mbody"></div></div>
 <button class="fab" id="fab" data-act="chat-open">✦ Спросить Travel Expert</button>
 <aside class="drawer" id="drawer" hidden>
@@ -538,7 +563,12 @@ const hm=h=>{let H=Math.floor(h),M=Math.round((h-H)*12)*5;if(M===60){H++;M=0}ret
 const nf=n=>n.toLocaleString('ru-RU');
 function hav(a,b,c,d){const R=6371,p=Math.PI/180,h=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 2*R*Math.asin(Math.min(1,Math.sqrt(h)))}
 const flagOf=cc=>cc&&cc.length===2?String.fromCodePoint(...[...cc.toUpperCase()].map(c=>127397+c.charCodeAt(0))):'🏳️';
-const stBadge=s=>({real:'<span class="st st-real">REAL</span>',snap:'<span class="st st-snap">SNAPSHOT</span>',demo:'<span class="st st-demo">DEMO</span>',est:'<span class="st st-est">ESTIMATE</span>',none:'<span class="st st-none">НЕТ ДАННЫХ</span>'}[s]||'');
+/* ---------- надёжность: отказ одного модуля не ломает приложение ---------- */
+const withTimeout=(p,ms,label)=>Promise.race([Promise.resolve(p),new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error(`${label||'операция'}: превышено время ожидания ${ms/1000} с`),{code:'timeout'})),ms))]);
+function showErr(t){try{const b=document.getElementById('errbar');if(!b){console.warn(t);return}document.getElementById('errTxt').textContent=t;b.hidden=false}catch(e){}}
+function busy(on,t){try{const b=document.getElementById('busy');if(!b)return;if(t)document.getElementById('busyTxt').textContent=t;b.hidden=!on}catch(e){}}
+function safeRender(name,fn,sel){try{fn()}catch(e){console.error('[Travel Expert]',name,e);const el=sel&&document.querySelector(sel);if(el)el.innerHTML=`<div class="modfail">«${name}»: данные временно недоступны. Остальные функции работают.</div>`;showErr(`«${name}»: данные временно недоступны. Остальные функции доступны.`)}}
+const stBadge=s=>({real:'<span class="st st-real">🟢 REAL</span>',snap:'<span class="st st-snap">🔵 SNAPSHOT</span>',demo:'<span class="st st-demo">🟡 DEMO</span>',est:'<span class="st st-est">⚪ ESTIMATE</span>',none:'<span class="st st-none">НЕТ ДАННЫХ</span>'}[s]||'');
 
 /* =====================================================================
    1. WORLD DB — страна → город/курорт → аэропорты
@@ -562,7 +592,7 @@ const WorldDB={
   },
   search(q){q=q.trim().toLowerCase();if(!q)return [];return this.dests.filter(d=>d.ru.toLowerCase().includes(q)||d.en.toLowerCase().includes(q)).sort((a,b)=>b.sig-a.sig).slice(0,8)}
 };
-WorldDB.load();
+let BOOT_FAIL=null;try{WorldDB.load()}catch(e){console.error('[Travel Expert] WorldDB',e);BOOT_FAIL='Каталог направлений'}
 function getDestinations(){return WorldDB.dests}
 const apInfo=c=>{const a=WorldDB.airports[c];return a?{code:c,name:a[0],city:a[1],cc:a[2],lat:a[3],lon:a[4],type:a[5]}:null};
 const cityOf=c=>{const a=apInfo(c);return a?(RU_AP[c]||a.city):c};
@@ -576,7 +606,7 @@ function defDates(){let s=new Date(2026,9,17);if(s<=addDays(today0,5))s=addDays(
 const [D0,D1]=defDates();
 const S={start:D0,end:D1,adults:2,children:[6],company:'family',rest:['beach','passive'],temp:'warm',pace:'calm',tier:'standard',
   budgetTotal:null,budgetPP:null,home:'NQZ',scope:'kz',maxHours:10,maxLayover:6,maxStops:2,selfPct:15,
-  hotelMin:8,minReviews:200,metroM:500,busM:800,apartments:true,genius:'g2',destMode:'any',destCountry:'',destCity:'',travelMode:'both',tourSrc:{kaspi:true,kaztour:true},tourMeal:'any',tourCat:'any',pick:null,tourSel:{},currency:'KZT',
+  hotelMin:8,minReviews:200,metroM:500,busM:800,apartments:true,genius:'g2',destMode:'any',destCountry:'',destCity:'',travelMode:'both',tourSrc:{},delPending:null,tourMeal:'any',tourCat:'any',pick:null,tourSel:{},currency:'KZT',
   view:'list',sort:'opt',shown:CONFIG.pageSize,selected:null,dtab:'overview',tierSel:{},flightSel:{},compare:[],calY:pd(D0).getFullYear(),calM:pd(D0).getMonth(),
   results:null,whyNot:null,loading:false,chat:[],theme:null};
 const pax=()=>S.adults+S.children.length;
@@ -1063,7 +1093,7 @@ function resRow(r,i,pin){
        <span class="act"><button class="btn btn-sm" data-act="cmp" data-v="${d.id}" aria-pressed="${S.compare.includes(d.id)}">${S.compare.includes(d.id)?'✓ В сравнении':'+ К сравнению'}</button><button class="btn btn-sm" data-act="save" data-v="${d.id}" aria-label="Сохранить">${isSaved(d.id)?'★':'☆'}</button></span></div>
    </div></article>`}
 function renderResults(){
-  const el=$('#results'),R=S.results;if(!R){el.innerHTML='';return}
+  const el=$('#results'),R=S.results;if(!R){el.innerHTML='<div class="empty">Подбор ещё не рассчитан. Задайте параметры и нажмите «Подобрать путешествие».</div>';return}
   const pin=R.pinned,list=R.ranked.filter(r=>r!==pin),shown=list.slice(0,S.shown);
   const rc={};Object.values(R.rej).forEach(j=>{if(j.code==='where')return;rc[j.code]=(rc[j.code]||0)+1});
   const cch=R.country?`<div class="chead"><span class="cflag">${flagOf(R.country)}</span><div><span class="ccap">Страна</span><h2>${esc(ccName(R.country))}</h2></div>
@@ -1121,7 +1151,7 @@ function renderDetails(){
   const d=r.d,im=getCityImages(d.id);
   const tabs=[['overview','Обзор'],['route','Как добраться'],['self','Самостоятельно'],['tours','Готовые туры'],['hotels','Отели'],['safety','Безопасность'],['docs','Документы'],['cost','Стоимость']];
   if(!tabs.some(t=>t[0]===S.dtab))S.dtab='overview';
-  const body={overview:tabOverview,route:tabRoute,self:tabSelf,tours:tabTours,hotels:tabHotels,safety:tabSafety,docs:tabDocs,cost:tabCompareCost}[S.dtab](r);
+  let body;try{body={overview:tabOverview,route:tabRoute,self:tabSelf,tours:tabTours,hotels:tabHotels,safety:tabSafety,docs:tabDocs,cost:tabCompareCost}[S.dtab](r)}catch(e){console.error('[Travel Expert] вкладка',S.dtab,e);body='<div class="modfail">Данные для этой вкладки временно недоступны. Остальные вкладки работают.</div>'}
   el.innerHTML=`<button class="icon-btn dclose" data-act="dclose" aria-label="Закрыть">✕</button>
   ${im.length?`<div class="dhero" id="dhero"><img src="${esc(im[0].src)}" alt="${esc(d.ru)}" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('failed')"><a class="credit" href="${esc(im[0].page)}" target="_blank" rel="noopener">© Wikimedia Commons ↗</a><div class="ph-fail">Реальное фото из Wikimedia Commons не загрузилось в этом просмотре. <a href="${esc(im[0].page)}" target="_blank" rel="noopener">Открыть ↗</a></div><div class="ov"><span class="ccap lt">${flagOf(d.cc)} ${esc(d.country.name)}</span><h2>${esc(d.ru)}</h2><p>${KIND_LBL[d.kind]} · ${r.match}% подходит</p></div></div>`
   :`<div class="dhero nop"><span class="bigflag">${flagOf(d.cc)}</span><div><span class="ccap">${esc(d.country.name)}</span><h2>${esc(d.ru)}</h2><p class="muted">${esc(d.en)} · ${KIND_LBL[d.kind]} · ${r.match}% подходит</p></div></div>`}
@@ -1220,7 +1250,7 @@ function compareHTML(){const rs=S.compare.map(id=>S.results.all.find(r=>r.d.id==
     ['Въезд',rs.map(r=>r.entry.label)],['Маршрут (DEMO)',rs.map(r=>{const f=selFlight(r);return f?f.path.map(cityOf).join(' → '):'—'})],['Пересадки',rs.map(r=>selFlight(r)?selFlight(r).stops:9),v=>v===9?'—':String(v),true],['В пути',rs.map(r=>selFlight(r)?selFlight(r).doorAll:99),v=>v===99?'—':hm(v),true],['Билет',rs.map(r=>selFlight(r)?(selFlight(r).self?'⚠️ раздельные':'единый'):'—')],
     ['Перелёт (оценка)',rs.map(r=>tripCost(r,S.tier).fl),approx,true],['Отель',rs.map(r=>{const h=r.hot.tiers[S.tier];return h.estimated?'не выбран':h.name})],['Рейтинг / отзывы',rs.map(()=>'проверить на Booking')],['Завтрак',rs.map(()=>'проверить')],['Транспорт',rs.map(r=>r.tr.text)],
     ['Проживание (оценка)',rs.map(r=>tripCost(r,S.tier).stay),approx,true],['Полная стоимость',rs.map(r=>tripCost(r,S.tier).total),approx,true],['На человека',rs.map(r=>tripCost(r,S.tier).per),approx,true],
-    ['🧳 Готовый тур · Kaztour',rs.map(r=>{const m=tourView(r).min;return m?`от ${money(m.price)} · ${dShort(m.dep)}, ${m.nights} н., ${m.adults} взр.`:tourView(r).pages.length?'предложений в снимке нет':'нет страницы туров'})],
+    ['🧳 Готовый тур (мин.)',rs.map(r=>{const m=tourView(r).min;return m?`от ${m.currency==='KZT'?money(m.price):nf(m.price)+' '+m.currency} · ${m.source} · ${DATA_STATUS[m.status].emoji} ${DATA_STATUS[m.status].label} ${ruDate(m.checked)} · ${dShort(m.dep)}, ${m.nights} н.`:tourView(r).pages.length?'предложений нет':'нет данных'})],
     ['🧳 Kaspi Travel',rs.map(r=>tourView(r).kaspi?'туры в страну есть — цена в приложении Kaspi':'по Kaspi Гид туров нет')]];
   return `<div class="mhead"><h3>Сравнение · ${rs.length} из 4</h3><button class="icon-btn" data-act="mclose" aria-label="Закрыть">✕</button></div>
   <div class="tbl"><table><thead><tr><th></th>${rs.map(r=>`<th style="text-transform:none;letter-spacing:0;font-size:14px;color:var(--ink)">${flagOf(r.d.cc)} ${esc(r.d.ru)}<br><button class="linkbtn" data-act="cmp" data-v="${r.d.id}">убрать</button></th>`).join('')}</tr></thead><tbody>
@@ -1236,6 +1266,7 @@ function sourcesHTML(){const L=[['✈️','Перелёты','flights'],['💲',
   <div class="tbl"><table><thead><tr><th>Данные</th><th>Источник</th><th>Статус</th><th>Обновлено</th><th>Комментарий</th></tr></thead><tbody>
   ${L.map(([i,n,k])=>{const s=CONFIG.src[k];return `<tr><td>${i} ${n}</td><td>${esc(s.name)}</td><td>${stBadge(s.status)}</td><td class="n">${esc(s.date)}</td><td class="small muted">${esc(s.note)}</td></tr>`}).join('')}</tbody></table></div>
   <div><p class="sub">Рекомендации МИД РК в снимке</p>${Object.values(SRC_MFA).map(s=>`<div class="ln"><span>${esc(s.t)}<small>${esc(s.s)} · ${s.d}</small></span><span><a href="${esc(s.u)}" target="_blank" rel="noopener">↗</a></span></div>`).join('')}</div>
+  ${safeHTML(providersHTML)}
   <div class="info"><b>Обновление</b><span>Сайт статичен и сам не обновляется. Раз в неделю снимок безопасности и въезда можно обновлять задачей по расписанию: Claude проверяет источники и публикует новую версию. На этапе 2 с сервером — автоматически.</span></div>`}
 function renderTray(){const t=$('#tray');$('#cmpCnt').hidden=!S.compare.length;$('#cmpCnt').textContent=S.compare.length;
   if(!S.compare.length){t.hidden=true;return}t.hidden=false;
@@ -1247,10 +1278,15 @@ function renderTray(){const t=$('#tray');$('#cmpCnt').hidden=!S.compare.length;$
 function tripText(r){const c=tripCost(r,S.tierSel[r.d.id]||S.tier),f=c.f;
   return `# Поездка: ${r.d.ru} (${r.d.country.name})\n\n- Даты: ${dLong(S.start)} — ${dLong(S.end)} (${nights()} н.)\n- Путешественники: ${partyText()}\n- Подходит: ${r.match}%\n- Безопасность: ${SAFETY_LBL[r.saf.lv]} (источник: ${r.saf.s}, ${r.saf.d})\n- Въезд: ${r.entry.label}${r.entry.stay?', '+r.entry.stay:''}\n\n## Перелёт (DEMO — проверить)\n${f?`- ${f.pos?cityOf(f.pos.from)+' ⇢ ':''}${f.path.map(c=>cityOf(c)+' ('+c+')').join(' → ')}\n- ${f.stops} пересадок, ~${hm(f.doorAll)}, ${f.self?'раздельные билеты':'единый билет'}\n- ≈ ${money(c.fl)}\n- Проверить: ${flightLinks(r.d,f.origin,f.ap.code).av}`:'- нет маршрута'}\n\n## Проживание (оценка)\n- ${c.h.estimated?'отель не выбран':c.h.name}: ≈ ${money(c.stay)}\n- Booking: ${c.h.estimated?c.h.searchUrl:c.h.bookingUrl}\n\n## Итого (самостоятельно)\n- ≈ ${money(c.total)} (≈ ${money(c.per)} на человека)\n- Не включено: трансфер, налоги, багаж, страховка\n\n## Готовые туры\n${tourExportText(r)}\n\nПочему подходит:\n${r.why.map(x=>'- '+x).join('\n')}\n\nЧто учесть:\n${r.care.map(x=>'- '+x).join('\n')}\n\nСформировано Travel Expert ${new Date().toLocaleString('ru-RU')}. Цены и рейсы — оценка.\n`}
 function toICS(r){const f=x=>x.replace(/-/g,'');return `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Travel Expert//RU\r\nBEGIN:VEVENT\r\nUID:${r.d.id}-${S.start}@travel-expert\r\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').slice(0,15)}Z\r\nDTSTART;VALUE=DATE:${f(S.start)}\r\nDTEND;VALUE=DATE:${f(S.end)}\r\nSUMMARY:Поездка: ${r.d.ru}\r\nDESCRIPTION:${tripText(r).replace(/\n/g,'\\n').slice(0,900)}\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n`}
+/** Сохранение файла: в окне Claude — через downloads (с таймаутом), на обычном сайте — через ссылку-Blob */
+async function saveFile(filename,data,mime){let dl=null;try{if(window.claude&&window.claude.use)dl=await withTimeout(window.claude.use('downloads'),4000,'Экспорт')}catch(e){}
+  if(dl){try{await withTimeout(dl.save({filename,data}),15000,'Экспорт');return}catch(e){showErr('Экспорт не выполнен: скачивание недоступно в этом окне.');return}}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime}));a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function safeHTML(fn){try{return fn()}catch(e){console.error('[Travel Expert]',e);return '<div class="modfail">Раздел временно недоступен.</div>'}}
 async function doExport(kind){const r=cur();if(!r)return;const name=`travel-${r.d.en.toLowerCase().replace(/[^a-z0-9]+/g,'-')}-${S.start}`;
   const md=tripText(r);const data=kind==='md'?md:kind==='html'?`<!doctype html><meta charset="utf-8"><title>${esc(r.d.ru)}</title><pre style="font:15px/1.5 system-ui;white-space:pre-wrap;max-width:760px;margin:40px auto">${esc(md)}</pre>`:toICS(r);
-  let dl=null;try{if(window.claude&&window.claude.use)dl=await window.claude.use('downloads')}catch(e){}
-  if(dl&&kind!=='ics'){try{await dl.save({filename:`${name}.${kind}`,data})}catch(e){}return}
+  let dl=null;try{if(window.claude&&window.claude.use)dl=await withTimeout(window.claude.use('downloads'),4000,'Экспорт')}catch(e){}
+  if(dl&&kind!=='ics'){try{await withTimeout(dl.save({filename:`${name}.${kind}`,data}),15000,'Экспорт')}catch(e){showErr('Экспорт не выполнен: скачивание недоступно в этом окне.')}return}
   if(dl&&kind==='ics'){alertMsg('В окне Claude календарный файл недоступен. Откройте index.html в браузере.');return}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:kind==='ics'?'text/calendar':kind==='html'?'text/html':'text/markdown'}));a.download=`${name}.${kind}`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 function alertMsg(t){S.chat.push({role:'bot',html:esc(t)});openChat()}
@@ -1258,14 +1294,29 @@ function alertMsg(t){S.chat.push({role:'bot',html:esc(t)});openChat()}
 /* =====================================================================
    Рендер, события
    ===================================================================== */
-function renderAll(){renderParams();renderAskMeta();renderResults();renderDetails();renderTray()}
-function run(){if(!S.end)S.end=iso(addDays(pd(S.start),7));S.whyNot=null;ResultsEngine.run();renderAll()}
+function renderAll(){safeRender('Параметры',renderParams,'#params');safeRender('Сводка запроса',renderAskMeta,'#askMeta');safeRender('Подбор',renderResults,'#results');safeRender('Детали',renderDetails,'#details');safeRender('Сравнение',renderTray,null)}
+/** Пересчёт только при изменении параметров: ключ — все параметры, влияющие на подбор. Кэш не пересчитывает каталог при повторных отрисовках. */
+let lastKey=null;
+const calcKey=()=>JSON.stringify([snapParams(),S.tier,S.selfPct,S.hotelMin]);
+function run(opts={}){
+  if(!S.end)S.end=iso(addDays(pd(S.start),7));S.whyNot=null;
+  const key=calcKey();
+  if(!opts.force&&S.results&&key===lastKey){if(!S.selected&&S.results.ranked[0])S.selected=S.results.ranked[0].d.id;renderAll();return Promise.resolve(true)}
+  busy(true,'Считаю варианты…');
+  return new Promise(res=>setTimeout(()=>{let ok=true;const t0=performance.now();
+    try{if(BOOT_FAIL)throw new Error(BOOT_FAIL);ResultsEngine.run();lastKey=key}
+    catch(e){ok=false;console.error('[Travel Expert] подбор',e);showErr(BOOT_FAIL?'Не удалось загрузить каталог направлений. Остальные функции доступны.':'Не удалось рассчитать подбор с этими параметрами. Измените параметры — остальные функции доступны.')}
+    finally{S.lastRunMs=Math.round(performance.now()-t0);busy(false);renderAll()}
+    res(ok)},30))}
 function openTab(id,tab){S.selected=id;S.dtab=tab;renderResults();renderDetails();$('#details').scrollTop=0;if(innerWidth<=900)$('#details').classList.remove('hidden-m');else if(innerWidth<=1280)$('#details').scrollIntoView({behavior:'smooth'})}
 function select(id){S.selected=id;S.dtab='overview';renderResults();renderDetails();if(innerWidth<=900)$('#details').classList.remove('hidden-m');else if(innerWidth<=1280)$('#details').scrollIntoView({behavior:'smooth'})}
 document.addEventListener('click',e=>{
   if(e.target.closest('a[href]'))return;
   const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act,v=el.dataset.v;
   const stopRow=['cmp','save'].includes(a);if(stopRow)e.stopPropagation();
+  try{onAct(a,v)}catch(err){console.error('[Travel Expert] действие',a,err);showErr('Действие не выполнено: данные временно недоступны. Остальные функции работают.')}
+});
+function onAct(a,v){
   switch(a){
     case 'day':if(S.end||v<=S.start){S.start=v;S.end=''}else S.end=v;renderParams();renderAskMeta();break;
     case 'cal':{const d=new Date(S.calY,S.calM+ +v,1);S.calY=d.getFullYear();S.calM=d.getMonth();renderParams();break}
@@ -1299,7 +1350,7 @@ document.addEventListener('click',e=>{
     case 'open-saved':openModal(savedHTML());break;
     case 'open-sources':openModal(sourcesHTML());break;
     case 'mclose':$('#modal').hidden=true;break;
-    case 'restore':{const [k,x]=v.split(':');const it=k==='s'?store.get('saved',[]).find(s=>s.id===x):store.get('history',[])[+x];if(!it)break;Object.assign(S,JSON.parse(JSON.stringify(it.p)));$('#modal').hidden=true;run();if(k==='s'){if(!S.results.all.find(r=>r.d.id===x))ResultsEngine.force(x);select(x)}break}
+    case 'restore':{const [k,x]=v.split(':');const it=k==='s'?store.get('saved',[]).find(s=>s.id===x):store.get('history',[])[+x];if(!it)break;Object.assign(S,JSON.parse(JSON.stringify(it.p)));$('#modal').hidden=true;run().then(ok=>{if(ok&&k==='s'){if(!S.results.all.find(r=>r.d.id===x))ResultsEngine.force(x);select(x)}});break}
     case 'export':doExport(v);break;
     case 'dmode':{S.destMode=v;if(v==='any'){const ch=!!S.destCountry;S.destCountry='';S.destCity='';S.pick=null;if(ch)run();else{renderParams();renderAskMeta()}}
       else if(v==='city'&&!S.destCity&&S.destCountry){S.destCountry='';S.pick=null;run();setTimeout(()=>{const x=$('#cityQ');if(x)x.focus()})}
@@ -1314,32 +1365,40 @@ document.addEventListener('click',e=>{
     case 'go-self':case 'go-tours':case 'go-cmp':openTab(v,{'go-self':'self','go-tours':'tours','go-cmp':'cost'}[a]);break;
     case 'tsel':S.tourSel[S.selected]=v;S.dtab='cost';renderDetails();$('#details').scrollTop=0;break;
     case 'open-tours':openModal(toursHTML());break;
+    case 'mt-new':{const pre=v&&WorldDB.byId[v]?{destId:v}:{};openModal(manualFormHTML(pre));break}
+    case 'mt-edit':{const o=ManualStore.all().find(x=>x.id===v);if(o)openModal(manualFormHTML(o));break}
+    case 'mt-del':if(S.delPending===v){ManualStore.del(v);S.delPending=null;showInfo('Предложение удалено')}else S.delPending=v;renderResults();renderDetails();break;
+    case 'mt-export':saveFile(`travel-expert-tours-${iso(today0)}.json`,ManualStore.exportJSON(),'application/json');break;
+    case 'tours-fetch':{const d=WorldDB.byId[v];if(!d)break;busy(true,'Запрашиваю подключённые источники…');TourHub.fetch(d).catch(e=>console.error(e)).finally(()=>{busy(false);renderResults();renderDetails()});break}
     case 'open-dest':$('#modal').hidden=true;if(!S.results.all.find(r=>r.d.id===v))ResultsEngine.force(v);openTab(v,'tours');break;
     case 'go-home':$('#modal').hidden=true;$('#params').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});$('#askIn').focus();break;
     case 'theme':{const r=document.documentElement,cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const n=cur==='dark'?'light':'dark';r.setAttribute('data-theme',n);store.set('theme',n);if(S.view==='map')drawMap();break}
     case 'chat-open':openChat();break;
     case 'chat-close':$('#drawer').hidden=true;$('#fab').hidden=false;break;
   }
-});
+}
 document.addEventListener('change',e=>{const el=e.target,c=el.dataset.chg;if(!c)return;
   if(c==='age'){S.children[+el.dataset.i]=+el.value;renderAskMeta()}
   if(c==='home'){S.home=el.value;renderParams();renderAskMeta()}
   if(c==='destCity'){S.destCity=el.value;S.selected=null;run()}
-  if(c==='tsrc'){S.tourSrc[el.value]=el.checked;const tm=!$('#modal').hidden&&$('#mbody').textContent.includes('Готовые туры');run();if(tm)openModal(toursHTML())}
+  if(c==='tsrc'){S.tourSrc[el.value]=el.checked;const tm=!$('#modal').hidden&&$('#mbody').textContent.includes('Готовые туры');run().then(()=>{if(tm)openModal(toursHTML())})}
   if(c==='tourMeal'||c==='tourCat'){S[c]=el.value;renderDetails()}
   if(c==='tourSel'){S.tourSel[S.selected]=el.value;renderDetails()}
+  if(c==='mt-import'&&el.files&&el.files[0]){const fr=new FileReader();fr.onload=()=>{try{const r=ManualStore.importJSON(String(fr.result));showInfo(`Импортировано: ${r.ok}${r.bad?`, пропущено с ошибками: ${r.bad}`:''}`);openModal(toursHTML());renderResults();renderDetails()}catch(err){showErr('Файл не распознан: '+err.message)}};fr.onerror=()=>showErr('Не удалось прочитать файл');fr.readAsText(el.files[0])}
   if(c==='budgetTotal'||c==='budgetPP'){const n=Math.round(+el.value);S[c]=n>0?n:null;renderAskMeta()}
   if(c==='maxHours'||c==='maxLayover'){S[c]=+el.value;renderParams()}
   if(c==='apartments'){S.apartments=el.checked}
 });
-document.addEventListener('input',e=>{const el=e.target;if(el.dataset.inp==='pickq')$('#pickList').innerHTML=countryListHTML(el.value);if(el.dataset.inp==='cityq')$('#cityList').innerHTML=cityListHTML(el.value);if(el.dataset.chg==='maxHours'||el.dataset.chg==='maxLayover'){el.nextElementSibling.textContent=el.value+' ч'}});
+document.addEventListener('input',e=>{const el=e.target;if(el.name==='destQ'&&el.form&&el.form.getAttribute('id')==='mtForm'){const nm=el.value.split(' — ')[0].trim(),cn=(el.value.split(' — ')[1]||'').trim();const d=WorldDB.dests.find(x=>x.ru===nm&&(!cn||x.country.name===cn));el.form.elements.countryView.value=d?d.country.name:''}if(el.dataset.inp==='pickq')$('#pickList').innerHTML=countryListHTML(el.value);if(el.dataset.inp==='cityq')$('#cityList').innerHTML=cityListHTML(el.value);if(el.dataset.chg==='maxHours'||el.dataset.chg==='maxLayover'){el.nextElementSibling.textContent=el.value+' ч'}});
 document.addEventListener('submit',e=>{
+  if(e.target.getAttribute('id')==='mtForm'){e.preventDefault();try{submitManual(e.target)}catch(err){console.error(err);showErr('Не удалось сохранить предложение: '+err.message)}return}
+  if(e.target.id==='apiForm'){e.preventDefault();ApiConfig.save($('#apiProxy').value);$('#apiState').textContent='Проверяю…';checkProxy().then(r=>{const el=$('#apiState');if(el)el.textContent=r.msg;TourHub.invalidate()});return}
   if(e.target.id==='whyForm'){e.preventDefault();const v=$('#whyIn').value.trim();const m=WorldDB.search(v);if(m.length){S.whyNot=m[0].id}else{S.whyNot=null;alertMsg(`«${v}» нет в каталоге из ${nf(WorldDB.dests.length)} направлений. Каталог расширяемый: город можно добавить строкой данных.`)}renderResults()}
 });
 document.addEventListener('mousemove',e=>{if(e.target.id!=='map')return;const h=mapHit(e),tip=$('#maptip');if(h.best){tip.hidden=false;tip.style.left=(h.x+12)+'px';tip.style.top=(h.y+12)+'px';tip.textContent=`${h.best.r.d.ru} · ${h.best.r.match}% · ${approx(h.best.r.total)}`}else tip.hidden=true});
 document.addEventListener('click',e=>{if(e.target.id!=='map')return;const h=mapHit(e);if(h.best)select(h.best.r.d.id)});
 $('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').hidden=true});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#modal').hidden=true;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#modal').hidden=true;if(!$('#drawer').hidden){$('#drawer').hidden=true;$('#fab').hidden=false}}
   if(e.key==='Enter'&&(e.target.id==='pickQ'||e.target.id==='cityQ')){e.preventDefault();const b=$((e.target.id==='pickQ'?'#pickList':'#cityList')+' .pitem');if(b)b.click()}});
 function initTop(){const c=$('#cur');c.innerHTML=CONFIG.currency.list.map(k=>`<option value="${k}">${CONFIG.currency.sym[k]} ${k}</option>`).join('');c.onchange=()=>{S.currency=c.value;renderAll()};
   const th=store.get('theme',null);if(th)document.documentElement.setAttribute('data-theme',th)}
@@ -1391,22 +1450,26 @@ params (только понятное): start, end ("YYYY-MM-DD"), adults, child
 Текущие параметры: ${JSON.stringify(snapParams())}
 DATA: ${S.results?S.results.ranked.slice(0,6).map(r=>`${r.d.ru} (${r.d.country.name}) ${r.match}%, ${SAFETY_LBL[r.saf.lv]}, маршрут ${r.best?r.best.path.join('→'):'—'}, итого ≈${r.total} KZT`).join('; '):'нет'}`}
 async function interpret(text){let reply=null,params=null,action='search';
-  if(aiReady){chatTurns.push({role:'user',content:text});try{const res=await sampleFn.json([{role:'user',content:rulesPrompt()},...chatTurns.slice(-8)],{cache:false,modelTier:'quick'});reply=String(res&&res.reply||'');params=res&&res.params;action=res&&res.action==='answer'?'answer':'search';chatTurns.push({role:'assistant',content:reply||'OK'})}catch(e){chatTurns.pop();if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(e&&e.code)){aiReady=false;$('#aiMode').textContent='Упрощённый режим: запрос разбирается в браузере.'}}}
+  if(aiReady){chatTurns.push({role:'user',content:text});try{const res=await withTimeout(sampleFn.json([{role:'user',content:rulesPrompt()},...chatTurns.slice(-8)],{cache:false,modelTier:'quick'}),20000,'AI-консультант');reply=String(res&&res.reply||'');params=res&&res.params;action=res&&res.action==='answer'?'answer':'search';chatTurns.push({role:'assistant',content:reply||'OK'})}catch(e){chatTurns.pop();if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(e&&e.code)){aiReady=false;$('#aiMode').textContent='Упрощённый режим: запрос разбирается в браузере.'}}}
   if(reply===null){const low=text.toLowerCase();if(/\?|почему|какой|что лучше/.test(low)&&!/(поехать|хотим|едем|планируем)/.test(low)&&S.results){action='answer';const r=S.results.ranked[0];reply=r?`Сейчас лучший вариант — ${r.d.ru} (${r.match}%): ${r.why.slice(0,2).join('; ')}. Цены — оценка, проверьте по ссылкам.`:'Результатов пока нет.'}else{params=parseLocal(text);reply='Понял запрос — подбираю по всему каталогу.'}}
   return {reply,params,action}}
-async function askSubmit(text){const r=await interpret(text);if(r.action==='search'&&r.params&&applyParams(r.params))run();return r}
+async function askSubmit(text){let r;try{r=await interpret(text)}catch(e){console.error('[Travel Expert] AI',e);r={reply:'Консультант сейчас недоступен — разобрала запрос в браузере.',params:parseLocal(text),action:'search'}}
+  if(r.action==='search'&&r.params&&applyParams(r.params))await run();return r}
 function openChat(){$('#drawer').hidden=false;$('#fab').hidden=true;if(!S.chat.length)S.chat.push({role:'bot',html:'Здравствуйте! Опишите поездку своими словами или спросите про варианты: «почему нет Мардина?», «как выгоднее добраться?».'});renderChat()}
 function renderChat(){$('#msgs').innerHTML=S.chat.map(m=>`<div class="msg ${m.role}">${m.role==='user'?esc(m.text):m.html}</div>`).join('');$('#msgs').scrollTop=1e6}
-$('#askForm').addEventListener('submit',async e=>{e.preventDefault();const t=$('#askIn').value.trim();if(!t)return;$('#askIn').disabled=true;await askSubmit(t);$('#askIn').disabled=false});
+$('#askForm').addEventListener('submit',async e=>{e.preventDefault();const t=$('#askIn').value.trim();if(!t)return;$('#askIn').disabled=true;try{await askSubmit(t)}catch(err){console.error(err);showErr('Не удалось разобрать запрос. Задайте параметры слева — подбор работает.')}finally{$('#askIn').disabled=false}});
 $('#composer').addEventListener('submit',async e=>{e.preventDefault();const t=$('#chatIn').value.trim();if(!t)return;$('#chatIn').value='';S.chat.push({role:'user',text:t});S.chat.push({role:'bot',html:'…'});renderChat();
   const wm=t.match(/почему (?:нет|не)\s+([^?]+)/i);let html;
-  if(wm){const m=WorldDB.search(wm[1].replace(/^(города|город)\s+/,''));html=m.length?esc(ResultsEngine.explain(m[0].id).text):'Такого города нет в каталоге.'}
+  try{
+  if(wm&&!S.results)html='Подбор ещё не рассчитан — нажмите «Подобрать путешествие».';
+  else if(wm){const q0=wm[1].replace(/^(города|город)\s+/,'').trim();let m=WorldDB.search(q0);for(let k=1;!m.length&&k<=2&&q0.length-k>=3;k++)m=WorldDB.search(q0.slice(0,-k)); /* «Парижа» → «Париж» */html=m.length?esc(ResultsEngine.explain(m[0].id).text):'Такого города нет в каталоге.'}
   else{const r=await askSubmit(t);html=esc(r.reply)+(r.action==='search'&&S.results?`<br><br>Проанализировано ${nf(S.results.analyzed)}, подходят ${S.results.fit.length}. Лучший: <b>${esc((S.results.ranked[0]||{d:{ru:'—'}}).d.ru)}</b>.`:'')}
+  }catch(err){console.error('[Travel Expert] чат',err);html='Консультант сейчас недоступен. Основной подбор работает — используйте параметры слева.'}
   S.chat.pop();S.chat.push({role:'bot',html});renderChat()});
-async function initAI(){try{if(window.claude&&window.claude.use)sampleFn=await window.claude.use('sample')}catch(e){sampleFn=null}aiReady=!!sampleFn;$('#aiMode').textContent=aiReady?'Запрос разбирает Claude; подбор считает Travel Expert.':'Упрощённый режим: запрос разбирается в браузере.'}
+async function initAI(){try{if(window.claude&&window.claude.use)sampleFn=await withTimeout(window.claude.use('sample'),5000,'AI-консультант')}catch(e){sampleFn=null}aiReady=!!sampleFn;$('#aiMode').textContent=aiReady?'Запрос разбирает Claude; подбор считает Travel Expert.':'Упрощённый режим: запрос разбирается в браузере.'}
 
 /* =====================================================================
-   11. TOUR ENGINE — готовые туры: Kaspi Travel и Kaztour (раздельно, не смешиваются)
+   11. TOUR DATA — снимки источников (Kaspi Travel, Kaztour). Адаптеры и единая структура — в разделе 15 PROVIDERS
    Этап 1: SNAPSHOT проверенных страниц. Ничего не придумываем: нет данных — так и пишем.
    Этап 2: те же функции getTourOffers()/getTourSearchUrl() берут данные у партнёрского API.
    ===================================================================== */
@@ -1436,25 +1499,12 @@ const KaztourProvider={id:'kaztour',name:'Kaztour',
   pagesFor(d){const out=[];const kc=KT_COUNTRY[d.cc];if(!kc)return out;
     const order=[S.home,...Object.keys(KT_CITY).filter(c=>c!==S.home)];
     order.forEach(ap=>{const city=KT_CITY[ap];if(city&&KT_PAGES.has(`${city}/${kc}`))out.push({from:ap,key:`${city}/${kc}`,url:`https://kaztour.kz/s/tours/${city}/${kc}`})});return out},
-  offers(d){const res=[];this.pagesFor(d).forEach(p=>{const sn=KT_SNAP[p.key];if(!sn)return;
-      sn.offers.filter(o=>o.dest===d.id&&o.dep>=iso(today0)).forEach(o=>res.push({...o,provider:'kaztour',from:p.from,pageUrl:p.url,pageDate:sn.pageDate,checked:TOUR_CHECKED,status:'snap'}))});
-    return res.sort((a,b)=>a.price-b.price)},
   notes(d){return this.pagesFor(d).map(p=>({...p,snap:KT_SNAP[p.key]||null}))}
 };
 const KaspiProvider={id:'kaspi',name:'Kaspi Travel',
   available(d){return KASPI.countries.has(d.cc)},
   offers(){return []} // конкретные туры Kaspi недоступны для автоматического получения
 };
-/** Сопоставление дат и состава: не меняем даты молча */
-function tourMatch(o){const e=iso(addDays(pd(o.dep),o.nights));const sameDates=o.dep===S.start&&e===S.end;const shift=diffDays(S.start,o.dep);
-  const party=o.adults===S.adults&&o.children===S.children.length;
-  return {sameDates,shift,end:e,party,text:sameDates?'Даты совпадают с вашими':`Точные даты ${dShort(S.start)}–${dShort(S.end)} не найдены. Найден вариант ${dShort(o.dep)}–${dShort(e)} (${o.nights} н.)`,partyText:party?'Состав совпадает':`Цена указана для ${o.adults} взр.${o.children?` + ${o.children} дет.`:''} — для вашего состава (${partyText()}) проверьте на сайте`}}
-function getTourOffers(d){
-  const kz=KaztourProvider.offers(d);
-  return {kaztour:{provider:KaztourProvider,offers:kz,pages:KaztourProvider.notes(d)},kaspi:{provider:KaspiProvider,available:KaspiProvider.available(d)},
-    minPrice:kz.length?kz[0].price:null,any:kz.length>0,avail:kz.length>0||KaztourProvider.pagesFor(d).length>0||KaspiProvider.available(d)}}
-function getTourSearchUrl(provider,d){if(provider==='kaspi')return {url:KASPI.url,label:'Открыть Kaspi Travel',note:'главная страница — туры ищутся в приложении или на сайте Kaspi, это не поиск с вашими параметрами'};
-  const p=KaztourProvider.pagesFor(d)[0];return p?{url:p.url,label:`Открыть поиск Kaztour: ${cityOf(p.from)} → ${d.country.name}`,note:'страница туров по стране, не конкретный тур'}:null}
 
 /* =====================================================================
    12. TRIP OPTION ENGINE — единая структура варианта поездки
@@ -1479,26 +1529,230 @@ function selfOption(r,q){ // q — необязательное переопре
     {key:'extra',label:'Доп. расходы',value:null,text:`бюджет на месте ≈ ${money(DAILY[r.d.country.price]*paxN*nightsN)} (ориентировочная оценка, в итог не входит)`,status:'est'}];
   const total=c.reduce((s,x)=>s+(x.value||0),0);
   return {kind:'self',title:'✈️ Самостоятельно',components:c,total,per:Math.round(total/paxN),pax:paxN,nights:nightsN,flight:f,unknown:c.filter(x=>x.value==null).map(x=>x.label)}}
-function tourOption(o){const incl='Состав пакета на странице не указан — проверить на сайте';
-  const c=[
-    {key:'flight',label:'Перелёт',value:null,text:`в пакете · вылет: ${cityOf(o.from)} · авиакомпания не указана`,status:'snap',inPack:true},
-    {key:'hotel',label:'Отель',value:null,text:`${o.hotel}, ${o.area}${o.rating!=null?` · оценка на Kaztour ${o.rating}`:''}`,status:'snap',inPack:true},
-    {key:'meals',label:'Питание',value:null,text:'не указано на странице — проверить',status:'none'},
-    {key:'transfer',label:'Трансфер',value:null,text:incl,status:'none'},
-    {key:'baggage',label:'Багаж',value:null,text:incl,status:'none'},
-    {key:'insurance',label:'Страховка',value:null,text:incl,status:'none'},
-    {key:'extra',label:'Доп. расходы',value:null,text:'не рассчитано',status:'none'}];
-  return {kind:'tour',title:'🧳 Готовый тур · Kaztour',components:c,total:o.price,per:Math.round(o.price/(o.adults+o.children)),pax:o.adults+o.children,nights:o.nights,offer:o,unknown:c.filter(x=>x.value==null&&!x.inPack).map(x=>x.label)}}
+
 
 /* =====================================================================
-   13. COMPARE ENGINE — самостоятельно ↔ тур на одинаковых датах и составе. Выводов не делаем.
+   15. PROVIDERS — поставщик → адаптер → единая структура → интерфейс
+   Новый источник = один адаптер + ProviderRegistry.register(...). Интерфейс и сравнение не меняются.
    ===================================================================== */
+const DATA_STATUS={
+  real:{emoji:'🟢',label:'REAL',text:'получено из API в момент запроса'},
+  snap:{emoji:'🔵',label:'SNAPSHOT',text:'проверено на указанную дату'},
+  demo:{emoji:'🟡',label:'DEMO',text:'демонстрационные данные'},
+  est:{emoji:'⚪',label:'ESTIMATE',text:'расчётная / ориентировочная оценка'}};
+const MEAL={AI:'ALL INCLUSIVE',UAI:'ULTRA ALL INCLUSIVE',FB:'Полный пансион (FB)',HB:'Полупансион (HB)',BB:'Завтраки (BB)',RO:'Без питания (RO)',NA:'не указано'};
+const TRI={yes:'входит',no:'не входит',na:'не указано'};
+const HCAT={'5':'5★','4':'4★','3':'3★','2':'2★','1':'1★',apt:'апартаменты',none:'без категории',na:'не указана'};
+const TOUR_CURRENCIES=['KZT','USD','EUR','RUB'];
+const ruDate=s=>{if(!s)return '—';const[y,m,d]=s.split('-');return `${d}.${m}.${y}`};
+const toIsoDate=s=>{s=String(s||'').trim();let m=s.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);if(m)return `${m[3]}-${m[2]}-${m[1]}`;return /^\d{4}-\d{2}-\d{2}$/.test(s)?s:null};
+const statusBadge=(st,date)=>`<span class="st st-${st}" title="${esc(DATA_STATUS[st]?DATA_STATUS[st].text:'')}">${DATA_STATUS[st]?DATA_STATUS[st].emoji+' '+DATA_STATUS[st].label:''}${date?` · ${esc(date)}`:''}</span>`;
+const oneLine=(s,max=2000)=>String(s??'').replace(/\s+/g,' ').trim().slice(0,max);
+
+/* ---------- единая структура тура ----------
+   TourOffer: id, providerId, source, status, checked(ISO), destId, cc, city, from, dep, ret, nights,
+   adults, childAges[], children, hotel, hotelCat, meal, flight, airline, baggage, baggageText, transfer, insurance,
+   currency, price, pricePP, priceKZT, fx, included, excluded, url, urlKind('offer'|'search'), comment, manual, area, rating, expired */
+function normalizeTour(raw){
+  const e=[],w=[],o={};
+  o.id=raw.id||('t'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36));
+  o.providerId=raw.providerId||'manual';
+  const P=ProviderRegistry.byId[o.providerId];
+  o.source=oneLine(raw.source||(P&&P.name),80);if(!o.source)e.push('Источник');
+  o.status=DATA_STATUS[raw.status]?raw.status:'snap';
+  o.checked=toIsoDate(raw.checked);if(!o.checked)e.push('Дата проверки');
+  const d=WorldDB.byId[raw.destId];if(!d)e.push('Город/курорт из каталога');
+  o.destId=d?d.id:null;o.cc=d?d.cc:null;o.city=d?d.ru:'';
+  o.from=oneLine(raw.from,40);if(!o.from)e.push('Город вылета');
+  o.dep=toIsoDate(raw.dep);if(!o.dep)e.push('Дата вылета');
+  o.ret=toIsoDate(raw.ret);
+  let n=parseInt(raw.nights,10);
+  if(o.dep&&o.ret){const dn=diffDays(o.dep,o.ret);if(dn<=0)e.push('Дата возвращения должна быть позже вылета');else{if(!n)n=dn;else if(n!==dn&&n!==dn-1)w.push(`Указано ${n} ноч., а между датами ${dn} дн. — проверьте`)}}
+  if(!(n>0&&n<60))e.push('Количество ночей');o.nights=n>0?n:null;
+  if(!o.ret&&o.dep&&o.nights)o.ret=iso(addDays(pd(o.dep),o.nights));
+  o.adults=parseInt(raw.adults,10);if(!(o.adults>=1&&o.adults<=10))e.push('Взрослых — от 1 до 10');
+  o.childAges=(Array.isArray(raw.childAges)?raw.childAges:[]).map(Number).filter(a=>Number.isFinite(a)&&a>=0&&a<=17).slice(0,6);o.children=o.childAges.length;
+  o.hotel=oneLine(raw.hotel,120);if(!o.hotel)w.push('Отель не указан');
+  o.hotelCat=HCAT[raw.hotelCat]?String(raw.hotelCat):'na';
+  o.meal=MEAL[raw.meal]?raw.meal:'NA';
+  ['flight','baggage','transfer','insurance'].forEach(k=>{o[k]=TRI[raw[k]]?raw[k]:'na'});
+  o.airline=oneLine(raw.airline,80);o.baggageText=oneLine(raw.baggageText,80);
+  o.currency=TOUR_CURRENCIES.includes(raw.currency)?raw.currency:'KZT';
+  o.price=Math.round(+raw.price);if(!(o.price>0))e.push('Общая стоимость');
+  const px=(o.adults||0)+o.children;
+  o.pricePP=+raw.pricePP>0?Math.round(+raw.pricePP):(o.price>0&&px?Math.round(o.price/px):null);
+  if(+raw.pricePP>0&&o.price>0&&px&&Math.abs(o.pricePP*px-o.price)>o.price*.03)w.push('Цена на человека × число туристов не равна общей цене (так бывает: дети дешевле) — проверьте');
+  const rate=o.currency==='KZT'?1:CONFIG.currency.kztPer[o.currency];
+  o.priceKZT=o.price>0&&rate?Math.round(o.price*rate):null;o.fx=o.currency!=='KZT';
+  if(o.currency==='RUB')w.push('Цена в рублях: в сравнении с ₸ не участвует, пока не задан курс');
+  o.included=oneLine(raw.included,600);o.excluded=oneLine(raw.excluded,600);o.comment=oneLine(raw.comment,600);
+  o.url=oneLine(raw.url,600);if(o.url&&!/^https?:\/\/[^\s/]+\.[^\s]+/i.test(o.url))e.push('Ссылка должна начинаться с http:// или https://');
+  o.urlKind=o.url?(raw.urlKind==='search'?'search':'offer'):null;
+  o.manual=!!raw.manual;o.area=oneLine(raw.area,80);o.rating=raw.rating??null;o.createdAt=raw.createdAt||Date.now();o.pageDate=raw.pageDate||null;
+  o.expired=!!(o.dep&&o.dep<iso(today0));
+  if(o.expired)w.push('Дата вылета уже прошла — предложение сохранится, но в сравнение не попадёт');
+  return {offer:o,errors:e,warnings:w}}
+const tourEnd=o=>o.ret||iso(addDays(pd(o.dep),o.nights));
+/** Сопоставление дат и состава: даты не меняются молча */
+function tourMatch(o){const e=tourEnd(o),sameDates=o.dep===S.start&&e===S.end,shift=diffDays(S.start,o.dep);
+  const party=o.adults===S.adults&&o.children===S.children.length;
+  return {sameDates,shift,end:e,party,
+    text:sameDates?'Даты совпадают с вашими':`Точные даты ${dShort(S.start)}–${dShort(S.end)} не найдены. Найден вариант ${dShort(o.dep)}–${dShort(e)} (${o.nights} н.)`,
+    partyText:party?'Состав совпадает':`Цена указана для ${o.adults} взр.${o.children?` + ${o.children} дет.`:''} — для вашего состава (${partyText()}) проверьте у источника`}}
+
+/* ---------- реестр поставщиков ----------
+   Паспорт: id, name, kind('tour'|'flight'), category(A|B|C|D|M), defaultStatus, caps{prices,availability,meals,baggage,deepLink},
+   legal{auto,store,note,checked}, mode('sync'|'async'|'link'), offers(d)→TourOffer[] (sync) | search(d,q)→Promise<TourOffer[]> (async),
+   configured()→bool, searchUrl(d)→{url,label,kind,note}|null, timeoutMs */
+const ProviderRegistry={list:[],byId:{},
+  register(p){const x={kind:'tour',category:'C',defaultStatus:'snap',mode:'link',caps:{},legal:{},timeoutMs:12000,configured:()=>true,searchUrl:()=>null,...p};
+    if(this.byId[x.id])throw new Error('Поставщик уже зарегистрирован: '+x.id);this.list.push(x);this.byId[x.id]=x;return x},
+  tours(){return this.list.filter(p=>p.kind==='tour')},flights(){return this.list.filter(p=>p.kind==='flight')}};
+
+/* ---------- настройки API (ключи хранятся только на сервере-прокси, в браузере — только адрес прокси) ---------- */
+const ApiConfig={proxy:'',
+  load(){try{const v=store.get('api',{});this.proxy=typeof v.proxy==='string'?v.proxy:''}catch(e){}},
+  save(proxy){this.proxy=String(proxy||'').trim().replace(/\/+$/,'');store.set('api',{proxy:this.proxy})},
+  ok(){return /^https:\/\/[^\s/]+\.[^\s]+/.test(this.proxy)}};
+ApiConfig.load();
+async function proxyGet(path,params,ms){if(!ApiConfig.ok())throw Object.assign(new Error('Прокси не настроен'),{code:'not_configured'});
+  const u=new URL(ApiConfig.proxy+path);Object.entries(params||{}).forEach(([k,v])=>{if(v!=null&&v!=='')u.searchParams.set(k,v)});
+  const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),ms||10000);
+  try{const r=await fetch(u.toString(),{signal:ctl.signal});if(!r.ok)throw Object.assign(new Error(`Ответ ${r.status}`),{code:r.status===429?'rate_limit':'http_'+r.status});return await r.json()}
+  catch(e){if(e.name==='AbortError')throw Object.assign(new Error('Превышено время ожидания'),{code:'timeout'});throw e}
+  finally{clearTimeout(t)}}
+
+/* ---------- хранилище ручных предложений (этот браузер + экспорт/импорт JSON) ---------- */
+const ManualStore={items:null,
+  all(){if(!this.items){const raw=store.get('manualTours',[]);this.items=(Array.isArray(raw)?raw:[]).map(x=>normalizeTour({...x,manual:true,providerId:'manual'}).offer).filter(o=>o.destId)}return this.items},
+  save(o){const l=this.all();const i=l.findIndex(x=>x.id===o.id);if(i>=0)l[i]=o;else l.unshift(o);this.persist()},
+  del(id){this.items=this.all().filter(x=>x.id!==id);this.persist()},
+  persist(){store.set('manualTours',this.items);TourHub.invalidate()},
+  exportJSON(){return JSON.stringify({app:'Travel Expert',kind:'manualTours',version:1,exported:new Date().toISOString(),items:this.all()},null,2)},
+  importJSON(txt){const j=JSON.parse(txt);const arr=Array.isArray(j)?j:j.items;if(!Array.isArray(arr))throw new Error('В файле нет списка предложений');
+    let ok=0,bad=0;arr.forEach(x=>{const r=normalizeTour({...x,manual:true,providerId:'manual'});if(r.errors.length){bad++;return}const l=this.all();if(!l.some(y=>y.id===r.offer.id)){l.push(r.offer);ok++}});this.persist();return {ok,bad}}};
+
+/* ---------- адаптеры ---------- */
+// Kaztour: снимок посадочных страниц → единая структура (ничего не додумываем: питание/багаж/трансфер/страховка = «не указано»)
+const KT_NORM={};
+function kaztourOffersFor(key){if(KT_NORM[key])return KT_NORM[key];const sn=KT_SNAP[key];if(!sn)return [];const [city]=key.split('/');const from=Object.keys(KT_CITY).find(k=>KT_CITY[k]===city);
+  KT_NORM[key]=sn.offers.map((o,i)=>normalizeTour({id:`kt-${key}-${i}`,providerId:'kaztour',source:'Kaztour',status:'snap',checked:TOUR_CHECKED,destId:o.dest,from:cityOf(from),dep:o.dep,nights:o.nights,adults:o.adults,childAges:[],
+    hotel:o.hotel,area:o.area,rating:o.rating,hotelCat:'na',meal:'NA',flight:'yes',airline:'',baggage:'na',transfer:'na',insurance:'na',currency:'KZT',price:o.price,
+    included:'перелёт и проживание (формат предложения «тур»)',excluded:'питание, трансфер, багаж, страховка на странице не указаны — уточнить',url:`https://kaztour.kz/s/tours/${key}`,urlKind:'search',pageDate:sn.pageDate}).offer);
+  return KT_NORM[key]}
+ProviderRegistry.register({id:'kaztour',name:'Kaztour',category:'C',mode:'sync',defaultStatus:'snap',
+  caps:{prices:true,availability:false,meals:false,baggage:false,deepLink:false},
+  legal:{auto:false,store:true,note:'API не найден. Предложения перенесены вручную со страниц «город → страна» (снимок).',checked:TOUR_CHECKED},
+  offers(d){const out=[];KaztourProvider.pagesFor(d).forEach(p=>kaztourOffersFor(p.key).forEach(o=>{if(o.destId===d.id)out.push(o)}));return out},
+  searchUrl(d){const p=KaztourProvider.pagesFor(d)[0];return p?{url:p.url,label:`Kaztour: ${cityOf(p.from)} → ${d.country.name}`,kind:'search',note:'страница туров по стране, не конкретный тур'}:null}});
+// Ручной ввод: источник указывает пользователь (KOMPAS, ANEX, Kaspi…), статус всегда SNAPSHOT с датой проверки
+ProviderRegistry.register({id:'manual',name:'Добавлено вручную',category:'M',mode:'sync',defaultStatus:'snap',
+  caps:{prices:true,availability:false,meals:true,baggage:true,deepLink:true},
+  legal:{auto:true,store:true,note:'Данные внесены вами; хранятся в этом браузере, есть экспорт в JSON.',checked:'—'},
+  offers(d){return ManualStore.all().filter(o=>o.destId===d.id)}});
+// Kaspi Travel: только список стран (Kaspi Гид) и ссылка — сайт закрыт для роботов
+ProviderRegistry.register({id:'kaspi',name:'Kaspi Travel',category:'C',mode:'link',
+  caps:{prices:false},legal:{auto:false,store:false,note:'travel.kaspi.kz закрыт в robots.txt, открытого API нет. Цены — только в приложении Kaspi; можно внести вручную.',checked:TOUR_CHECKED},
+  available:d=>KASPI.countries.has(d.cc),
+  searchUrl(d){return KASPI.countries.has(d.cc)?{url:KASPI.url,label:'Kaspi Travel',kind:'search',note:'главная страница, не поиск с вашими параметрами'}:null}});
+// Travelpayouts-партнёры: подключаются после одобрения доступа. До этого — «не подключено», без выдуманных данных.
+ProviderRegistry.register({id:'leveltravel',name:'Level.Travel',category:'A',mode:'async',defaultStatus:'real',
+  caps:{prices:true,availability:true,meals:true,baggage:false,deepLink:true},
+  legal:{auto:true,store:true,note:'API через Travelpayouts после одобрения заявки. Вылеты из Алматы, Астаны, Актобе, Актау подтверждены; оплата — российскими картами.',checked:'30.09.2026'},
+  configured:()=>ApiConfig.ok()&&!!(ProxyCaps.leveltravel),
+  async search(){throw Object.assign(new Error('Ожидаем документацию API Level.Travel после одобрения заявки'),{code:'awaiting_access'})},
+  searchUrl(){return {url:'https://level.travel/',label:'Level.Travel',kind:'search',note:'главная страница'}}});
+ProviderRegistry.register({id:'travelata',name:'Travelata',category:'A',mode:'async',defaultStatus:'real',
+  caps:{prices:true,availability:false,meals:true,baggage:false,deepLink:true},
+  legal:{auto:true,store:true,note:'API через Travelpayouts по заявке. Цены в рублях. Вылеты из Казахстана не подтверждены — проверим справочником departureCities после доступа.',checked:'30.09.2026'},
+  configured:()=>ApiConfig.ok()&&!!(ProxyCaps.travelata),
+  async search(d,q){const j=await proxyGet('/travelata/cheapestTours',{destId:d.id,cc:d.cc,from:q.from,dateFrom:q.start,nights:q.nights,adults:q.adults},this.timeoutMs);
+    return (j&&Array.isArray(j.data)?j.data:[]).map(t=>normalizeTravelata(t,d,q)).filter(r=>!r.errors.length).map(r=>r.offer)},
+  searchUrl(){return {url:'https://travelata.ru/',label:'Travelata',kind:'search',note:'главная страница'}}});
+/** Поля ответа Travelata cheapestTours (по документации Travelpayouts): price (₽, с топливным сбором), checkinDate, nights, hotelName, hotelCategory, mealId, tourPageUrl. Питание — через справочник meals. */
+function normalizeTravelata(t,d,q){return normalizeTour({id:'tl-'+(t.id||t.tourPageUrl||Math.random()),providerId:'travelata',source:'Travelata',status:'real',checked:iso(today0),destId:d.id,from:q.fromName||q.from,
+  dep:t.checkinDate,nights:t.nights,adults:q.adults,childAges:[],hotel:t.hotelName,hotelCat:String(t.hotelCategory||'na'),meal:(q.mealMap||{})[t.mealId]||'NA',flight:'yes',baggage:'na',transfer:'na',insurance:'na',
+  currency:'RUB',price:t.price,url:t.tourPageUrl,urlKind:'offer',included:'по данным Travelata',excluded:'уточнить на странице тура'})}
+// Источники только-ссылкой (категория C): данные не берём, открываем их поиск
+[['anex','ANEX Tour','https://www.anextour.kz/tours','robots.txt закрывает страницы с параметрами (*?*) — только ссылка.'],
+ ['kompas','KOMPAS','https://online.kz.kompastour.com/search_tour','Поиск на движке SAMO, API нет; агентский доступ по договору.'],
+ ['joinup','Join UP!','https://joinup.kz/poisk-tura-full/','Поиск на движке SAMO, API нет; агентский договор с ЭЦП.'],
+ ['tripskz','trips.kz','https://trips.kz/','API не найден; условия использования данных не проверены.'],
+ ['hottour','Hot Tour','https://hottour.kz/find-tour','Соглашение запрещает копирование контента без письменного согласия — только ссылка.'],
+ ['vizit','Vizit Expert','https://vizitexpert.kz/find-tour','Соглашение запрещает копирование контента без письменного согласия — только ссылка.'],
+ ['eurasia','Eurasia Travel','https://www.eurasiatravel.kz/','API нет; поиск на сайте.'],
+ ['caspian','Caspian Travel Company','https://ctc.kz/ru/our-tours','Каталог и заявки менеджеру; API нет.']
+].forEach(([id,name,url,note])=>ProviderRegistry.register({id,name,category:'C',mode:'link',caps:{prices:false},legal:{auto:false,store:false,note,checked:'30.09.2026'},
+  searchUrl:()=>({url,label:name,kind:'search',note:'поиск на сайте, без ваших параметров'})}));
+
+/* ---------- перелёты: DEMO-сеть (как сейчас) + Travelpayouts Data API (кэш цен → SNAPSHOT) ---------- */
+ProviderRegistry.register({id:'demo_flights',name:'DEMO-сеть маршрутов',kind:'flight',category:'M',mode:'sync',defaultStatus:'demo',
+  caps:{prices:false},legal:{auto:true,store:true,note:'Модель Travel Expert, не расписание и не цены.',checked:'—'}});
+ProviderRegistry.register({id:'tp_data',name:'Travelpayouts · Aviasales Data API',kind:'flight',category:'A',mode:'async',defaultStatus:'snap',
+  caps:{prices:true,availability:false,baggage:false,deepLink:true},
+  legal:{auto:true,store:true,note:'Кэш цен из поисков Aviasales за 2–7 дней: статус SNAPSHOT, не REAL. Токен хранится только на прокси.',checked:'30.09.2026'},
+  configured:()=>ApiConfig.ok()&&!!(ProxyCaps.tp),timeoutMs:10000,
+  /** q: {origin, destination, start, end} → FlightOffer[] */
+  async search(q){const j=await proxyGet('/tp/prices_for_dates',{origin:q.origin,destination:q.destination,departure_at:q.start,return_at:q.end,currency:'kzt',sorting:'price',limit:10},this.timeoutMs);
+    return (j&&Array.isArray(j.data)?j.data:[]).map(normalizeTpFlight)}});
+/** Поля Aviasales Data API v3 prices_for_dates: origin, destination, origin_airport, destination_airport, price, airline, flight_number, departure_at, return_at, transfers, return_transfers, duration, link */
+function normalizeTpFlight(x){return {providerId:'tp_data',status:'snap',checked:iso(today0),note:'цена из кэша поисков Aviasales (2–7 дней)',
+  origin:x.origin_airport||x.origin,destination:x.destination_airport||x.destination,price:Math.round(+x.price)||null,currency:'KZT',airline:x.airline||'',flightNumber:x.flight_number||'',
+  departAt:x.departure_at||null,returnAt:x.return_at||null,transfers:x.transfers??null,returnTransfers:x.return_transfers??null,durationMin:x.duration??null,
+  baggage:'na',ticketing:'na',url:x.link?('https://www.aviasales.kz'+x.link):null}}
+/** Что умеет развернутый прокси (узнаём по /health): {tp:true, travelata:false, leveltravel:false} */
+let ProxyCaps={};
+async function checkProxy(){if(!ApiConfig.ok()){ProxyCaps={};return {ok:false,msg:'Адрес прокси не задан'}}
+  try{const j=await proxyGet('/health',{},5000);ProxyCaps=j&&j.caps||{};return {ok:true,msg:`Прокси отвечает. Подключено: ${Object.entries(ProxyCaps).filter(x=>x[1]).map(x=>x[0]).join(', ')||'ничего'}`}}
+  catch(e){ProxyCaps={};return {ok:false,msg:`Прокси не отвечает: ${e.message}`}}}
+
+/* ---------- TourHub: собирает предложения всех поставщиков в единый список ---------- */
+const TourHub={cache:new Map(),rev:0,
+  key(p,d){return `${p.id}|${d.id}|${S.start}|${S.end}|${S.adults}|${S.children.length}|${S.home}`},
+  invalidate(){this.rev++;if(S.results)S.results.all.forEach(r=>{delete r.tours})},
+  collect(d){const offers=[],prov={};
+    ProviderRegistry.tours().forEach(p=>{
+      try{
+        if(p.mode==='sync'){const l=p.offers(d)||[];prov[p.id]={state:'ok',count:l.length};offers.push(...l)}
+        else if(p.mode==='async'){const c=this.cache.get(this.key(p,d));prov[p.id]=c?{state:c.state,count:(c.offers||[]).length,msg:c.msg,at:c.at}:{state:p.configured()?'idle':'not_configured',count:0};if(c&&c.offers)offers.push(...c.offers)}
+        else prov[p.id]={state:'link',count:0};
+      }catch(e){console.error('[Travel Expert] поставщик',p.id,e);prov[p.id]={state:'error',count:0,msg:'Данные временно недоступны'}}});
+    return {offers,prov}},
+  /** Асинхронные поставщики — по запросу, каждый со своим таймаутом; отказ одного не влияет на остальных */
+  async fetch(d){const ps=ProviderRegistry.tours().filter(p=>p.mode==='async'&&p.configured());
+    await Promise.all(ps.map(async p=>{const k=this.key(p,d);
+      try{const l=await withTimeout(p.search(d,{from:S.home,fromName:cityOf(S.home),start:S.start,end:S.end,nights:nights(),adults:S.adults}),p.timeoutMs,p.name);this.cache.set(k,{state:'ok',offers:l,at:Date.now()})}
+      catch(e){this.cache.set(k,{state:e.code==='timeout'?'timeout':e.code==='awaiting_access'?'awaiting':'error',offers:[],msg:e.message,at:Date.now()})}}));
+    this.invalidate()}};
+
+/** Итог для направления: единый список предложений всех источников + состояние каждого поставщика */
+function getTourOffers(d){try{
+    const {offers,prov}=TourHub.collect(d);
+    const cmp=(a,b)=>(a.priceKZT??Infinity)-(b.priceKZT??Infinity);
+    const active=offers.filter(o=>!o.expired).sort(cmp),expired=offers.filter(o=>o.expired);
+    return {offers:active,expired,prov,pages:KaztourProvider.notes(d),kaspi:{available:KASPI.countries.has(d.cc)},
+      rev:TourHub.rev,links:ProviderRegistry.tours().filter(p=>p.mode==='link'||p.id==='kaztour').map(p=>({p,u:p.searchUrl(d)})).filter(x=>x.u),error:false}}
+  catch(e){console.error('[Travel Expert] туры',e);return {offers:[],expired:[],prov:{},pages:[],kaspi:{available:false},links:[],error:true}}}
+
+/* ---------- сравнение: самостоятельно ↔ тур (из любого источника) ---------- */
+function tourOption(o){const fromTxt=`вылет: ${o.from}`;
+  const tri=(k,label,extra)=>o[k]==='yes'?{inPack:true,text:`${label}: входит${extra?` · ${extra}`:''}`}:o[k]==='no'?{notIncl:true,text:`${label}: не входит — оплачивается отдельно`}:{text:`${label}: не указано у источника — проверить`};
+  const c=[
+    {key:'flight',label:'Перелёт',value:null,status:o.status,...tri('flight','перелёт',`${fromTxt}${o.airline?` · ${o.airline}`:' · авиакомпания не указана'}`)},
+    {key:'hotel',label:'Отель',value:null,status:o.status,inPack:true,text:`${o.hotel||'отель не указан'}${o.hotelCat!=='na'?` · ${HCAT[o.hotelCat]}`:''}${o.area?` · ${o.area}`:''}${o.rating!=null?` · оценка ${o.rating} (не звёзды)`:''}`},
+    {key:'meals',label:'Питание',value:null,status:o.status,...(o.meal==='NA'?{text:'не указано у источника — проверить'}:o.meal==='RO'?{notIncl:true,text:'Без питания (RO)'}:{inPack:true,text:MEAL[o.meal]})},
+    {key:'transfer',label:'Трансфер',value:null,status:o.status,...tri('transfer','трансфер')},
+    {key:'baggage',label:'Багаж',value:null,status:o.status,...tri('baggage','багаж',o.baggageText)},
+    {key:'insurance',label:'Страховка',value:null,status:o.status,...tri('insurance','страховка')},
+    {key:'extra',label:'Доп. расходы',value:null,status:'none',text:o.excluded?`не входит: ${o.excluded}`:'не рассчитано'}];
+  return {kind:'tour',title:`🧳 ${o.source}`,components:c,total:o.priceKZT,totalOrig:o.price,currency:o.currency,per:o.pricePP,pax:o.adults+o.children,nights:o.nights,offer:o}}
 function compareSelfTour(r,o){
   const t=tourOption(o);
-  const q={start:o.dep,end:iso(addDays(pd(o.dep),o.nights)),adults:o.adults,children:[],maxHours:Math.max(S.maxHours,40)};
+  const q={start:o.dep,end:tourEnd(o),adults:o.adults,children:o.childAges.slice(),maxHours:Math.max(S.maxHours,40)};
   const s=selfOption(r,q);
-  const known=s.components[0].value!=null&&s.components[1].value!=null;const diff=known?t.total-s.total:null;
-  return {s,t,q,diff,known,sameParams:q.start===S.start&&q.end===S.end&&o.adults===S.adults&&!S.children.length}}
+  const known=s.components[0].value!=null&&s.components[1].value!=null&&t.total!=null;
+  const diff=known?t.total-s.total:null;
+  return {s,t,q,diff,known,sameParams:q.start===S.start&&q.end===S.end&&o.adults===S.adults&&o.children===S.children.length}}
 
 
 /* =====================================================================
@@ -1537,124 +1791,216 @@ function destPickerHTML(){
     else h+=`<input class="field" id="cityQ" data-inp="cityq" placeholder="${tx('cityPh')}" autocomplete="off" aria-label="${tx('city')}"><div class="plist" id="cityList"></div>`;
   }
   return h}
+
+const TOUR_SRC_FILTER=['kaspi','kaztour','manual','leveltravel','travelata'];
 function travelModeHTML(){
   return `<div class="chips">${TMODES.map(([k,l])=>`<button class="chip" data-act="tmode" data-v="${k}" aria-pressed="${S.travelMode===k}">${l}</button>`).join('')}</div>
-  ${S.travelMode!=='self'?`<div class="chips"><span class="xs muted">Источник туров:</span><label class="sw"><input type="checkbox" data-chg="tsrc" value="kaspi" ${S.tourSrc.kaspi?'checked':''}> Kaspi Travel</label><label class="sw"><input type="checkbox" data-chg="tsrc" value="kaztour" ${S.tourSrc.kaztour?'checked':''}> Kaztour</label></div>
+  ${S.travelMode!=='self'?`<div class="chips"><span class="xs muted">Источники туров:</span>${TOUR_SRC_FILTER.map(id=>{const p=ProviderRegistry.byId[id];return `<label class="sw"><input type="checkbox" data-chg="tsrc" value="${id}" ${srcOn(id)?'checked':''}> ${esc(p.name)}</label>`}).join('')}</div>
   <div class="two"><label class="xs muted">Питание в туре<select class="field" data-chg="tourMeal">${MEALS.map(([k,l])=>`<option value="${k}" ${S.tourMeal===k?'selected':''}>${l}</option>`).join('')}</select></label><label class="xs muted">Категория отеля<select class="field" data-chg="tourCat">${CATS.map(([k,l])=>`<option value="${k}" ${S.tourCat===k?'selected':''}>${l}</option>`).join('')}</select></label></div>
-  <span class="xs faint">Даты, ночи, взрослые, дети и бюджет — общие с подбором. В снимке Kaztour питание и категория не указаны: такие туры не скрываются, а помечаются «проверить».</span>`:''}`}
+  <span class="xs faint">Даты, ночи, взрослые, дети и бюджет — общие с подбором. Если питание или категория у источника не указаны, тур не скрывается, а помечается «проверить».</span>`:''}`}
 
 /* ---------- туры: представление с учётом фильтра источников ---------- */
-function tourSrcOn(){const a=S.tourSrc;return (!a.kaspi&&!a.kaztour)?{kaspi:true,kaztour:true,none:true}:a}
-function tourView(r){if(!r.tours)r.tours=getTourOffers(r.d);const on=tourSrcOn(),t=r.tours;
-  const kt=on.kaztour?t.kaztour.offers:[],pages=on.kaztour?t.kaztour.pages:[],kaspi=!!(on.kaspi&&t.kaspi.available);
-  return {kt,pages,kaspi,min:kt.length?kt[0]:null,avail:kt.length>0||pages.length>0||kaspi,on}}
+const srcOn=id=>{const any=TOUR_SRC_FILTER.some(k=>S.tourSrc[k]!==false);return !any||S.tourSrc[id]!==false};
+function tourSrcOn(){const any=TOUR_SRC_FILTER.some(k=>S.tourSrc[k]!==false);return {none:!any,kaspi:srcOn('kaspi'),kaztour:srcOn('kaztour')}}
+function tourView(r){if(!r.tours||r.tours.rev!==TourHub.rev){r.tours=getTourOffers(r.d);r.tours.rev=TourHub.rev}const t=r.tours;
+  if(t.error)return {offers:[],min:null,pages:[],kaspi:false,avail:false,on:tourSrcOn(),error:true};
+  const offers=t.offers.filter(o=>srcOn(o.providerId)),kaspi=srcOn('kaspi')&&t.kaspi.available,pages=srcOn('kaztour')?t.pages:[];
+  const min=offers.find(o=>o.priceKZT!=null)||null;
+  return {offers,min,pages,kaspi,avail:offers.length>0||pages.length>0||kaspi,on:tourSrcOn(),expired:t.expired}}
 const tourAvail=r=>tourView(r).avail;
-const tourEnd=o=>iso(addDays(pd(o.dep),o.nights));
-function mealNote(){return S.tourMeal!=='any'?`Питание «${MEALS.find(m=>m[0]===S.tourMeal)[1]}» не подтверждено — на странице не указано`:''}
-function catNote(){return S.tourCat!=='any'?`Категория ${S.tourCat}★ не подтверждена — на странице не указана`:''}
+function mealNote(o){if(S.tourMeal==='any')return '';if(o.meal==='NA')return `Питание «${MEALS.find(m=>m[0]===S.tourMeal)[1]}» не подтверждено — у источника не указано`;return o.meal!==S.tourMeal?`Питание ${MEAL[o.meal]} — не совпадает с фильтром`:''}
+function catNote(o){if(S.tourCat==='any')return '';if(o.hotelCat==='na')return `Категория ${S.tourCat}★ не подтверждена — у источника не указана`;return o.hotelCat!==S.tourCat?`Категория ${HCAT[o.hotelCat]} — не совпадает с фильтром`:''}
+const priceTxt=o=>o.currency==='KZT'?money(o.price):`${nf(o.price)} ${o.currency}${o.priceKZT!=null?` (≈ ${money(o.priceKZT)} по курсу приложения)`:''}`;
+const srcTag=o=>`<span class="srcname">${esc(o.source)}${o.manual?' · вручную':''}</span>`;
 
 function selfBlockHTML(r){const b=r.best,h=r.hot.tiers[S.tier];
   const t=b?`от <b>${approx(r.total)}</b> · ${approx(Math.round(r.total/pax()))}/чел. · перелёт + отель · ${b.stops?`${b.stops} пер.`:'прямой'}, ${hm(b.doorAll)}${b.self?' · ⚠️ отд. билеты':''}`:`перелёт не рассчитан (нет маршрута в DEMO-сети) · отель ≈ ${money(h.stay)}`;
-  return `<div class="opt opt-self"><span class="ol">✈️ Самостоятельно</span><span class="t">${t} ${stBadge('demo')}</span><button class="btn btn-sm" data-act="go-self" data-v="${r.d.id}">Собрать поездку</button></div>`}
+  return `<div class="opt opt-self"><span class="ol">✈️ Самостоятельно</span><span class="t">${t} ${statusBadge('demo')}</span><button class="btn btn-sm" data-act="go-self" data-v="${r.d.id}">Собрать поездку</button></div>`}
 function tourBlockHTML(r){const v=tourView(r);let t;
-  if(v.min){const m=tourMatch(v.min);t=`от <b>${money(v.min.price)}</b> · Kaztour · ${dShort(v.min.dep)}–${dShort(tourEnd(v.min))}, ${v.min.nights} н., ${v.min.adults} взр.${m.sameDates?'':' · не ваши даты'}${v.kaspi?' · Kaspi: цена в приложении':''} ${stBadge('snap')}`}
-  else if(v.avail)t=`${[v.pages.length?'Kaztour: страница туров есть, предложения на это место не найдены':'',v.kaspi?'Kaspi Travel: туры в страну продаются':''].filter(Boolean).join(' · ')} · цена не получена`;
-  else t=`<span class="muted">В выбранных источниках туров нет</span>`;
+  if(v.min){const o=v.min,m=tourMatch(o),srcs=new Set(v.offers.map(x=>x.source)).size;
+    t=`от <b>${priceTxt(o)}</b> · ${srcTag(o)} ${statusBadge(o.status,ruDate(o.checked))} · ${dShort(o.dep)}–${dShort(tourEnd(o))}, ${o.nights} н., ${o.adults} взр.${o.children?` + ${o.children} дет.`:''}${m.sameDates?'':' · не ваши даты'}${v.offers.length>1?` · ${v.offers.length} ${plural(v.offers.length,['предложение','предложения','предложений'])} из ${srcs} ${plural(srcs,['источника','источников','источников'])}`:''}`}
+  else if(v.avail)t=`${[v.pages.length?'Kaztour: страница туров есть, предложений на это место нет':'',v.kaspi?'Kaspi Travel: туры в страну продаются':''].filter(Boolean).join(' · ')} · цена не получена`;
+  else t=v.error?'<span class="muted">Данные временно недоступны</span>':`<span class="muted">В выбранных источниках туров нет</span>`;
   return `<div class="opt opt-tour"><span class="ol">🧳 Готовые туры</span><span class="t">${t}</span><button class="btn btn-sm" data-act="go-tours" data-v="${r.d.id}">Посмотреть туры</button></div>`}
 
-function tourCardHTML(o,r){const m=tourMatch(o),end=tourEnd(o),per=Math.round(o.price/(o.adults+o.children));
-  const over=(S.budgetTotal&&o.price>S.budgetTotal)||(S.budgetPP&&per>S.budgetPP);const notes=[mealNote(),catNote()].filter(Boolean);
+function tourCardHTML(o,r){const m=tourMatch(o),end=tourEnd(o);
+  const over=o.priceKZT!=null&&((S.budgetTotal&&o.priceKZT>S.budgetTotal)||(S.budgetPP&&o.pricePP&&o.currency==='KZT'&&o.pricePP>S.budgetPP));
+  const notes=[mealNote(o),catNote(o)].filter(Boolean);
   return `<div class="tcard">
-   <div class="row"><b>${esc(o.hotel)}</b><span class="tag">${esc(o.area)}</span>${stBadge('snap')}<span class="tprice">${money(o.price)}</span></div>
+   <div class="row">${srcTag(o)}${statusBadge(o.status,'проверено '+ruDate(o.checked))}<span class="tprice">${priceTxt(o)}</span></div>
+   <div class="row"><b>${esc(o.hotel||'Отель не указан')}</b>${o.hotelCat!=='na'?`<span class="tag">${HCAT[o.hotelCat]}</span>`:''}${o.meal!=='NA'?`<span class="tag ${o.meal==='AI'||o.meal==='UAI'?'acc':''}">${MEAL[o.meal]}</span>`:''}${o.area?`<span class="tag">${esc(o.area)}</span>`:''}</div>
    ${m.sameDates?'':`<div class="info w"><span>${esc(m.text)}</span></div>`}
    ${m.party?'':`<p class="xs" style="color:var(--risk)">${esc(m.partyText)}</p>`}
    ${over?'<p class="xs" style="color:var(--risk)">Выше вашего бюджета</p>':''}
    <dl class="kv">
-    <dt>Направление</dt><dd>${esc(r.d.country.name)} · ${esc(r.d.ru)}</dd>
-    <dt>Курорт / район</dt><dd>${esc(o.area)}</dd>
-    <dt>Даты</dt><dd>${dLong(o.dep)} — ${dLong(end)}</dd>
-    <dt>Ночей</dt><dd>${o.nights}</dd>
-    <dt>Взрослые / дети</dt><dd>${o.adults} / ${o.children}</dd>
-    <dt>Отель</dt><dd>${esc(o.hotel)}${o.rating!=null?` · оценка на Kaztour ${o.rating} (это не звёзды)`:''}</dd>
-    <dt>Категория</dt><dd>не указана на странице — проверить</dd>
-    <dt>Питание</dt><dd>не указано на странице — проверить</dd>
-    <dt>Перелёт</dt><dd>вылет: ${cityOf(o.from)}, в составе тура · авиакомпания не указана</dd>
-    <dt>Багаж</dt><dd>не указан — проверить</dd>
-    <dt>Трансфер</dt><dd>не указан — проверить</dd>
-    <dt>Стоимость</dt><dd><b>${money(o.price)}</b> за всех · ${money(per)} на человека</dd>
-    <dt>Включено</dt><dd>перелёт и проживание (формат предложения «тур»)</dd>
-    <dt>Не включено / не указано</dt><dd>питание, трансфер, багаж, страховка — уточнить на сайте</dd>
-    <dt>Источник</dt><dd>Kaztour · страница от ${o.pageDate} · проверено ${o.checked}</dd>
+    <dt>Направление</dt><dd>${esc(ccName(o.cc))} · ${esc(o.city)}</dd>
+    <dt>Даты</dt><dd>${dLong(o.dep)} — ${dLong(end)} · ${o.nights} ${plural(o.nights,['ночь','ночи','ночей'])}</dd>
+    <dt>Город вылета</dt><dd>${esc(o.from)}</dd>
+    <dt>Туристы</dt><dd>${o.adults} взр.${o.children?` + ${o.children} дет. (${o.childAges.map(ageLbl).join(', ')})`:''}</dd>
+    <dt>Отель</dt><dd>${esc(o.hotel||'не указан')} · категория: ${HCAT[o.hotelCat]}${o.rating!=null?` · оценка у источника ${o.rating} (это не звёзды)`:''}</dd>
+    <dt>Питание</dt><dd>${MEAL[o.meal]}${o.meal==='NA'?' — проверить':''}</dd>
+    <dt>Перелёт</dt><dd>${TRI[o.flight]}${o.airline?` · ${esc(o.airline)}`:o.flight==='yes'?' · авиакомпания не указана':''}</dd>
+    <dt>Багаж</dt><dd>${TRI[o.baggage]}${o.baggageText?` · ${esc(o.baggageText)}`:''}</dd>
+    <dt>Трансфер</dt><dd>${TRI[o.transfer]}</dd>
+    <dt>Страховка</dt><dd>${TRI[o.insurance]}</dd>
+    <dt>Стоимость</dt><dd><b>${priceTxt(o)}</b> за всех${o.pricePP?` · ${o.currency==='KZT'?money(o.pricePP):nf(o.pricePP)+' '+o.currency} на человека`:''}</dd>
+    ${o.included?`<dt>Входит</dt><dd>${esc(o.included)}</dd>`:''}
+    ${o.excluded?`<dt>Не входит</dt><dd>${esc(o.excluded)}</dd>`:''}
+    ${o.comment?`<dt>Комментарий</dt><dd>${esc(o.comment)}</dd>`:''}
+    <dt>Источник</dt><dd>${esc(o.source)}${o.manual?' (внесено вручную)':''}${o.pageDate?` · страница от ${o.pageDate}`:''} · проверено ${ruDate(o.checked)}</dd>
    </dl>
    ${notes.length?`<p class="xs" style="color:var(--risk)">${notes.map(esc).join(' · ')}</p>`:''}
-   <div class="row"><a class="btn btn-sm" href="${esc(o.pageUrl)}" target="_blank" rel="noopener">Открыть поиск Kaztour ↗</a><span class="xs faint">страница туров ${cityOf(o.from)} → ${esc(r.d.country.name)}, не ссылка на этот тур</span><button class="btn btn-sm btn-acc" data-act="tsel" data-v="${esc(o.hotel)}" style="margin-left:auto">Сравнить с самостоятельной</button></div>
+   <div class="row">${o.url?`<a class="btn btn-sm" href="${esc(o.url)}" target="_blank" rel="noopener">${o.urlKind==='search'?`Открыть поиск ${esc(o.source)}`:`Открыть у ${esc(o.source)}`} ↗</a><span class="xs faint">${o.urlKind==='search'?'страница поиска, не конкретный тур':'ссылка на источник'}</span>`:'<span class="xs faint">ссылка не указана</span>'}
+     ${o.manual?`<button class="linkbtn" data-act="mt-edit" data-v="${o.id}">изменить</button><button class="linkbtn" data-act="mt-del" data-v="${o.id}" ${S.delPending===o.id?'style="color:var(--bad);font-weight:700"':''}>${S.delPending===o.id?'нажмите ещё раз, чтобы удалить':'удалить'}</button>`:''}
+     <button class="btn btn-sm btn-acc" data-act="tsel" data-v="${esc(o.id)}" style="margin-left:auto">Сравнить с самостоятельной</button></div>
   </div>`}
-function kaztourPagesHTML(r){const d=r.d;return r.tours.kaztour.pages.map(p=>{const sn=KT_SNAP[p.key];let st;
+function provStateHTML(r){const t=r.tours,rows=ProviderRegistry.tours().filter(p=>p.mode!=='link'||p.id==='kaspi').map(p=>{const s=t.prov[p.id]||{};
+    const st={ok:`${s.count} ${plural(s.count||0,['предложение','предложения','предложений'])}`,idle:'подключено — нажмите «Запросить»',not_configured:'не подключено (ожидает доступ Travelpayouts)',awaiting:'доступ ещё не получен',timeout:'нет ответа за отведённое время',error:'данные временно недоступны',link:p.id==='kaspi'?(t.kaspi.available?'туры в страну продаются — цена только в приложении':'по Kaspi Гид туров в страну нет'):'только ссылка'}[s.state]||'—';
+    return `<div class="ln"><span>${esc(p.name)} <span class="tag">${p.category==='M'?'вручную':'категория '+p.category}</span><small>${esc(p.legal.note||'')}</small></span><span class="small">${st}</span></div>`}).join('');
+  const asyncOn=ProviderRegistry.tours().some(p=>p.mode==='async'&&p.configured());
+  return `<div class="srcsec"><div class="row"><b>Источники</b>${asyncOn?`<button class="btn btn-sm" data-act="tours-fetch" data-v="${r.d.id}" style="margin-left:auto">Запросить у подключённых API</button>`:''}</div>${rows}</div>`}
+function kaztourPagesHTML(r){const d=r.d;return r.tours.pages.map(p=>{const sn=KT_SNAP[p.key];let st;
     if(!sn)st='предложения на странице не проверялись — откройте поиск';
     else if(!sn.offers.length)st=`${esc(sn.note||'предложений нет')} (снимок ${sn.pageDate})`;
-    else{const dests=[...new Set(sn.offers.map(o=>(WorldDB.byId[o.dest]||{ru:o.dest}).ru))];st=`на странице найдены туры только в: ${dests.join(', ')} (снимок ${sn.pageDate}) — для «${esc(d.ru)}» предложений нет`}
-    return `<div class="ln"><span>${cityOf(p.from)} → ${esc(d.country.name)}<small>${st}</small></span><span><a class="btn btn-sm" href="${esc(p.url)}" target="_blank" rel="noopener">Открыть поиск Kaztour ↗</a></span></div>`}).join('')}
-function kaspiHTML(r){const d=r.d;
-  if(!tourSrcOn().kaspi)return '<p class="muted small">Источник выключен в фильтре.</p>';
-  if(!r.tours.kaspi.available)return `<p class="small">По данным Kaspi Гид (обновлён ${KASPI.guideDate}) туры в ${esc(d.country.name)} не продаются.</p><p class="xs faint"><a href="${KASPI.guide}" target="_blank" rel="noopener">Kaspi Гид: куда можно купить тур ↗</a></p>`;
-  const u=getTourSearchUrl('kaspi',d);
-  return `<p class="small">Туры в ${esc(d.country.name)} продаются в Kaspi Travel (Kaspi Гид, обновлён ${KASPI.guideDate}). Конкретные туры, отели и цены недоступны для автоматического получения — Travel Expert их не показывает и не придумывает.</p>
-   <p class="xs muted">Обычно в пакет Kaspi входят: ${KASPI.included.join(', ')} (Kaspi Гид от ${KASPI.inclDate}; уточняйте в конкретном туре).</p>
-   <div class="row"><a class="btn btn-sm" href="${u.url}" target="_blank" rel="noopener">${u.label} ↗</a><span class="xs faint">${esc(u.note)}</span></div>
-   <p class="xs faint"><a href="${KASPI.guide}" target="_blank" rel="noopener">Kaspi Гид: направления ↗</a> · <a href="${KASPI.guideIncl}" target="_blank" rel="noopener">что входит в тур ↗</a></p>`}
+    else{const dests=[...new Set(sn.offers.map(o=>(WorldDB.byId[o.dest]||{ru:o.dest}).ru))];st=`в снимке туры только в: ${dests.join(', ')} (${sn.pageDate})`}
+    return `<div class="ln"><span>Kaztour: ${cityOf(p.from)} → ${esc(d.country.name)}<small>${st}</small></span><span><a class="btn btn-sm" href="${esc(p.url)}" target="_blank" rel="noopener">Поиск ↗</a></span></div>`}).join('')}
 function tabTours(r){const d=r.d,v=tourView(r);
-  const ktBody=!v.on.kaztour?'<p class="muted small">Источник выключен в фильтре.</p>':v.kt.length?v.kt.map(o=>tourCardHTML(o,r)).join(''):r.tours.kaztour.pages.length?`<p class="small">Готовых предложений Kaztour для «${esc(d.ru)}» в снимке нет.</p>${kaztourPagesHTML(r)}`:`<p class="small">Среди направлений Kaztour (${TOUR_CHECKED}) нет страницы туров в ${esc(d.country.name)}.</p><p class="xs faint"><a href="https://kaztour.kz/tours" target="_blank" rel="noopener">Все направления Kaztour ↗</a></p>`;
-  return `<div class="info"><b>Готовые туры · ${esc(d.country.name)}, ${esc(d.ru)}</b><span>Kaspi Travel и Kaztour показаны раздельно и не смешиваются. Ничего не придумываем: если источник не даёт отель, питание или цену — так и пишем. Даты не меняются молча.${v.on.none?' Оба источника выключены — показаны оба.':''}</span></div>
-  <div class="srcsec"><div class="row"><b>Kaztour</b>${stBadge('snap')}<span class="xs faint" style="margin-left:auto">проверено ${TOUR_CHECKED}</span></div>${ktBody}${v.kt.length?kaztourPagesHTML(r):''}</div>
-  <div class="srcsec"><div class="row"><b>Kaspi Travel</b>${stBadge('snap')}<span class="xs faint" style="margin-left:auto">проверено ${TOUR_CHECKED}</span></div>${kaspiHTML(r)}</div>`}
+  if(v.error)return '<div class="modfail">Готовые туры: данные временно недоступны. Остальные вкладки и самостоятельный вариант работают.</div>';
+  const links=r.tours.links.filter(x=>x.p.id!=='kaztour');
+  return `<div class="info"><b>Готовые туры · ${esc(d.country.name)}, ${esc(d.ru)}</b><span>Все предложения в единой структуре. У каждого виден источник и статус (${Object.values(DATA_STATUS).map(s=>s.emoji+' '+s.label).join(' · ')}). Ничего не придумываем: чего нет у источника — «не указано». Даты не меняются молча.${v.on.none?' Все источники выключены — показаны все.':''}</span></div>
+  <div class="row"><button class="btn btn-sm btn-acc" data-act="mt-new" data-v="${d.id}">+ Добавить предложение вручную</button><span class="xs faint">например, тур из KOMPAS, ANEX или Kaspi — сохранится как 🔵 SNAPSHOT с датой проверки</span></div>
+  ${v.offers.length?v.offers.map(o=>tourCardHTML(o,r)).join(''):`<p class="small">Предложений с ценой для «${esc(d.ru)}» пока нет.</p>`}
+  ${v.expired&&v.expired.length?`<details><summary class="small muted">Устаревшие (дата вылета прошла): ${v.expired.length}</summary>${v.expired.map(o=>tourCardHTML(o,r)).join('')}</details>`:''}
+  ${provStateHTML(r)}
+  ${v.pages.length?`<div class="srcsec">${kaztourPagesHTML(r)}</div>`:''}
+  <div class="srcsec"><b>Искать вручную у других источников</b><div class="chips">${links.map(x=>`<a class="chip" href="${esc(x.u.url)}" target="_blank" rel="noopener" title="${esc(x.u.note)}">${esc(x.u.label)} ↗</a>`).join('')}</div><span class="xs faint">Ссылки ведут на поиск источника без ваших параметров. Найденный тур можно внести кнопкой «Добавить предложение вручную».</span></div>`}
 
-/* ---------- Стоимость: самостоятельно ↔ готовый тур ---------- */
-function cellHTML(c,side){if(c.value!=null)return `${approx(c.value)} ${stBadge(c.status)}`;if(c.inPack)return 'Входит в тур';return side==='tour'&&c.key!=='extra'?'Не указано':'Не рассчитано'}
-function tabCompareCost(r){const v=tourView(r),offers=v.kt,sel=offers.find(o=>o.hotel===S.tourSel[r.d.id])||offers[0];
-  const pick=offers.length>1?`<label class="xs muted">Тур для сравнения<select class="field" data-chg="tourSel">${offers.map(o=>`<option value="${esc(o.hotel)}" ${o===sel?'selected':''}>${esc(o.hotel)} · ${money(o.price)}</option>`).join('')}</select></label>`:'';
+/* ---------- Стоимость: самостоятельно ↔ готовый тур (любой источник) ---------- */
+function cellHTML(c,side,cur){if(c.value!=null)return `${approx(c.value)} ${statusBadge(c.status)}`;if(c.inPack)return 'Входит в тур';if(c.notIncl)return 'Не входит';return side==='tour'&&c.key!=='extra'?'Не указано':'Не рассчитано'}
+function tabCompareCost(r){const v=tourView(r),offers=v.offers,sel=offers.find(o=>o.id===S.tourSel[r.d.id])||offers.find(o=>o.priceKZT!=null)||offers[0];
+  const pick=offers.length>1?`<label class="xs muted">Тур для сравнения<select class="field" data-chg="tourSel">${offers.map(o=>`<option value="${esc(o.id)}" ${o===sel?'selected':''}>${esc(o.source)} · ${DATA_STATUS[o.status].label} · ${esc(o.hotel||'отель не указан')} · ${o.meal!=='NA'?MEAL[o.meal]+' · ':''}${o.currency==='KZT'?money(o.price):nf(o.price)+' '+o.currency}</option>`).join('')}</select></label>`:'';
   if(!sel){const s=selfOption(r);
-    return `<div class="info"><b>Сравнение с готовым туром недоступно</b><span>Для «${esc(r.d.ru)}» в снимке Kaztour нет предложения с ценой${v.kaspi?'; Kaspi Travel продаёт туры в эту страну, но цены доступны только в приложении Kaspi':''}. Ниже — только самостоятельный вариант.</span></div>
-    ${costTable(s,null)}<div class="row"><button class="btn btn-sm" data-act="dtab" data-v="tours">Готовые туры</button><button class="btn btn-sm" data-act="dtab" data-v="self">Собрать самостоятельно</button></div>`}
+    return `<div class="info"><b>Сравнение с готовым туром недоступно</b><span>Для «${esc(r.d.ru)}» нет предложения с ценой${v.kaspi?'; Kaspi Travel продаёт туры в эту страну, но цены только в приложении — найденный тур можно внести вручную':''}.</span></div>
+    ${costTable(s,null)}<div class="row"><button class="btn btn-sm btn-acc" data-act="mt-new" data-v="${r.d.id}">+ Добавить предложение вручную</button><button class="btn btn-sm" data-act="dtab" data-v="tours">Готовые туры</button></div>`}
   const c=compareSelfTour(r,sel),m=tourMatch(sel);
   return `${pick}
-  <div class="info ${c.sameParams?'':'w'}"><b>${c.sameParams?'Сравнение на ваших датах и составе':'Сравнение на датах и составе тура'}</b><span>${c.sameParams?'':`${esc(m.text)}. Самостоятельный вариант пересчитан на ${dShort(c.q.start)}–${dShort(c.q.end)}, ${c.q.adults} взр., чтобы сравнение было честным.`}</span></div>
+  <div class="info ${c.sameParams?'':'w'}"><b>${c.sameParams?'Сравнение на ваших датах и составе':'Сравнение на датах и составе тура'}</b><span>${c.sameParams?'':`${esc(m.text)}. Самостоятельный вариант пересчитан на ${dShort(c.q.start)}–${dShort(c.q.end)}, ${c.q.adults} взр.${c.q.children.length?` + ${c.q.children.length} дет.`:''}, чтобы сравнение было честным.`}</span></div>
   ${costTable(c.s,c.t)}
-  <div class="card"><p class="sub">Разница</p>${c.known?`<p><b>${money(Math.abs(c.diff))}</b> — готовый тур ${c.diff>0?'дороже':c.diff<0?'дешевле':'столько же'}, чем известные части самостоятельного варианта (перелёт + отель).</p>`:'<p>Разница не рассчитана: для самостоятельного варианта неизвестна цена перелёта или отеля.</p>'}
-   <p class="xs faint" style="margin-top:6px">Сравниваются только известные суммы. «Не рассчитано» и «Не указано» — не ноль: питание, трансфер, багаж и страховка могут изменить разницу. Цена тура — SNAPSHOT со страницы Kaztour; самостоятельный вариант — DEMO/ESTIMATE. Вывода «что лучше» Travel Expert не делает.</p></div>
-  <div class="row"><a class="btn btn-sm" href="${esc(sel.pageUrl)}" target="_blank" rel="noopener">Открыть поиск Kaztour ↗</a><button class="btn btn-sm" data-act="dtab" data-v="self">Собрать самостоятельно</button></div>`}
+  <div class="card"><p class="sub">Разница</p>${c.known?`<p><b>${money(Math.abs(c.diff))}</b> — готовый тур ${c.diff>0?'дороже':c.diff<0?'дешевле':'столько же'}, чем известные части самостоятельного варианта (перелёт + отель).</p>`:`<p>Разница не рассчитана: ${c.t.total==null?'цена тура в другой валюте без курса':'для самостоятельного варианта неизвестна цена перелёта или отеля'}.</p>`}
+   <p class="xs faint" style="margin-top:6px">Сравниваются только известные суммы. «Не рассчитано» и «Не указано» — не ноль. Статусы: тур — ${DATA_STATUS[sel.status].emoji} ${DATA_STATUS[sel.status].label} (${esc(sel.source)}, проверено ${ruDate(sel.checked)}); самостоятельно — 🟡 DEMO / ⚪ ESTIMATE. Вывода «что лучше» Travel Expert не делает.</p></div>
+  <div class="row">${sel.url?`<a class="btn btn-sm" href="${esc(sel.url)}" target="_blank" rel="noopener">Открыть у ${esc(sel.source)} ↗</a>`:''}<button class="btn btn-sm" data-act="dtab" data-v="self">Собрать самостоятельно</button></div>`}
 function costTable(s,t){
-  return `<div class="tbl"><table class="ctab"><thead><tr><th></th><th>✈️ Самостоятельно<br><span class="xs">${s.nights} н. · ${s.pax} чел.</span></th>${t?`<th>🧳 Готовый тур · Kaztour<br><span class="xs">${esc(t.offer.hotel)}</span></th>`:''}</tr></thead><tbody>
+  return `<div class="tbl"><table class="ctab"><thead><tr><th></th><th>✈️ Самостоятельно<br><span class="xs">${s.nights} н. · ${s.pax} чел.</span></th>${t?`<th>🧳 ${esc(t.offer.source)} · ${DATA_STATUS[t.offer.status].emoji} ${DATA_STATUS[t.offer.status].label}<br><span class="xs">${esc(t.offer.hotel||'')}</span></th>`:''}</tr></thead><tbody>
    ${COMP_KEYS.map(([k,l],i)=>`<tr><td class="muted">${l}</td><td>${cellHTML(s.components[i],'self')}<small class="cs">${esc(s.components[i].text)}</small></td>${t?`<td>${cellHTML(t.components[i],'tour')}<small class="cs">${esc(t.components[i].text)}</small></td>`:''}</tr>`).join('')}
-   <tr class="total"><td>ИТОГО</td><td><b>${approx(s.total)}</b><small class="cs">только известные суммы · ${s.nights} н. · ${s.pax} чел.</small></td>${t?`<td><b>${money(t.total)}</b> ${stBadge('snap')}<small class="cs">цена тура · ${t.nights} н. · ${t.pax} чел.</small></td>`:''}</tr>
-   <tr><td class="muted">На человека</td><td>${approx(s.per)}</td>${t?`<td>${money(t.per)}</td>`:''}</tr>
+   <tr class="total"><td>ИТОГО</td><td><b>${approx(s.total)}</b><small class="cs">только известные суммы · ${s.nights} н. · ${s.pax} чел.</small></td>${t?`<td><b>${priceTxt(t.offer)}</b> ${statusBadge(t.offer.status)}<small class="cs">цена тура · ${t.nights} н. · ${t.pax} чел.</small></td>`:''}</tr>
+   <tr><td class="muted">На человека</td><td>${approx(s.per)}</td>${t?`<td>${t.per?(t.currency==='KZT'?money(t.per):nf(t.per)+' '+t.currency):'—'}</td>`:''}</tr>
   </tbody></table></div>`}
 
-/* ---------- меню «Готовые туры» ---------- */
-function allSnapOffers(){const out=[];Object.entries(KT_SNAP).forEach(([key,sn])=>{const [city]=key.split('/');const from=Object.keys(KT_CITY).find(k=>KT_CITY[k]===city);
-  sn.offers.filter(o=>o.dep>=iso(today0)).forEach(o=>out.push({...o,from,key,pageUrl:`https://kaztour.kz/s/tours/${key}`,pageDate:sn.pageDate}))});return out.sort((a,b)=>a.price-b.price)}
-function toursHTML(){const on=tourSrcOn(),offs=allSnapOffers();
-  const empties=Object.entries(KT_SNAP).filter(([k,s])=>!s.offers.length||s.offers.every(o=>o.dep<iso(today0)));
+/* ---------- форма ручного добавления ---------- */
+const FROM_CITIES=['NQZ','ALA','CIT','SCO','GUW','AKX','KGF','UKK','PWQ','URA','KZO','DMB','KSN','TAS','FRU'];
+function manualFormHTML(o,errs,warns){o=o||{};const d=WorldDB.byId[o.destId];
+  const sel=(name,opts,val)=>`<select class="field" name="${name}">${opts.map(([k,l])=>`<option value="${k}" ${String(val)===String(k)?'selected':''}>${esc(l)}</option>`).join('')}</select>`;
+  const triSel=(name,val)=>sel(name,[['na','не указано'],['yes','входит'],['no','не входит']],val||'na');
+  const srcOpts=['KOMPAS','ANEX Tour','Join UP!','Kaspi Travel','Kaztour','trips.kz','Hot Tour','Vizit Expert','Eurasia Travel','Caspian Travel Company','Level.Travel','Travelata'];
+  const ages=o.childAges||[];
+  return `<div class="mhead"><h3>${o.id?'Изменить предложение':'Добавить предложение вручную'}</h3><button class="icon-btn" data-act="mclose" aria-label="Закрыть">✕</button></div>
+  <p class="small muted">После сохранения предложение получает статус ${statusBadge('snap')} с датой проверки и участвует в сравнении наравне с предложениями из API. Вносите только то, что видите у источника; чего нет — оставьте «не указано».</p>
+  ${errs&&errs.length?`<div class="info r"><b>Заполните обязательные поля</b><span>${errs.map(esc).join(' · ')}</span></div>`:''}
+  ${warns&&warns.length?`<div class="info w"><b>Проверьте</b><span>${warns.map(esc).join(' · ')}</span></div>`:''}
+  <form id="mtForm" class="mform" autocomplete="off" novalidate>
+   <input type="hidden" name="oid" value="${esc(o.id||'')}"><input type="hidden" name="createdAt" value="${esc(o.createdAt||'')}">
+   <fieldset><legend>Источник</legend>
+    <label>Источник *<input class="field" name="source" list="mtSrc" value="${esc(o.source||'')}" placeholder="KOMPAS, ANEX, Kaspi Travel…" required><datalist id="mtSrc">${srcOpts.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+    <label>Ссылка на источник<input class="field" name="url" type="url" value="${esc(o.url||'')}" placeholder="https://…"></label>
+    <label>Тип ссылки${sel('urlKind',[['offer','конкретное предложение'],['search','страница поиска']],o.urlKind||'offer')}</label>
+    <label>Дата проверки *<input class="field" name="checked" type="date" value="${esc(o.checked||iso(today0))}" required></label>
+   </fieldset>
+   <fieldset><legend>Направление</legend>
+    <label class="wide">Город / курорт * <span class="xs faint">из каталога; страна определится автоматически</span><input class="field" name="destQ" list="mtDest" value="${d?esc(`${d.ru} — ${d.country.name}`):''}" placeholder="Начните вводить: Анталья, Мардин…" required><datalist id="mtDest">${WorldDB.dests.filter(x=>x.src!=='auto'||x.sig>=3).map(x=>`<option value="${esc(`${x.ru} — ${x.country.name}`)}">`).join('')}</datalist></label>
+    <label>Страна<input class="field" name="countryView" value="${d?esc(d.country.name):''}" readonly tabindex="-1"></label>
+    <label>Город вылета *<input class="field" name="from" list="mtFrom" value="${esc(o.from||cityOf(S.home))}" required><datalist id="mtFrom">${FROM_CITIES.map(c=>`<option value="${esc(cityOf(c))}">`).join('')}</datalist></label>
+   </fieldset>
+   <fieldset><legend>Даты и туристы</legend>
+    <label>Дата вылета *<input class="field" name="dep" type="date" value="${esc(o.dep||S.start)}" required></label>
+    <label>Дата возвращения<input class="field" name="ret" type="date" value="${esc(o.ret||S.end||'')}"></label>
+    <label>Ночей *<input class="field" name="nights" type="number" min="1" max="59" value="${esc(o.nights||(S.end?nights():''))}"></label>
+    <label>Взрослых *<input class="field" name="adults" type="number" min="1" max="10" value="${esc(o.adults||S.adults)}" required></label>
+    <label>Детей<input class="field" name="childN" type="number" min="0" max="6" value="${ages.length}"></label>
+    <label class="wide">Возраст детей <span class="xs faint">через запятую, например 6, 11</span><input class="field" name="childAges" value="${esc(ages.join(', '))}" placeholder="—"></label>
+   </fieldset>
+   <fieldset><legend>Отель и питание</legend>
+    <label class="wide">Отель<input class="field" name="hotel" value="${esc(o.hotel||'')}" placeholder="как у источника"></label>
+    <label>Категория${sel('hotelCat',Object.entries(HCAT).reverse(),o.hotelCat||'na')}</label>
+    <label>Питание${sel('meal',[['NA','не указано'],['AI','ALL INCLUSIVE'],['UAI','ULTRA ALL INCLUSIVE'],['FB','Полный пансион (FB)'],['HB','Полупансион (HB)'],['BB','Завтраки (BB)'],['RO','Без питания (RO)']],o.meal||'NA')}</label>
+   </fieldset>
+   <fieldset><legend>Что входит в пакет</legend>
+    <label>Перелёт${triSel('flight',o.flight||'na')}</label>
+    <label>Авиакомпания<input class="field" name="airline" value="${esc(o.airline||'')}" placeholder="не указана"></label>
+    <label>Багаж${triSel('baggage',o.baggage)}</label>
+    <label>Багаж, подробности<input class="field" name="baggageText" value="${esc(o.baggageText||'')}" placeholder="например, 20 кг"></label>
+    <label>Трансфер${triSel('transfer',o.transfer)}</label>
+    <label>Страховка${triSel('insurance',o.insurance)}</label>
+    <label class="wide">Что входит<textarea class="field" name="included" rows="2">${esc(o.included||'')}</textarea></label>
+    <label class="wide">Что не входит<textarea class="field" name="excluded" rows="2">${esc(o.excluded||'')}</textarea></label>
+   </fieldset>
+   <fieldset><legend>Стоимость</legend>
+    <label>Общая стоимость *<input class="field" name="price" type="number" min="1" step="1" value="${esc(o.price||'')}" required></label>
+    <label>Валюта${sel('currency',TOUR_CURRENCIES.map(c=>[c,c]),o.currency||'KZT')}</label>
+    <label>На человека <span class="xs faint">пусто — посчитаем</span><input class="field" name="pricePP" type="number" min="1" step="1" value="${esc(o.pricePP||'')}"></label>
+    <label class="wide">Комментарий<textarea class="field" name="comment" rows="2">${esc(o.comment||'')}</textarea></label>
+   </fieldset>
+   <div class="row"><button class="btn btn-pri" type="submit">Сохранить как 🔵 SNAPSHOT</button><button class="btn" type="button" data-act="mclose">Отмена</button></div>
+  </form>`}
+function readManualForm(f){const g=n=>(f.elements[n]?f.elements[n].value:'').trim();
+  const dq=g('destQ');const name=dq.split(' — ')[0].trim();const cn=(dq.split(' — ')[1]||'').trim();
+  let d=WorldDB.dests.find(x=>x.ru===name&&(!cn||x.country.name===cn))||WorldDB.search(name)[0];
+  const ages=g('childAges').split(/[,;\s]+/).filter(Boolean).map(Number).filter(Number.isFinite);let n=parseInt(g('childN')||'0',10)||0;if(!n&&ages.length)n=ages.length;
+  return {id:g('oid')||undefined,createdAt:+g('createdAt')||undefined,providerId:'manual',manual:true,status:'snap',source:g('source'),url:g('url'),urlKind:g('urlKind'),checked:g('checked'),
+    destId:d?d.id:null,from:g('from'),dep:g('dep'),ret:g('ret'),nights:g('nights'),adults:g('adults'),childAges:ages.slice(0,n),childMissing:ages.length<n,
+    hotel:g('hotel'),hotelCat:g('hotelCat'),meal:g('meal'),flight:g('flight'),airline:g('airline'),baggage:g('baggage'),baggageText:g('baggageText'),transfer:g('transfer'),insurance:g('insurance'),
+    included:g('included'),excluded:g('excluded'),price:g('price'),currency:g('currency'),pricePP:g('pricePP'),comment:g('comment')}}
+function submitManual(f){const raw=readManualForm(f);const r=normalizeTour(raw);if(raw.childMissing)r.errors.push('Укажите возраст каждого ребёнка');
+  if(r.errors.length){openModal(manualFormHTML({...raw,...r.offer,destId:raw.destId},r.errors,r.warnings));return false}
+  ManualStore.save(r.offer);$('#modal').hidden=true;
+  const id=r.offer.destId;if(S.results&&!S.results.all.find(x=>x.d.id===id))ResultsEngine.force(id);openTab(id,'tours');
+  showInfo(`Сохранено: ${r.offer.source} · ${r.offer.city} · 🔵 SNAPSHOT ${ruDate(r.offer.checked)}${r.warnings.length?' · '+r.warnings.join('; '):''}`);return true}
+function showInfo(t){const b=document.getElementById('errbar');if(!b)return;document.getElementById('errTxt').textContent=t;b.classList.add('ok');b.hidden=false;clearTimeout(showInfo.t);showInfo.t=setTimeout(()=>{b.hidden=true;b.classList.remove('ok')},6000)}
+
+/* ---------- меню «Готовые туры»: все предложения всех источников ---------- */
+function allOffers(){const out=[];Object.keys(KT_SNAP).forEach(k=>kaztourOffersFor(k).forEach(o=>out.push(o)));ManualStore.all().forEach(o=>out.push(o));
+  TourHub.cache.forEach(c=>(c.offers||[]).forEach(o=>out.push(o)));
+  return out.filter(o=>srcOn(o.providerId)).sort((a,b)=>(a.expired-b.expired)||((a.priceKZT??Infinity)-(b.priceKZT??Infinity)))}
+function toursHTML(){const offs=allOffers(),act=offs.filter(o=>!o.expired);
   return `<div class="mhead"><h3>Готовые туры</h3><button class="icon-btn" data-act="mclose" aria-label="Закрыть">✕</button></div>
-  <div class="chips"><span class="small muted">Источник:</span><label class="sw"><input type="checkbox" data-chg="tsrc" value="kaspi" ${S.tourSrc.kaspi?'checked':''}> Kaspi Travel</label><label class="sw"><input type="checkbox" data-chg="tsrc" value="kaztour" ${S.tourSrc.kaztour?'checked':''}> Kaztour</label><span class="xs faint">Источники не смешиваются. Цены — как на странице источника на дату снимка.</span></div>
-  ${on.kaztour?`<div><div class="row"><p class="sub" style="margin:0">Kaztour · предложения из снимка страниц</p>${stBadge('snap')}<span class="xs faint">проверено ${TOUR_CHECKED}</span></div>
-   ${offs.length?`<div class="tbl" style="margin-top:8px"><table><thead><tr><th>Направление</th><th>Даты</th><th>Ночей</th><th>Состав</th><th>Отель</th><th>Питание</th><th>Цена</th><th>На чел.</th><th>Источник</th><th></th></tr></thead><tbody>
-   ${offs.map(o=>{const d=WorldDB.byId[o.dest];return `<tr><td>${flagOf(d.cc)} ${esc(d.country.name)} · ${esc(d.ru)}<br><span class="xs faint">${esc(o.area)} · вылет: ${cityOf(o.from)}</span></td><td class="n">${dShort(o.dep)}–${dShort(tourEnd(o))}</td><td class="n">${o.nights}</td><td>${o.adults} взр.${o.children?` + ${o.children}`:''}</td><td>${esc(o.hotel)}${o.rating!=null?`<br><span class="xs faint">оценка ${o.rating}</span>`:''}</td><td class="muted">не указано</td><td class="n"><b>${money(o.price)}</b></td><td class="n">${money(Math.round(o.price/(o.adults+o.children)))}</td><td class="xs">Kaztour, ${o.pageDate}<br><a href="${esc(o.pageUrl)}" target="_blank" rel="noopener">поиск ↗</a></td><td><button class="btn btn-sm" data-act="open-dest" data-v="${o.dest}">Открыть</button></td></tr>`}).join('')}</tbody></table></div>`:'<p class="muted small">В снимке нет предложений с будущей датой вылета.</p>'}
-   ${empties.length?`<p class="sub" style="margin-top:12px">Проверенные страницы без актуальных предложений</p>${empties.map(([k,s])=>`<div class="ln"><span>${esc(k)}<small>${esc(s.note||'даты вылета прошли')} · снимок ${s.pageDate}</small></span><span><a href="https://kaztour.kz/s/tours/${k}" target="_blank" rel="noopener">↗</a></span></div>`).join('')}`:''}
-   <p class="xs faint" style="margin-top:6px">Ссылки ведут на страницы поиска Kaztour «город вылета → страна», а не на конкретный тур. Питание, категория, багаж, трансфер и страховка на этих страницах не указаны. Всего проверено ${KT_PAGES.size} страниц направлений.</p></div>`:''}
-  ${on.kaspi?`<div><div class="row"><p class="sub" style="margin:0">Kaspi Travel · страны, куда продаются туры</p>${stBadge('snap')}<span class="xs faint">Kaspi Гид от ${KASPI.guideDate}</span></div>
-   <div class="chips" style="margin-top:8px">${[...KASPI.countries].sort((a,b)=>ccName(a).localeCompare(ccName(b),'ru')).map(cc=>`<button class="chip" data-act="pick-country-tour" data-v="${cc}">${flagOf(cc)} ${esc(ccName(cc))}</button>`).join('')}</div>
-   <p class="small" style="margin-top:8px">Конкретные туры и цены Kaspi Travel недоступны для автоматического получения (сайт закрыт для роботов, открытого API нет). Мы их не показываем и не придумываем. Обычно в пакет входят: ${KASPI.included.join(', ')} (Kaspi Гид, ${KASPI.inclDate}).</p>
-   <div class="row" style="margin-top:6px"><a class="btn btn-sm" href="${KASPI.url}" target="_blank" rel="noopener">Открыть Kaspi Travel ↗</a><span class="xs faint">главная страница, не поиск с вашими параметрами</span></div></div>`:''}
-  <div class="info"><b>Этап 2</b><span>Живые туры с ценой на ваши даты — через партнёрский доступ Kaspi / Kaztour или агрегатор туров. Функции getTourOffers() и getTourSearchUrl() уже разделены по источникам.</span></div>`}
-function tourExportText(r){const v=tourView(r);let t='';
-  t+=v.min?v.kt.slice(0,3).map(o=>`- Kaztour: ${o.hotel} (${o.area}), ${dLong(o.dep)} — ${dLong(tourEnd(o))}, ${o.nights} н., ${o.adults} взр. — ${money(o.price)} (SNAPSHOT ${o.pageDate}; питание и состав пакета не указаны). Поиск: ${o.pageUrl}`).join('\n'):r.tours.kaztour.pages.length?`- Kaztour: предложений для «${r.d.ru}» в снимке нет. Поиск: ${r.tours.kaztour.pages[0].url}`:'- Kaztour: страницы туров в эту страну нет';
+  <div class="chips"><span class="small muted">Источники:</span>${TOUR_SRC_FILTER.map(id=>`<label class="sw"><input type="checkbox" data-chg="tsrc" value="${id}" ${srcOn(id)?'checked':''}> ${esc(ProviderRegistry.byId[id].name)}</label>`).join('')}</div>
+  <div class="row"><button class="btn btn-sm btn-acc" data-act="mt-new" data-v="">+ Добавить предложение вручную</button><button class="btn btn-sm" data-act="mt-export">Экспорт ручных (.json)</button><label class="btn btn-sm">Импорт (.json)<input type="file" accept="application/json,.json" data-chg="mt-import" hidden></label><span class="xs faint">Ручные предложения хранятся в этом браузере — делайте экспорт для резервной копии.</span></div>
+  ${act.length?`<div class="tbl"><table><thead><tr><th>Направление</th><th>Источник · статус</th><th>Даты</th><th>Ночей</th><th>Состав</th><th>Вылет</th><th>Отель</th><th>Питание</th><th>Цена</th><th>На чел.</th><th></th></tr></thead><tbody>
+   ${act.map(o=>`<tr><td>${flagOf(o.cc)} ${esc(ccName(o.cc))} · ${esc(o.city)}</td><td>${esc(o.source)}${o.manual?' <span class="xs faint">вручную</span>':''}<br>${statusBadge(o.status,ruDate(o.checked))}</td><td class="n">${dShort(o.dep)}–${dShort(tourEnd(o))}</td><td class="n">${o.nights}</td><td>${o.adults} взр.${o.children?` + ${o.children}`:''}</td><td>${esc(o.from)}</td><td>${esc(o.hotel||'—')}${o.hotelCat!=='na'?` · ${HCAT[o.hotelCat]}`:''}</td><td class="${o.meal==='NA'?'muted':''}">${MEAL[o.meal]}</td><td class="n"><b>${priceTxt(o)}</b></td><td class="n">${o.pricePP?(o.currency==='KZT'?money(o.pricePP):nf(o.pricePP)):'—'}</td><td><button class="btn btn-sm" data-act="open-dest" data-v="${o.destId}">Открыть</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted small">Актуальных предложений нет.</p>'}
+  <p class="sub" style="margin-top:6px">Поставщики</p>
+  <div class="tbl"><table><thead><tr><th>Поставщик</th><th>Категория</th><th>Как получаем</th><th>Статус данных</th><th>Состояние</th><th>Условия</th></tr></thead><tbody>
+   ${ProviderRegistry.tours().map(p=>`<tr><td>${esc(p.name)}</td><td>${p.category==='M'?'вручную':p.category}</td><td>${{sync:'снимок / локально',async:'API через прокси',link:'только ссылка'}[p.mode]}</td><td>${p.mode==='link'?'—':statusBadge(p.defaultStatus)}</td><td class="small">${p.mode==='async'?(p.configured()?'подключено':'не подключено'):p.mode==='link'?'ссылка':'работает'}</td><td class="small muted">${esc(p.legal.note||'')}</td></tr>`).join('')}</tbody></table></div>
+  <p class="xs faint">Категории: A — API/партнёрка; B — через агентский доступ; C — только ссылка; D — не использовать. Kaspi Travel и Kaztour, Level.Travel и Travelata показываются с подписью источника и статусом — цены разных источников не усредняются.</p>`}
+function tourExportText(r){const v=tourView(r);
+  let t=v.offers.length?v.offers.slice(0,5).map(o=>`- ${o.source} [${DATA_STATUS[o.status].label}, проверено ${ruDate(o.checked)}]: ${o.hotel||'отель не указан'}${o.hotelCat!=='na'?' '+HCAT[o.hotelCat]:''}, ${MEAL[o.meal]}, ${dLong(o.dep)} — ${dLong(tourEnd(o))}, ${o.nights} н., ${o.adults} взр.${o.children?' + '+o.children+' дет.':''}, вылет: ${o.from} — ${o.currency==='KZT'?money(o.price):nf(o.price)+' '+o.currency}. Перелёт: ${TRI[o.flight]}; багаж: ${TRI[o.baggage]}; трансфер: ${TRI[o.transfer]}; страховка: ${TRI[o.insurance]}.${o.url?' Ссылка: '+o.url:''}`).join('\n'):'- Предложений с ценой нет';
   t+='\n'+(r.tours.kaspi.available?`- Kaspi Travel: туры в ${r.d.country.name} продаются (Kaspi Гид, ${KASPI.guideDate}); цены — в приложении Kaspi`:'- Kaspi Travel: по Kaspi Гид туров в эту страну нет');
   return t}
+/* ---------- настройки API и реестр в «Источниках данных» ---------- */
+function providersHTML(){return `<div><p class="sub">Поставщики данных (реестр)</p><div class="tbl"><table><thead><tr><th>Поставщик</th><th>Тип</th><th>Категория</th><th>Статус данных</th><th>Состояние</th></tr></thead><tbody>
+  ${ProviderRegistry.list.map(p=>`<tr><td>${esc(p.name)}<br><span class="xs faint">${esc(p.legal.note||'')}</span></td><td>${p.kind==='tour'?'туры':'перелёты'}</td><td>${p.category==='M'?'вручную/модель':p.category}</td><td>${p.mode==='link'?'—':statusBadge(p.defaultStatus)}</td><td class="small">${p.mode==='async'?(p.configured()?'подключено':'не подключено'):p.mode==='link'?'только ссылка':'работает'}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card"><p class="sub">Подключение API (Travelpayouts)</p><p class="small">Ключи API в браузер не попадают: они хранятся на вашем сервере-прокси. Здесь указывается только его адрес.</p>
+   <form id="apiForm" class="row" style="margin-top:8px"><input class="field" id="apiProxy" value="${esc(ApiConfig.proxy)}" placeholder="https://…workers.dev" style="flex:1;min-width:220px"><button class="btn btn-sm" type="submit">Сохранить и проверить</button></form>
+   <p class="xs faint" id="apiState" style="margin-top:6px">${ApiConfig.ok()?'Адрес задан.':'Прокси не задан — API-источники отключены, приложение работает на снимках и ручных данных.'}</p></div>`}
 
 /* boot */
-initTop();
+window.addEventListener('error',e=>{busy(false);console.error('[Travel Expert]',e.error||e.message);showErr('Ошибка в одной из функций. Остальные функции доступны.')});
+window.addEventListener('unhandledrejection',e=>{busy(false);console.error('[Travel Expert]',e.reason);showErr('Не удалось загрузить часть данных. Остальные функции доступны.')});
+(()=>{const b=document.getElementById('errClose');if(b)b.onclick=()=>{document.getElementById('errbar').hidden=true}})();
+safeRender('Шапка',initTop,null);
 if(innerWidth<=900)$('#details').classList.add('hidden-m');
-ResultsEngine.run();renderAll();initAI();
+safeRender('Параметры',renderParams,'#params');safeRender('Сводка запроса',renderAskMeta,'#askMeta');
+window.__TE_READY=true;
+run({force:true});   // расчёт после первой отрисовки: страница сразу интерактивна
+initAI().catch(()=>{const m=$('#aiMode');if(m)m.textContent='Упрощённый режим: запрос разбирается в браузере.'});
 
 </script>
 
